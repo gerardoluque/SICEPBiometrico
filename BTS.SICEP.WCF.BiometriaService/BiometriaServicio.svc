@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="BTS.SICEP.WCF.BiometriaService.BiometriaServicio" CodeBehind="BiometriaServicio.svc.cs" %>
