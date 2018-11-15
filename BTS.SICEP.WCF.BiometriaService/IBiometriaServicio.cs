@@ -20,5 +20,8 @@ namespace BTS.SICEP.WCF.BiometriaService
         Task<PersonaInfo> BuscarFacial(string imagenBase64, int idBusqueda);
         [OperationContract]
         Task<PersonaInfo> BuscarIris(string imagenBase64, int idBusqueda, short ojo);
+        [OperationContract]
+        Task<PersonaInfo> BuscarVoz(string vozBase64, int idBusqueda);
+
     }
 }

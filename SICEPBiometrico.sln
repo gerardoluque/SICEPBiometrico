@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTS.SICEP.WCF.BiometriaServ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTS.SICEP.Biometria.Entidades", "BTS.SICEP.Biometria.Entidades\BTS.SICEP.Biometria.Entidades.csproj", "{FC4DE628-9DD4-480E-BCF3-5DCB15B0CA8D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTS.SICEP.Biometria.RegistroVoz", "BTS.SICEP.Biometria.RegistroVoz\BTS.SICEP.Biometria.RegistroVoz.csproj", "{C4091033-3E66-4AE1-9A19-42D1E0BE5075}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,14 @@ Global
 		{FC4DE628-9DD4-480E-BCF3-5DCB15B0CA8D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FC4DE628-9DD4-480E-BCF3-5DCB15B0CA8D}.Release|x86.ActiveCfg = Release|Any CPU
 		{FC4DE628-9DD4-480E-BCF3-5DCB15B0CA8D}.Release|x86.Build.0 = Release|Any CPU
+		{C4091033-3E66-4AE1-9A19-42D1E0BE5075}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4091033-3E66-4AE1-9A19-42D1E0BE5075}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4091033-3E66-4AE1-9A19-42D1E0BE5075}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C4091033-3E66-4AE1-9A19-42D1E0BE5075}.Debug|x86.Build.0 = Debug|Any CPU
+		{C4091033-3E66-4AE1-9A19-42D1E0BE5075}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4091033-3E66-4AE1-9A19-42D1E0BE5075}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4091033-3E66-4AE1-9A19-42D1E0BE5075}.Release|x86.ActiveCfg = Release|Any CPU
+		{C4091033-3E66-4AE1-9A19-42D1E0BE5075}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

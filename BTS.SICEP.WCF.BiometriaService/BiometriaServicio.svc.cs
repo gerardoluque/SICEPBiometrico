@@ -95,6 +95,31 @@ namespace BTS.SICEP.WCF.BiometriaService
             #endregion
         }
 
+        public async Task<PersonaInfo> BuscarVoz(string vozBase64, int idBusqueda)
+        {
+            #region BuscarHuella
+            var voice = new NVoice();
+            var subject = new NSubject();
+            var buscador = new BiometriaBuscador();
+
+            try
+            {
+                var template = Convert.FromBase64String(vozBase64);
+                voice.SampleBuffer = new Neurotec.IO.NBuffer(template);
+                subject.Voices.Add(voice);
+
+                var result = await buscador.BuscarFacialEnTemplates(subject, idBusqueda);
+
+                return result.PersonaIdentificar;
+            }
+            catch (Exception ex)
+            {
+                Utils.LogEvent(ex.Message);
+                throw;
+            }
+            #endregion
+        }
+
         private void ActivarLicenciaNT()
         {
             const int Port = 5000;

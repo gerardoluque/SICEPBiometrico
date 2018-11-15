@@ -154,6 +154,71 @@ namespace BTS.SICEP.WCF.BiometriaService
             #endregion
         }
 
+        public async Task<VerificarHuellaInfo> BuscarVozEnTemplates(NSubject subjectBuscar, int idBusqueda)
+        {
+            #region BuscarHuellaEnTemplates
+            var select = "SELECT ESTADO,MUNICIPIO,CERESO,ANO,FOLIO,ARCHIVO FROM BTS.FICHA_VOZ ";
+            var conn = new OracleConnection(_connStr);
+            var template = new byte[] { };
+            var subject = new NSubject();
+            var voice = new NVoice();
+            var _verificarHuellaInfo = new VerificarHuellaInfo();
+
+            try
+            {
+                await conn.OpenAsync();
+
+                var cmdSelect = new OracleCommand(select, conn);
+                var dr = await cmdSelect.ExecuteReaderAsync();
+
+                while (await dr.ReadAsync())
+                {
+                    if (dr.IsDBNull(5) == false)
+                    {
+                        template = (byte[])dr[5];
+
+                        voice = new NVoice();
+                        voice.SampleBuffer = new Neurotec.IO.NBuffer(template);
+
+                        subject = new NSubject();
+                        subject.Voices.Add(voice);
+
+                        var status = await _biometricClient.VerifyAsync(subject, subjectBuscar);
+
+                        var verificationStatus = string.Format("Verification status: {0}", status);
+
+                        if (status == NBiometricStatus.Ok)
+                        {
+                            _verificarHuellaInfo.Identificado = true;
+                            _verificarHuellaInfo.PersonaIdentificar.id = idBusqueda;
+                            _verificarHuellaInfo.PersonaIdentificar.Identificado = true;
+                            _verificarHuellaInfo.PersonaIdentificar.estado = dr.GetInt16(0);
+                            _verificarHuellaInfo.PersonaIdentificar.municipio = dr.GetInt16(1);
+                            _verificarHuellaInfo.PersonaIdentificar.cereso = dr.GetString(2);
+                            _verificarHuellaInfo.PersonaIdentificar.ano = dr.GetInt16(3);
+                            _verificarHuellaInfo.PersonaIdentificar.folio = dr.GetInt64(4);
+
+                            await RegistrarMatch(_verificarHuellaInfo.PersonaIdentificar, 1, conn);
+
+                            break;
+                        }
+                    }
+                }
+                return _verificarHuellaInfo;
+            }
+            catch (Exception ex)
+            {
+                Utils.LogEvent(ex.Message);
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+            #endregion
+        }
+
         public async Task<VerificarHuellaInfo> BuscarIrisEnTemplates(NSubject subjectBuscar, int idBusqueda, short ojo)
         {
             #region BuscarHuellaEnTemplates
@@ -183,30 +248,42 @@ namespace BTS.SICEP.WCF.BiometriaService
                         template = (byte[])dr[5];
 
                         iris = new NIris();
-                        iris.SampleBuffer = new Neurotec.IO.NBuffer(template);
 
-                        subject = new NSubject();
-                        subject.Irises.Add(iris);
-
-                        var status = await _biometricClient.VerifyAsync(subject, subjectBuscar);
-
-                        var verificationStatus = string.Format("Verification status: {0}", status);
-
-                        if (status == NBiometricStatus.Ok)
+                        try
                         {
-                            _verificarHuellaInfo.Identificado = true;
-                            _verificarHuellaInfo.PersonaIdentificar.id = idBusqueda;
-                            _verificarHuellaInfo.PersonaIdentificar.Identificado = true;
-                            _verificarHuellaInfo.PersonaIdentificar.estado = dr.GetInt16(0);
-                            _verificarHuellaInfo.PersonaIdentificar.municipio = dr.GetInt16(1);
-                            _verificarHuellaInfo.PersonaIdentificar.cereso = dr.GetString(2);
-                            _verificarHuellaInfo.PersonaIdentificar.ano = dr.GetInt16(3);
-                            _verificarHuellaInfo.PersonaIdentificar.folio = dr.GetInt64(4);
+                            iris.SampleBuffer = new Neurotec.IO.NBuffer(template);
 
-                            await RegistrarMatch(_verificarHuellaInfo.PersonaIdentificar, 1, conn);
+                            subject = new NSubject();
+                            subject.Irises.Add(iris);
 
-                            break;
-                        }                       
+                            var status = await _biometricClient.VerifyAsync(subject, subjectBuscar);
+
+                            var verificationStatus = string.Format("Verification status: {0}", status);
+
+                            if (status == NBiometricStatus.Ok)
+                            {
+                                _verificarHuellaInfo.Identificado = true;
+                                _verificarHuellaInfo.PersonaIdentificar.id = idBusqueda;
+                                _verificarHuellaInfo.PersonaIdentificar.Identificado = true;
+                                _verificarHuellaInfo.PersonaIdentificar.estado = dr.GetInt16(0);
+                                _verificarHuellaInfo.PersonaIdentificar.municipio = dr.GetInt16(1);
+                                _verificarHuellaInfo.PersonaIdentificar.cereso = dr.GetString(2);
+                                _verificarHuellaInfo.PersonaIdentificar.ano = dr.GetInt16(3);
+                                _verificarHuellaInfo.PersonaIdentificar.folio = dr.GetInt64(4);
+
+                                await RegistrarMatch(_verificarHuellaInfo.PersonaIdentificar, 1, conn);
+
+                                break;
+                            }
+                        }
+                        catch (Neurotec.NeurotecException exN)
+                        {
+                            Utils.LogEvent(exN);
+                        }
+                        catch (Exception ex)
+                        {
+                            Utils.LogEvent(ex);
+                        }
                     }
                 }
                 return _verificarHuellaInfo;
