@@ -41,13 +41,19 @@ namespace BTS.SICEP.Biometria.RegistroVoz
 
         private async void RegistrarVoz_Load(object sender, EventArgs e)
         {
-            if (DesignMode) return;
+            _biometricClient = new NBiometricClient { UseDeviceManager = true, BiometricTypes = NBiometricType.Voice };
+            await _biometricClient.InitializeAsync();
 
             extractFeatures.Items.Add(TextDependent);
             extractFeatures.Items.Add(TextIndependent);
             extractFeatures.SelectedIndex = 0;
 
             voiceView.Voice = null;
+
+            _deviceManager = _biometricClient.DeviceManager;
+            _deviceManager.Initialize();
+
+            UpdateDeviceList();
 
             if (_args.Count() > 0)
             {
@@ -60,10 +66,6 @@ namespace BTS.SICEP.Biometria.RegistroVoz
                 MessageBox.Show("No se recibieron los parametros de busqueda");
             }
 
-            _biometricClient = new NBiometricClient { UseDeviceManager = true, BiometricTypes = NBiometricType.Voice };
-
-            await _biometricClient.InitializeAsync();
-
             _defaultExtractFeatures = _biometricClient.VoicesExtractTextDependentFeatures;
             extractFeatures.SelectedItem = _defaultExtractFeatures ? TextDependent : TextIndependent;
 
@@ -72,9 +74,6 @@ namespace BTS.SICEP.Biometria.RegistroVoz
 
         private void Inicializar()
         {
-            _deviceManager = _biometricClient.DeviceManager;
-            _deviceManager.Initialize();
-
             EnableControls(false);
             nudPhraseId.Value = 0;
             SetSettings();
