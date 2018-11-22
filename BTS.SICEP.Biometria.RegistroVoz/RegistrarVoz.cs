@@ -2,12 +2,15 @@
 using Neurotec.Biometrics;
 using Neurotec.Biometrics.Client;
 using Neurotec.Devices;
+using Neurotec.Samples;
+using Oracle.DataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,18 +34,23 @@ namespace BTS.SICEP.Biometria.RegistroVoz
 
         private string connStr = string.Empty;
         private string[] _args = new string[] { };
-
+        private string pathArchivoTemp = string.Empty;
+        private string nombreServicioBD = string.Empty;
         #endregion
 
-        public RegistrarVoz()
+        public RegistrarVoz(string[] args)
         {
             InitializeComponent();
+
+            _args = args;
+
+            _biometricClient = new NBiometricClient { UseDeviceManager = true, BiometricTypes = NBiometricType.Voice };
+            _biometricClient.InitializeAsync();
         }
 
-        private async void RegistrarVoz_Load(object sender, EventArgs e)
+        private void RegistrarVoz_Load(object sender, EventArgs e)
         {
-            _biometricClient = new NBiometricClient { UseDeviceManager = true, BiometricTypes = NBiometricType.Voice };
-            await _biometricClient.InitializeAsync();
+            if (DesignMode) return;
 
             extractFeatures.Items.Add(TextDependent);
             extractFeatures.Items.Add(TextIndependent);
@@ -51,7 +59,7 @@ namespace BTS.SICEP.Biometria.RegistroVoz
             voiceView.Voice = null;
 
             _deviceManager = _biometricClient.DeviceManager;
-            _deviceManager.Initialize();
+            //_deviceManager.Initialize();
 
             UpdateDeviceList();
 
@@ -59,7 +67,7 @@ namespace BTS.SICEP.Biometria.RegistroVoz
             {
                 EstablecerParametros();
 
-                connStr = ObtenerConexion(_args[9]);
+                connStr = ObtenerConexion(nombreServicioBD);
             }
             else
             {
@@ -81,6 +89,8 @@ namespace BTS.SICEP.Biometria.RegistroVoz
 
         private void EstablecerParametros()
         {
+            pathArchivoTemp = _args[0];
+
             _persona = new PersonaInfo
             {
                 id = Convert.ToInt32(_args[1]),
@@ -88,8 +98,11 @@ namespace BTS.SICEP.Biometria.RegistroVoz
                 municipio = Convert.ToInt16(_args[3]),
                 cereso = _args[4],
                 ano = Convert.ToInt16(_args[5]),
-                folio = Convert.ToInt32(_args[6])
+                folio = Convert.ToInt32(_args[6]),
+                num_ingreso = Convert.ToInt16(_args[7])
             };
+
+            nombreServicioBD = _args[8];
         }
 
         public static string ObtenerConexion(string bd)
@@ -194,13 +207,13 @@ namespace BTS.SICEP.Biometria.RegistroVoz
         {
             if (_biometricClient.VoiceCaptureDevice == null)
             {
-                MessageBox.Show(@"Please select a microphone");
+                MessageBox.Show(@"Seleccione un microfono, por favor !");
                 return;
             }
 
             if (extractFeatures.SelectedIndex == -1)
             {
-                MessageBox.Show(@"No features configured to extract", @"Invalid options", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(@"No se encontro la configuracion para extraccion de voz", @"Opciones invalidas", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -241,20 +254,76 @@ namespace BTS.SICEP.Biometria.RegistroVoz
 
         private void btnSaveVoice_Click(object sender, EventArgs e)
         {
-            //if (saveVoiceFileDialog.ShowDialog() == DialogResult.OK)
-            //{
-            //    try
-            //    {
-            //        // Voice buffer is saved in Child attribute after segmentation
-            //        var voice = _voice.Objects[0].Child as NVoice;
-            //        if (voice == null) return;
-            //        File.WriteAllBytes(saveVoiceFileDialog.FileName, voice.SoundBuffer.Save().ToArray());
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Utils.ShowException(ex);
-            //    }
-            //}
+            var voice = _voice.Objects[0].Child as NVoice;
+            if (voice == null) return;
+
+            GuardarVoz(voice.SoundBuffer.Save().ToArray());
+
+            this.Close();
+        }
+
+        private void GuardarVoz(byte[] voz)
+        {
+            var conn = new OracleConnection(connStr);
+
+            try
+            {
+                conn.Open();
+
+                File.WriteAllBytes(pathArchivoTemp, voz);
+
+                string insert = string.Format("INSERT INTO BTS.VALIDA_HUELLA " +
+                                              "(ID,CONSEC,ESTADO,MUNICIPIO,CERESO,ANO,FOLIO)" +
+                                              " VALUES ({0},{1},{2},{3},'{4}',{5},{6})",
+                    _persona.id,
+                    1,
+                    _persona.estado,
+                    _persona.municipio,
+                    _persona.cereso,
+                    _persona.ano,
+                    _persona.folio);
+
+                OracleCommand cmdInsert = new OracleCommand(insert, conn);
+
+                cmdInsert.ExecuteNonQuery();
+
+                conn.Close();
+                conn.Dispose();
+
+                //var select = $"SELECT 1 FROM BTS.FICHA_VOZ WHERE ESTADO = {_persona.estado} AND MUNICIPIO = {_persona.municipio} AND CERESO = '{_persona.cereso}' AND ANO = {_persona.ano} AND FOLIO = {_persona.folio} AND NUM_INGRESO = {_persona.num_ingreso}";
+                //var insert = $"INSERT INTO BTS.FICHA_VOZ (ESTADO, MUNICIPIO, CERESO, ANO, FOLIO, NUM_INGRESO, VOZ) VALUES ({_persona.estado},{_persona.municipio},'{_persona.cereso}',{_persona.ano},{_persona.folio},{_persona.num_ingreso}," + ":BlobParameter"+ ")";
+                //var conn = new OracleConnection(connStr);
+
+                //try
+                //{
+                //    conn.Open();
+                //    var cmdSelect = new OracleCommand(select, conn);
+
+                //    var dr = await cmdSelect.ExecuteReaderAsync();
+                //    var registroExiste = await dr.ReadAsync();
+
+                //    if (!registroExiste)
+                //    {
+                //        #region insert
+                //        OracleParameter blobParameter = new OracleParameter();
+
+                //        blobParameter.OracleDbType = OracleDbType.Blob;
+                //        blobParameter.ParameterName = "BlobParameter";
+                //        blobParameter.Value = voz;
+
+                //        OracleCommand cmdInsert = new OracleCommand(insert, conn);
+                //        cmdInsert.Parameters.Add(blobParameter);
+                //        await cmdInsert.ExecuteNonQueryAsync();
+                //    }
+                //    else
+                //    {
+                //        MessageBox.Show("Ya cuenta con un registro de voz", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //    }
+            }
+            catch (Exception ex)
+            {
+                Utils.ShowException(ex);
+            }
         }
     }
 }

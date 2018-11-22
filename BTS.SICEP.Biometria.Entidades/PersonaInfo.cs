@@ -14,6 +14,7 @@ namespace BTS.SICEP.Biometria.Entidades
         public string cereso;
         public short ano;
         public long folio;
+        public short num_ingreso;
         public bool Identificado { get; set; }
 
     }

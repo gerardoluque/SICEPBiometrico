@@ -47,4 +47,19 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="BuscarVoz">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="vozBase64" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="idBusqueda" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="BuscarVozResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/BTS.SICEP.Biometria.Entidades" minOccurs="0" name="BuscarVozResult" nillable="true" type="q4:PersonaInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

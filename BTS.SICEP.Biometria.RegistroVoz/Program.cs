@@ -14,7 +14,7 @@ namespace BTS.SICEP.Biometria.RegistroVoz
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             const int Port = 5000;
             const string Address = "/local";
@@ -29,7 +29,7 @@ namespace BTS.SICEP.Biometria.RegistroVoz
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new RegistrarVoz());
+                Application.Run(new RegistrarVoz(args));
             }
             catch (Exception ex)
             {

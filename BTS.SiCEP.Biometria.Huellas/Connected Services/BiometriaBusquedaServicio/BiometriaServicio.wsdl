@@ -25,6 +25,12 @@
   <wsdl:message name="IBiometriaServicio_BuscarIris_OutputMessage">
     <wsdl:part name="parameters" element="tns:BuscarIrisResponse" />
   </wsdl:message>
+  <wsdl:message name="IBiometriaServicio_BuscarVoz_InputMessage">
+    <wsdl:part name="parameters" element="tns:BuscarVoz" />
+  </wsdl:message>
+  <wsdl:message name="IBiometriaServicio_BuscarVoz_OutputMessage">
+    <wsdl:part name="parameters" element="tns:BuscarVozResponse" />
+  </wsdl:message>
   <wsdl:portType name="IBiometriaServicio">
     <wsdl:operation name="BuscarHuella">
       <wsdl:input wsaw:Action="http://tempuri.org/IBiometriaServicio/BuscarHuella" message="tns:IBiometriaServicio_BuscarHuella_InputMessage" />
@@ -37,6 +43,10 @@
     <wsdl:operation name="BuscarIris">
       <wsdl:input wsaw:Action="http://tempuri.org/IBiometriaServicio/BuscarIris" message="tns:IBiometriaServicio_BuscarIris_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBiometriaServicio/BuscarIrisResponse" message="tns:IBiometriaServicio_BuscarIris_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscarVoz">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBiometriaServicio/BuscarVoz" message="tns:IBiometriaServicio_BuscarVoz_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBiometriaServicio/BuscarVozResponse" message="tns:IBiometriaServicio_BuscarVoz_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IBiometriaServicio" type="tns:IBiometriaServicio">
@@ -61,6 +71,15 @@
     </wsdl:operation>
     <wsdl:operation name="BuscarIris">
       <soap:operation soapAction="http://tempuri.org/IBiometriaServicio/BuscarIris" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscarVoz">
+      <soap:operation soapAction="http://tempuri.org/IBiometriaServicio/BuscarVoz" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

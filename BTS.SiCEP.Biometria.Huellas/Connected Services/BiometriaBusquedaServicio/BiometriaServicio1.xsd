@@ -9,6 +9,7 @@
       <xs:element minOccurs="0" name="folio" type="xs:long" />
       <xs:element minOccurs="0" name="id" type="xs:int" />
       <xs:element minOccurs="0" name="municipio" type="xs:short" />
+      <xs:element minOccurs="0" name="num_ingreso" type="xs:short" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="PersonaInfo" nillable="true" type="tns:PersonaInfo" />

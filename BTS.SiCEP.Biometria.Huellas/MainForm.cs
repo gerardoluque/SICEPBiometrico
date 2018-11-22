@@ -19,13 +19,18 @@ namespace BTS.SiCEP.Biometria.Huellas
     public partial class MainForm : Form
     {
         #region Private fields
+        private const string TextDependent = "Extract text dependent features";
+        private const string TextIndependent = "Extract text independent features";
+
         private NDeviceManager _deviceManager;
         private NBiometricClient _biometricClient;
         private NSubject _subject;
         private NSubject _subjectFace;
         private NFinger _subjectFinger;
         private NIris _iris;
+        private NVoice _voice;
         private short ojo = 0;
+        private bool _defaultExtractFeatures;
 
         private string connStr = string.Empty;
 
@@ -68,10 +73,10 @@ namespace BTS.SiCEP.Biometria.Huellas
 
         private void Inicializar()
         {
-            #region Rostro
             _deviceManager = _biometricClient.DeviceManager;
             _deviceManager.Initialize();
 
+            #region Rostro
             UpdateCameraList();
             #endregion
 
@@ -95,6 +100,19 @@ namespace BTS.SiCEP.Biometria.Huellas
 
             #region Iris
             UpdateIrisScannerList();
+            #endregion
+
+            #region Voz
+            extractFeatures.Items.Add(TextDependent);
+            extractFeatures.Items.Add(TextIndependent);
+            extractFeatures.SelectedIndex = 0;
+
+            voiceView.Voice = null;
+
+            UpdateVoiceDeviceList();
+
+            _defaultExtractFeatures = _biometricClient.VoicesExtractTextDependentFeatures;
+            extractFeatures.SelectedItem = _defaultExtractFeatures ? TextDependent : TextIndependent;
             #endregion
         }
 
@@ -425,7 +443,7 @@ namespace BTS.SiCEP.Biometria.Huellas
 
         private void btnStartExtraction_Click(object sender, EventArgs e)
         {
-            lblStatus.Text = @"Extracting ...";
+            lblStatus.Text = @"Extrayendo ...";
             // Begin extraction
             _biometricClient.ForceStart();
         }
@@ -593,7 +611,7 @@ namespace BTS.SiCEP.Biometria.Huellas
                 }
                 else
                 {
-                    MessageBox.Show("No se encontro coincidencias con la huella, intente otro dedo");
+                    MessageBox.Show("No se encontro coincidencias con el iris, intente de nuevo");
                 }
             }
             catch (Exception)
@@ -616,7 +634,6 @@ namespace BTS.SiCEP.Biometria.Huellas
             return result;
             #endregion
         }
-        #endregion
 
         private void rbLeft_CheckedChanged(object sender, EventArgs e)
         {
@@ -627,5 +644,144 @@ namespace BTS.SiCEP.Biometria.Huellas
         {
             ojo = 1;
         }
+        #endregion
+
+        #region Voz
+        public void StopVoiceCapturing()
+        {
+            _biometricClient.Cancel();
+        }
+
+        private void EnableVoiceControls(bool capturing)
+        {
+            var hasTemplate = !capturing && _subject != null && _subject.Status == NBiometricStatus.Ok;
+            //btnSaveTemplate.Enabled = hasTemplate;
+            //btnSaveVoice.Enabled = hasTemplate;
+            btnStart.Enabled = !capturing;
+            btnStop.Enabled = capturing;
+            btnRefresh.Enabled = !capturing;
+            gbOptions.Enabled = !capturing;
+            lbMicrophones.Enabled = !capturing;
+            chbCaptureAutomatically.Enabled = !capturing;
+            btnForce.Enabled = !chbCaptureAutomatically.Checked && capturing;
+        }
+
+        private async System.Threading.Tasks.Task OnCapturingVoiceCompletedAsync(NBiometricTask task)
+        {
+            NBiometricStatus status = task.Status;
+            // If Stop button was pushed
+            if (status == NBiometricStatus.Canceled) return;
+
+            if (status != NBiometricStatus.Ok && status != NBiometricStatus.SourceError && status != NBiometricStatus.TooFewSamples)
+            {
+                // Since capture failed start capturing again
+                _voice.SoundBuffer = null;
+                var performedTask = await _biometricClient.PerformTaskAsync(task);
+                await OnCapturingVoiceCompletedAsync(performedTask);
+            }
+            else
+            {
+                EnableVoiceControls(false);
+            }
+        }
+
+        private void btnVozRefrescar_Click(object sender, EventArgs e)
+        {
+            UpdateVoiceDeviceList();
+        }
+
+        private async void btnVozIniciar_Click(object sender, EventArgs e)
+        {
+            if (_biometricClient.VoiceCaptureDevice == null)
+            {
+                MessageBox.Show(@"Seleccione un microfono, por favor !");
+                return;
+            }
+
+            if (extractFeatures.SelectedIndex == -1)
+            {
+                MessageBox.Show(@"No se encontro la configuracion para extraccion de voz", @"Opciones invalidas", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Set voice capture from stream
+            _voice = new NVoice { CaptureOptions = NBiometricCaptureOptions.Stream };
+            if (!chbCaptureAutomatically.Checked) _voice.CaptureOptions |= NBiometricCaptureOptions.Manual;
+            _subject = new NSubject();
+            _subject.Voices.Add(_voice);
+            voiceView.Voice = _voice;
+
+            NBiometricTask task = _biometricClient.CreateTask(NBiometricOperations.Capture | NBiometricOperations.Segment, _subject);
+            EnableVoiceControls(true);
+            var performedTask = await _biometricClient.PerformTaskAsync(task);
+            await OnCapturingVoiceCompletedAsync(performedTask);
+
+        }
+
+        private void btnVozDetener_Click(object sender, EventArgs e)
+        {
+            StopVoiceCapturing();
+            EnableVoiceControls(false);
+        }
+
+        private void btnVozForsar_Click(object sender, EventArgs e)
+        {
+            UpdateVoiceDeviceList();
+        }
+
+        private async void btnVozVerificar_Click(object sender, EventArgs e)
+        {
+            EnableVoiceControls(true);
+
+            try
+            {
+                var personaResult = await BuscarVozServicioWCF();
+
+                if (personaResult.Identificado)
+                {
+                    Application.Exit();
+                }
+                else
+                {
+                    MessageBox.Show("No se encontro coincidencias con la voz, intente de nuevo");
+                }
+            }
+            catch (Exception)
+            {
+                Neurotec.Samples.Utils.ShowException(new Exception("Ocurrio un error al intentar utilizar el servicio web de biometria, favor de consultar el visor de eventos del servidor web"));
+            }
+
+            EnableVoiceControls(false);
+        }
+
+        private void UpdateVoiceDeviceList()
+        {
+            lbMicrophones.BeginUpdate();
+            try
+            {
+                lbMicrophones.Items.Clear();
+                foreach (NDevice item in _deviceManager.Devices)
+                {
+                    lbMicrophones.Items.Add(item);
+                }
+            }
+            finally
+            {
+                lbMicrophones.EndUpdate();
+            }
+        }
+
+        private async Task<BiometriaBusquedaServicio.PersonaInfo> BuscarVozServicioWCF()
+        {
+            #region Buscar voz en servicio WCF
+            var vozBase64 = Convert.ToBase64String(_subject.Voices[0].SampleBuffer.Save().ToArray());
+
+            var result = await servicioBusqueda.BuscarVozAsync(vozBase64, _verificarHuellaInfo.PersonaIdentificar.id);
+
+            return result;
+            #endregion
+        }
+        #endregion
+
     }
 }

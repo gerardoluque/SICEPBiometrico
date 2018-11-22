@@ -10,7 +10,7 @@
     <AssemblyName>BTS.SICEP.Biometria.RegistroVoz</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -31,6 +31,29 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\..\..\Program Files %28x86%29\Neurotechnology\Neurotec Biometric 10.0 SDK\Bin\Win32_x86\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>BTS.SICEP.Biometria.RegistroVoz.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Neurotec">
@@ -56,6 +79,10 @@
     </Reference>
     <Reference Include="Neurotec.Media">
       <HintPath>..\..\..\..\Program Files (x86)\Neurotechnology\Neurotec Biometric 10.0 SDK\Bin\dotNET\Neurotec.Media.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.DataAccess, Version=4.121.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Windows\Microsoft.NET\assembly\GAC_32\Oracle.DataAccess\v4.0_4.121.1.0__89b483f429c47342\Oracle.DataAccess.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

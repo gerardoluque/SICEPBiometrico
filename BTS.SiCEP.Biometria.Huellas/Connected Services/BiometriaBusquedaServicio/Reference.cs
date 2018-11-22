@@ -43,6 +43,9 @@ namespace BTS.SiCEP.Biometria.Huellas.BiometriaBusquedaServicio {
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private short municipioField;
         
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private short num_ingresoField;
+        
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
             get {
@@ -144,6 +147,19 @@ namespace BTS.SiCEP.Biometria.Huellas.BiometriaBusquedaServicio {
             }
         }
         
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public short num_ingreso {
+            get {
+                return this.num_ingresoField;
+            }
+            set {
+                if ((this.num_ingresoField.Equals(value) != true)) {
+                    this.num_ingresoField = value;
+                    this.RaisePropertyChanged("num_ingreso");
+                }
+            }
+        }
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -175,6 +191,12 @@ namespace BTS.SiCEP.Biometria.Huellas.BiometriaBusquedaServicio {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBiometriaServicio/BuscarIris", ReplyAction="http://tempuri.org/IBiometriaServicio/BuscarIrisResponse")]
         System.Threading.Tasks.Task<BTS.SiCEP.Biometria.Huellas.BiometriaBusquedaServicio.PersonaInfo> BuscarIrisAsync(string imagenBase64, int idBusqueda, short ojo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBiometriaServicio/BuscarVoz", ReplyAction="http://tempuri.org/IBiometriaServicio/BuscarVozResponse")]
+        BTS.SiCEP.Biometria.Huellas.BiometriaBusquedaServicio.PersonaInfo BuscarVoz(string vozBase64, int idBusqueda);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBiometriaServicio/BuscarVoz", ReplyAction="http://tempuri.org/IBiometriaServicio/BuscarVozResponse")]
+        System.Threading.Tasks.Task<BTS.SiCEP.Biometria.Huellas.BiometriaBusquedaServicio.PersonaInfo> BuscarVozAsync(string vozBase64, int idBusqueda);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -226,6 +248,14 @@ namespace BTS.SiCEP.Biometria.Huellas.BiometriaBusquedaServicio {
         
         public System.Threading.Tasks.Task<BTS.SiCEP.Biometria.Huellas.BiometriaBusquedaServicio.PersonaInfo> BuscarIrisAsync(string imagenBase64, int idBusqueda, short ojo) {
             return base.Channel.BuscarIrisAsync(imagenBase64, idBusqueda, ojo);
+        }
+        
+        public BTS.SiCEP.Biometria.Huellas.BiometriaBusquedaServicio.PersonaInfo BuscarVoz(string vozBase64, int idBusqueda) {
+            return base.Channel.BuscarVoz(vozBase64, idBusqueda);
+        }
+        
+        public System.Threading.Tasks.Task<BTS.SiCEP.Biometria.Huellas.BiometriaBusquedaServicio.PersonaInfo> BuscarVozAsync(string vozBase64, int idBusqueda) {
+            return base.Channel.BuscarVozAsync(vozBase64, idBusqueda);
         }
     }
 }
