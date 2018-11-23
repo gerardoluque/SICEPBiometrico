@@ -3,17 +3,10 @@ using Neurotec.Biometrics;
 using Neurotec.Biometrics.Client;
 using Neurotec.Devices;
 using Neurotec.Samples;
-using Oracle.DataAccess.Client;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BTS.SICEP.Biometria.RegistroVoz
@@ -264,61 +257,31 @@ namespace BTS.SICEP.Biometria.RegistroVoz
 
         private void GuardarVoz(byte[] voz)
         {
-            var conn = new OracleConnection(connStr);
+            //var conn = new OracleConnection(connStr);
 
             try
             {
-                conn.Open();
+                //conn.Open();
 
                 File.WriteAllBytes(pathArchivoTemp, voz);
 
-                string insert = string.Format("INSERT INTO BTS.VALIDA_HUELLA " +
-                                              "(ID,CONSEC,ESTADO,MUNICIPIO,CERESO,ANO,FOLIO)" +
-                                              " VALUES ({0},{1},{2},{3},'{4}',{5},{6})",
-                    _persona.id,
-                    1,
-                    _persona.estado,
-                    _persona.municipio,
-                    _persona.cereso,
-                    _persona.ano,
-                    _persona.folio);
+                //string insert = string.Format("INSERT INTO BTS.VALIDA_HUELLA " +
+                //                              "(ID,CONSEC,ESTADO,MUNICIPIO,CERESO,ANO,FOLIO)" +
+                //                              " VALUES ({0},{1},{2},{3},'{4}',{5},{6})",
+                //    _persona.id,
+                //    1,
+                //    _persona.estado,
+                //    _persona.municipio,
+                //    _persona.cereso,
+                //    _persona.ano,
+                //    _persona.folio);
 
-                OracleCommand cmdInsert = new OracleCommand(insert, conn);
+                //OracleCommand cmdInsert = new OracleCommand(insert, conn);
 
-                cmdInsert.ExecuteNonQuery();
+                //cmdInsert.ExecuteNonQuery();
 
-                conn.Close();
-                conn.Dispose();
-
-                //var select = $"SELECT 1 FROM BTS.FICHA_VOZ WHERE ESTADO = {_persona.estado} AND MUNICIPIO = {_persona.municipio} AND CERESO = '{_persona.cereso}' AND ANO = {_persona.ano} AND FOLIO = {_persona.folio} AND NUM_INGRESO = {_persona.num_ingreso}";
-                //var insert = $"INSERT INTO BTS.FICHA_VOZ (ESTADO, MUNICIPIO, CERESO, ANO, FOLIO, NUM_INGRESO, VOZ) VALUES ({_persona.estado},{_persona.municipio},'{_persona.cereso}',{_persona.ano},{_persona.folio},{_persona.num_ingreso}," + ":BlobParameter"+ ")";
-                //var conn = new OracleConnection(connStr);
-
-                //try
-                //{
-                //    conn.Open();
-                //    var cmdSelect = new OracleCommand(select, conn);
-
-                //    var dr = await cmdSelect.ExecuteReaderAsync();
-                //    var registroExiste = await dr.ReadAsync();
-
-                //    if (!registroExiste)
-                //    {
-                //        #region insert
-                //        OracleParameter blobParameter = new OracleParameter();
-
-                //        blobParameter.OracleDbType = OracleDbType.Blob;
-                //        blobParameter.ParameterName = "BlobParameter";
-                //        blobParameter.Value = voz;
-
-                //        OracleCommand cmdInsert = new OracleCommand(insert, conn);
-                //        cmdInsert.Parameters.Add(blobParameter);
-                //        await cmdInsert.ExecuteNonQueryAsync();
-                //    }
-                //    else
-                //    {
-                //        MessageBox.Show("Ya cuenta con un registro de voz", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //    }
+                //conn.Close();
+                //conn.Dispose();                
             }
             catch (Exception ex)
             {

@@ -48,10 +48,13 @@ namespace BTS.SiCEP.Biometria.Huellas
             if (args != null)
                 _args = args;
 
+            _biometricClient = new NBiometricClient { UseDeviceManager = true, BiometricTypes = NBiometricType.Face | NBiometricType.Finger | NBiometricType.Iris | NBiometricType.Voice, FacesCheckIcaoCompliance = false };
+            _biometricClient.InitializeAsync();
+
             ((CheckBox)nViewZoomSlider2.Controls[0].Controls[0]).Text = "Zoom Ancho";
         }
 
-        private async void MainForm_Load(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
             if (_args.Count() > 0)
             {
@@ -64,18 +67,14 @@ namespace BTS.SiCEP.Biometria.Huellas
                 MessageBox.Show("No se recibieron los parametros de busqueda");
             }
 
-            _biometricClient = new NBiometricClient { UseDeviceManager = true, BiometricTypes = NBiometricType.Face | NBiometricType.Finger | NBiometricType.Iris | NBiometricType.Voice, FacesCheckIcaoCompliance = false };
-
-            await _biometricClient.InitializeAsync();
+            _deviceManager = _biometricClient.DeviceManager;
+            _deviceManager.Initialize();
 
             Inicializar();
         }
 
         private void Inicializar()
         {
-            _deviceManager = _biometricClient.DeviceManager;
-            _deviceManager.Initialize();
-
             #region Rostro
             UpdateCameraList();
             #endregion
@@ -103,16 +102,21 @@ namespace BTS.SiCEP.Biometria.Huellas
             #endregion
 
             #region Voz
+            EnableVoiceControls(false);
+
+            UpdateVoiceDeviceList();
+
             extractFeatures.Items.Add(TextDependent);
             extractFeatures.Items.Add(TextIndependent);
             extractFeatures.SelectedIndex = 0;
 
             voiceView.Voice = null;
 
-            UpdateVoiceDeviceList();
-
             _defaultExtractFeatures = _biometricClient.VoicesExtractTextDependentFeatures;
             extractFeatures.SelectedItem = _defaultExtractFeatures ? TextDependent : TextIndependent;
+
+            nudPhraseId.Value = 0;
+            SetVoiceSettings();
             #endregion
         }
 
@@ -647,6 +651,20 @@ namespace BTS.SiCEP.Biometria.Huellas
         #endregion
 
         #region Voz
+        private void SetVoiceSettings()
+        {
+            if ((string)extractFeatures.SelectedItem == TextDependent)
+            {
+                _biometricClient.VoicesExtractTextDependentFeatures = true;
+                _biometricClient.VoicesExtractTextIndependentFeatures = true;
+            }
+            else if ((string)extractFeatures.SelectedItem == TextIndependent)
+            {
+                _biometricClient.VoicesExtractTextDependentFeatures = false;
+                _biometricClient.VoicesExtractTextIndependentFeatures = true;
+            }
+        }
+
         public void StopVoiceCapturing()
         {
             _biometricClient.Cancel();
@@ -655,15 +673,14 @@ namespace BTS.SiCEP.Biometria.Huellas
         private void EnableVoiceControls(bool capturing)
         {
             var hasTemplate = !capturing && _subject != null && _subject.Status == NBiometricStatus.Ok;
-            //btnSaveTemplate.Enabled = hasTemplate;
-            //btnSaveVoice.Enabled = hasTemplate;
-            btnStart.Enabled = !capturing;
-            btnStop.Enabled = capturing;
-            btnRefresh.Enabled = !capturing;
+            btnVozVerificar.Enabled = hasTemplate;
+            btnVozIniciar.Enabled = !capturing;
+            btnVozDetener.Enabled = capturing;
+            btnVozRefrescar.Enabled = !capturing;
             gbOptions.Enabled = !capturing;
             lbMicrophones.Enabled = !capturing;
-            chbCaptureAutomatically.Enabled = !capturing;
-            btnForce.Enabled = !chbCaptureAutomatically.Checked && capturing;
+            chkBoxVozCapturarAut.Enabled = !capturing;
+            btnVozForsar.Enabled = !chbCaptureAutomatically.Checked && capturing;
         }
 
         private async System.Threading.Tasks.Task OnCapturingVoiceCompletedAsync(NBiometricTask task)
@@ -715,7 +732,6 @@ namespace BTS.SiCEP.Biometria.Huellas
             EnableVoiceControls(true);
             var performedTask = await _biometricClient.PerformTaskAsync(task);
             await OnCapturingVoiceCompletedAsync(performedTask);
-
         }
 
         private void btnVozDetener_Click(object sender, EventArgs e)
@@ -754,6 +770,16 @@ namespace BTS.SiCEP.Biometria.Huellas
             EnableVoiceControls(false);
         }
 
+        private void extractFeatures_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SetVoiceSettings();
+        }
+
+        private void lbMicrophones_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _biometricClient.VoiceCaptureDevice = lbMicrophones.SelectedItem as NMicrophone;
+        }
+
         private void UpdateVoiceDeviceList()
         {
             lbMicrophones.BeginUpdate();
@@ -782,6 +808,5 @@ namespace BTS.SiCEP.Biometria.Huellas
             #endregion
         }
         #endregion
-
     }
 }

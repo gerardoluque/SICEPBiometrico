@@ -157,7 +157,7 @@ namespace BTS.SICEP.WCF.BiometriaService
         public async Task<VerificarHuellaInfo> BuscarVozEnTemplates(NSubject subjectBuscar, int idBusqueda)
         {
             #region BuscarHuellaEnTemplates
-            var select = "SELECT ESTADO,MUNICIPIO,CERESO,ANO,FOLIO,ARCHIVO FROM BTS.FICHA_VOZ ";
+            var select = "SELECT ESTADO,MUNICIPIO,CERESO,ANO,FOLIO,NUM_INGRESO,ARCHIVO FROM BTS.FICHA_VOZ ";
             var conn = new OracleConnection(_connStr);
             var template = new byte[] { };
             var subject = new NSubject();
@@ -173,9 +173,9 @@ namespace BTS.SICEP.WCF.BiometriaService
 
                 while (await dr.ReadAsync())
                 {
-                    if (dr.IsDBNull(5) == false)
+                    if (dr.IsDBNull(6) == false)
                     {
-                        template = (byte[])dr[5];
+                        template = (byte[])dr[6];
 
                         voice = new NVoice();
                         voice.SampleBuffer = new Neurotec.IO.NBuffer(template);
@@ -197,6 +197,7 @@ namespace BTS.SICEP.WCF.BiometriaService
                             _verificarHuellaInfo.PersonaIdentificar.cereso = dr.GetString(2);
                             _verificarHuellaInfo.PersonaIdentificar.ano = dr.GetInt16(3);
                             _verificarHuellaInfo.PersonaIdentificar.folio = dr.GetInt64(4);
+                            _verificarHuellaInfo.PersonaIdentificar.num_ingreso = dr.GetInt16(5);
 
                             await RegistrarMatch(_verificarHuellaInfo.PersonaIdentificar, 1, conn);
 

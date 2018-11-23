@@ -70,12 +70,8 @@
             this.nViewZoomSlider3 = new Neurotec.Gui.NViewZoomSlider();
             this.btnVerificariris = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btnVozVerificar = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.btnVozForsar = new System.Windows.Forms.Button();
-            this.btnVozDetener = new System.Windows.Forms.Button();
-            this.btnVozRefrescar = new System.Windows.Forms.Button();
-            this.btnVozIniciar = new System.Windows.Forms.Button();
-            this.lbMicrophones = new System.Windows.Forms.ListBox();
             this.gbOptions = new System.Windows.Forms.GroupBox();
             this.extractFeatures = new System.Windows.Forms.ComboBox();
             this.chkBoxVozCapturarAut = new System.Windows.Forms.CheckBox();
@@ -83,7 +79,11 @@
             this.nudPhraseId = new System.Windows.Forms.NumericUpDown();
             this.voiceView = new Neurotec.Biometrics.Gui.NVoiceView();
             this.gbMicrophones = new System.Windows.Forms.GroupBox();
-            this.btnVozVerificar = new System.Windows.Forms.Button();
+            this.btnVozForsar = new System.Windows.Forms.Button();
+            this.btnVozDetener = new System.Windows.Forms.Button();
+            this.btnVozRefrescar = new System.Windows.Forms.Button();
+            this.btnVozIniciar = new System.Windows.Forms.Button();
+            this.lbMicrophones = new System.Windows.Forms.ListBox();
             this.tabBio.SuspendLayout();
             this.tabPageHuella.SuspendLayout();
             this.tabRostro.SuspendLayout();
@@ -105,7 +105,7 @@
             this.tabBio.Controls.Add(this.tabPage1);
             this.tabBio.Controls.Add(this.tabPage2);
             this.tabBio.Location = new System.Drawing.Point(9, 11);
-            this.tabBio.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabBio.Margin = new System.Windows.Forms.Padding(2);
             this.tabBio.Name = "tabBio";
             this.tabBio.SelectedIndex = 0;
             this.tabBio.Size = new System.Drawing.Size(610, 458);
@@ -125,9 +125,9 @@
             this.tabPageHuella.Controls.Add(this.nViewZoomSlider1);
             this.tabPageHuella.Controls.Add(this.chbShowBinarizedImage);
             this.tabPageHuella.Location = new System.Drawing.Point(4, 22);
-            this.tabPageHuella.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPageHuella.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageHuella.Name = "tabPageHuella";
-            this.tabPageHuella.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPageHuella.Padding = new System.Windows.Forms.Padding(2);
             this.tabPageHuella.Size = new System.Drawing.Size(602, 432);
             this.tabPageHuella.TabIndex = 0;
             this.tabPageHuella.Text = "Huella";
@@ -262,9 +262,9 @@
             this.tabRostro.Controls.Add(this.groupBox);
             this.tabRostro.Controls.Add(this.gpbFacial);
             this.tabRostro.Location = new System.Drawing.Point(4, 22);
-            this.tabRostro.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabRostro.Margin = new System.Windows.Forms.Padding(2);
             this.tabRostro.Name = "tabRostro";
-            this.tabRostro.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabRostro.Padding = new System.Windows.Forms.Padding(2);
             this.tabRostro.Size = new System.Drawing.Size(602, 432);
             this.tabRostro.TabIndex = 1;
             this.tabRostro.Text = "Rostro";
@@ -283,7 +283,7 @@
             this.groupBox.Controls.Add(this.btnRefreshList);
             this.groupBox.Location = new System.Drawing.Point(15, 15);
             this.groupBox.Name = "groupBox";
-            this.groupBox.Size = new System.Drawing.Size(110, 86);
+            this.groupBox.Size = new System.Drawing.Size(569, 86);
             this.groupBox.TabIndex = 26;
             this.groupBox.TabStop = false;
             this.groupBox.Text = "Camaras";
@@ -350,7 +350,7 @@
             this.cbCameras.FormattingEnabled = true;
             this.cbCameras.Location = new System.Drawing.Point(8, 20);
             this.cbCameras.Name = "cbCameras";
-            this.cbCameras.Size = new System.Drawing.Size(82, 21);
+            this.cbCameras.Size = new System.Drawing.Size(444, 21);
             this.cbCameras.TabIndex = 15;
             this.cbCameras.SelectedIndexChanged += new System.EventHandler(this.cbCameras_SelectedIndexChanged);
             // 
@@ -431,9 +431,9 @@
             this.tabPage1.Controls.Add(this.scannersGroupBox);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage1.Size = new System.Drawing.Size(602, 432);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Iris";
@@ -613,6 +613,17 @@
             this.tabPage2.Text = "Voz";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // btnVozVerificar
+            // 
+            this.btnVozVerificar.Enabled = false;
+            this.btnVozVerificar.Location = new System.Drawing.Point(21, 242);
+            this.btnVozVerificar.Name = "btnVozVerificar";
+            this.btnVozVerificar.Size = new System.Drawing.Size(90, 22);
+            this.btnVozVerificar.TabIndex = 36;
+            this.btnVozVerificar.Text = "Verificar";
+            this.btnVozVerificar.UseVisualStyleBackColor = true;
+            this.btnVozVerificar.Click += new System.EventHandler(this.btnVozVerificar_Click);
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -621,6 +632,91 @@
             this.label5.Size = new System.Drawing.Size(279, 13);
             this.label5.TabIndex = 34;
             this.label5.Text = "Seleccione un microfono, presione Iniciar y diga una frase";
+            // 
+            // gbOptions
+            // 
+            this.gbOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbOptions.Controls.Add(this.extractFeatures);
+            this.gbOptions.Controls.Add(this.chkBoxVozCapturarAut);
+            this.gbOptions.Controls.Add(this.label2);
+            this.gbOptions.Controls.Add(this.nudPhraseId);
+            this.gbOptions.Location = new System.Drawing.Point(359, 40);
+            this.gbOptions.Name = "gbOptions";
+            this.gbOptions.Size = new System.Drawing.Size(227, 110);
+            this.gbOptions.TabIndex = 33;
+            this.gbOptions.TabStop = false;
+            this.gbOptions.Text = "Opciones";
+            // 
+            // extractFeatures
+            // 
+            this.extractFeatures.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.extractFeatures.FormattingEnabled = true;
+            this.extractFeatures.Location = new System.Drawing.Point(6, 43);
+            this.extractFeatures.Name = "extractFeatures";
+            this.extractFeatures.Size = new System.Drawing.Size(215, 21);
+            this.extractFeatures.TabIndex = 23;
+            this.extractFeatures.SelectedIndexChanged += new System.EventHandler(this.extractFeatures_SelectedIndexChanged);
+            // 
+            // chkBoxVozCapturarAut
+            // 
+            this.chkBoxVozCapturarAut.AutoSize = true;
+            this.chkBoxVozCapturarAut.Checked = true;
+            this.chkBoxVozCapturarAut.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkBoxVozCapturarAut.Location = new System.Drawing.Point(6, 86);
+            this.chkBoxVozCapturarAut.Name = "chkBoxVozCapturarAut";
+            this.chkBoxVozCapturarAut.Size = new System.Drawing.Size(150, 17);
+            this.chkBoxVozCapturarAut.TabIndex = 22;
+            this.chkBoxVozCapturarAut.Text = "Capturar automaticamente";
+            this.chkBoxVozCapturarAut.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 19);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(36, 13);
+            this.label2.TabIndex = 19;
+            this.label2.Text = "Frase:";
+            // 
+            // nudPhraseId
+            // 
+            this.nudPhraseId.Location = new System.Drawing.Point(64, 17);
+            this.nudPhraseId.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.nudPhraseId.Name = "nudPhraseId";
+            this.nudPhraseId.Size = new System.Drawing.Size(93, 20);
+            this.nudPhraseId.TabIndex = 18;
+            // 
+            // voiceView
+            // 
+            this.voiceView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.voiceView.BackColor = System.Drawing.Color.Transparent;
+            this.voiceView.Location = new System.Drawing.Point(23, 163);
+            this.voiceView.Name = "voiceView";
+            this.voiceView.Size = new System.Drawing.Size(563, 54);
+            this.voiceView.TabIndex = 35;
+            this.voiceView.Text = "voiceView";
+            this.voiceView.Voice = null;
+            // 
+            // gbMicrophones
+            // 
+            this.gbMicrophones.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbMicrophones.Controls.Add(this.btnVozForsar);
+            this.gbMicrophones.Controls.Add(this.btnVozDetener);
+            this.gbMicrophones.Controls.Add(this.btnVozRefrescar);
+            this.gbMicrophones.Controls.Add(this.btnVozIniciar);
+            this.gbMicrophones.Controls.Add(this.lbMicrophones);
+            this.gbMicrophones.Location = new System.Drawing.Point(13, 40);
+            this.gbMicrophones.Name = "gbMicrophones";
+            this.gbMicrophones.Size = new System.Drawing.Size(340, 110);
+            this.gbMicrophones.TabIndex = 32;
+            this.gbMicrophones.TabStop = false;
+            this.gbMicrophones.Text = "Microphones list";
             // 
             // btnVozForsar
             // 
@@ -667,105 +763,11 @@
             // 
             this.lbMicrophones.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbMicrophones.Location = new System.Drawing.Point(4, 19);
+            this.lbMicrophones.Location = new System.Drawing.Point(9, 19);
             this.lbMicrophones.Name = "lbMicrophones";
-            this.lbMicrophones.Size = new System.Drawing.Size(320, 56);
+            this.lbMicrophones.Size = new System.Drawing.Size(318, 56);
             this.lbMicrophones.TabIndex = 6;
-            // 
-            // gbOptions
-            // 
-            this.gbOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbOptions.Controls.Add(this.extractFeatures);
-            this.gbOptions.Controls.Add(this.chkBoxVozCapturarAut);
-            this.gbOptions.Controls.Add(this.label2);
-            this.gbOptions.Controls.Add(this.nudPhraseId);
-            this.gbOptions.Location = new System.Drawing.Point(375, 47);
-            this.gbOptions.Name = "gbOptions";
-            this.gbOptions.Size = new System.Drawing.Size(189, 110);
-            this.gbOptions.TabIndex = 33;
-            this.gbOptions.TabStop = false;
-            this.gbOptions.Text = "Opciones";
-            // 
-            // extractFeatures
-            // 
-            this.extractFeatures.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.extractFeatures.FormattingEnabled = true;
-            this.extractFeatures.Location = new System.Drawing.Point(6, 43);
-            this.extractFeatures.Name = "extractFeatures";
-            this.extractFeatures.Size = new System.Drawing.Size(176, 21);
-            this.extractFeatures.TabIndex = 23;
-            // 
-            // chkBoxVozCapturarAut
-            // 
-            this.chkBoxVozCapturarAut.AutoSize = true;
-            this.chkBoxVozCapturarAut.Checked = true;
-            this.chkBoxVozCapturarAut.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkBoxVozCapturarAut.Location = new System.Drawing.Point(6, 86);
-            this.chkBoxVozCapturarAut.Name = "chkBoxVozCapturarAut";
-            this.chkBoxVozCapturarAut.Size = new System.Drawing.Size(150, 17);
-            this.chkBoxVozCapturarAut.TabIndex = 22;
-            this.chkBoxVozCapturarAut.Text = "Capturar automaticamente";
-            this.chkBoxVozCapturarAut.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 19);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(36, 13);
-            this.label2.TabIndex = 19;
-            this.label2.Text = "Frase:";
-            // 
-            // nudPhraseId
-            // 
-            this.nudPhraseId.Location = new System.Drawing.Point(64, 17);
-            this.nudPhraseId.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.nudPhraseId.Name = "nudPhraseId";
-            this.nudPhraseId.Size = new System.Drawing.Size(93, 20);
-            this.nudPhraseId.TabIndex = 18;
-            // 
-            // voiceView
-            // 
-            this.voiceView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.voiceView.BackColor = System.Drawing.Color.Transparent;
-            this.voiceView.Location = new System.Drawing.Point(23, 163);
-            this.voiceView.Name = "voiceView";
-            this.voiceView.Size = new System.Drawing.Size(541, 54);
-            this.voiceView.TabIndex = 35;
-            this.voiceView.Text = "voiceView";
-            this.voiceView.Voice = null;
-            // 
-            // gbMicrophones
-            // 
-            this.gbMicrophones.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbMicrophones.Controls.Add(this.btnVozForsar);
-            this.gbMicrophones.Controls.Add(this.btnVozDetener);
-            this.gbMicrophones.Controls.Add(this.btnVozRefrescar);
-            this.gbMicrophones.Controls.Add(this.btnVozIniciar);
-            this.gbMicrophones.Controls.Add(this.lbMicrophones);
-            this.gbMicrophones.Location = new System.Drawing.Point(23, 47);
-            this.gbMicrophones.Name = "gbMicrophones";
-            this.gbMicrophones.Size = new System.Drawing.Size(330, 110);
-            this.gbMicrophones.TabIndex = 32;
-            this.gbMicrophones.TabStop = false;
-            this.gbMicrophones.Text = "Microphones list";
-            // 
-            // btnVozVerificar
-            // 
-            this.btnVozVerificar.Enabled = false;
-            this.btnVozVerificar.Location = new System.Drawing.Point(21, 242);
-            this.btnVozVerificar.Name = "btnVozVerificar";
-            this.btnVozVerificar.Size = new System.Drawing.Size(90, 22);
-            this.btnVozVerificar.TabIndex = 36;
-            this.btnVozVerificar.Text = "Verificar";
-            this.btnVozVerificar.UseVisualStyleBackColor = true;
-            this.btnVozVerificar.Click += new System.EventHandler(this.btnVozVerificar_Click);
+            this.lbMicrophones.SelectedIndexChanged += new System.EventHandler(this.lbMicrophones_SelectedIndexChanged);
             // 
             // MainForm
             // 
@@ -774,7 +776,7 @@
             this.ClientSize = new System.Drawing.Size(629, 493);
             this.Controls.Add(this.tabBio);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

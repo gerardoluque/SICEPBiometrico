@@ -19,7 +19,7 @@ namespace BTS.SiCEP.Biometria.Huellas
 
             const int Port = 5000;
             const string Address = "/local";
-            const string Components = "Biometrics.FingerExtraction,Devices.FingerScanners,Biometrics.FaceExtraction,Biometrics.FaceDetection,Devices.Cameras,Biometrics.IrisExtraction,Biometrics.IrisSegmentation,Devices.IrisScanners";
+            const string Components = "Biometrics.FingerExtraction,Devices.FingerScanners,Biometrics.FaceExtraction,Biometrics.FaceDetection,Devices.Cameras,Biometrics.IrisExtraction,Biometrics.IrisSegmentation,Devices.IrisScanners,Media,Devices.Microphones,Biometrics.VoiceExtraction";
 
             try
             {
