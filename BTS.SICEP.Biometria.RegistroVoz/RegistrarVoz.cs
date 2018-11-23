@@ -25,7 +25,6 @@ namespace BTS.SICEP.Biometria.RegistroVoz
         private bool _defaultExtractFeatures;
         private PersonaInfo _persona;
 
-        private string connStr = string.Empty;
         private string[] _args = new string[] { };
         private string pathArchivoTemp = string.Empty;
         private string nombreServicioBD = string.Empty;
@@ -59,8 +58,6 @@ namespace BTS.SICEP.Biometria.RegistroVoz
             if (_args.Count() > 0)
             {
                 EstablecerParametros();
-
-                connStr = ObtenerConexion(nombreServicioBD);
             }
             else
             {
@@ -257,31 +254,9 @@ namespace BTS.SICEP.Biometria.RegistroVoz
 
         private void GuardarVoz(byte[] voz)
         {
-            //var conn = new OracleConnection(connStr);
-
             try
             {
-                //conn.Open();
-
                 File.WriteAllBytes(pathArchivoTemp, voz);
-
-                //string insert = string.Format("INSERT INTO BTS.VALIDA_HUELLA " +
-                //                              "(ID,CONSEC,ESTADO,MUNICIPIO,CERESO,ANO,FOLIO)" +
-                //                              " VALUES ({0},{1},{2},{3},'{4}',{5},{6})",
-                //    _persona.id,
-                //    1,
-                //    _persona.estado,
-                //    _persona.municipio,
-                //    _persona.cereso,
-                //    _persona.ano,
-                //    _persona.folio);
-
-                //OracleCommand cmdInsert = new OracleCommand(insert, conn);
-
-                //cmdInsert.ExecuteNonQuery();
-
-                //conn.Close();
-                //conn.Dispose();                
             }
             catch (Exception ex)
             {

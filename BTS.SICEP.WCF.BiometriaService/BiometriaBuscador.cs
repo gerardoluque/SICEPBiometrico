@@ -163,6 +163,7 @@ namespace BTS.SICEP.WCF.BiometriaService
             var subject = new NSubject();
             var voice = new NVoice();
             var _verificarHuellaInfo = new VerificarHuellaInfo();
+            var status = new NBiometricStatus();
 
             try
             {
@@ -183,7 +184,18 @@ namespace BTS.SICEP.WCF.BiometriaService
                         subject = new NSubject();
                         subject.Voices.Add(voice);
 
-                        var status = await _biometricClient.VerifyAsync(subject, subjectBuscar);
+                        try
+                        {
+                            status = await _biometricClient.VerifyAsync(subject, subjectBuscar);
+                        }
+                        catch (Neurotec.NeurotecException exN)
+                        {
+                            Utils.LogEvent(exN);
+                        }
+                        catch (Exception ex)
+                        {
+                            Utils.LogEvent(ex);
+                        }
 
                         var verificationStatus = string.Format("Verification status: {0}", status);
 

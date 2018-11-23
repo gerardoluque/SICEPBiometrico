@@ -6,11 +6,7 @@ using Neurotec.Devices;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -31,8 +27,6 @@ namespace BTS.SiCEP.Biometria.Huellas
         private NVoice _voice;
         private short ojo = 0;
         private bool _defaultExtractFeatures;
-
-        private string connStr = string.Empty;
 
         private string[] _args = new string[] { };
 
@@ -59,16 +53,25 @@ namespace BTS.SiCEP.Biometria.Huellas
             if (_args.Count() > 0)
             {
                 EstablecerParametros();
-
-                connStr = ObtenerConexion(_verificarHuellaInfo.Servicename);
             }
             else
             {
                 MessageBox.Show("No se recibieron los parametros de busqueda");
             }
 
-            _deviceManager = _biometricClient.DeviceManager;
-            _deviceManager.Initialize();
+            if (!DesignMode)
+            {
+                extractFeatures.Items.Add(TextDependent);
+                extractFeatures.Items.Add(TextIndependent);
+                extractFeatures.SelectedIndex = 0;
+
+                voiceView.Voice = null;
+
+                _deviceManager = _biometricClient.DeviceManager;
+                _deviceManager.Initialize();
+
+                UpdateVoiceDeviceList();
+            }
 
             Inicializar();
         }
@@ -102,19 +105,11 @@ namespace BTS.SiCEP.Biometria.Huellas
             #endregion
 
             #region Voz
-            EnableVoiceControls(false);
-
-            UpdateVoiceDeviceList();
-
-            extractFeatures.Items.Add(TextDependent);
-            extractFeatures.Items.Add(TextIndependent);
-            extractFeatures.SelectedIndex = 0;
-
-            voiceView.Voice = null;
-
             _defaultExtractFeatures = _biometricClient.VoicesExtractTextDependentFeatures;
             extractFeatures.SelectedItem = _defaultExtractFeatures ? TextDependent : TextIndependent;
 
+            EnableVoiceControls(false);
+                       
             nudPhraseId.Value = 0;
             SetVoiceSettings();
             #endregion
@@ -126,7 +121,6 @@ namespace BTS.SiCEP.Biometria.Huellas
             return subject != null && (subject.Status == NBiometricStatus.Ok
                 || subject.Status == NBiometricStatus.None && subject.GetTemplateBuffer() != null);
         }
-
 
         private void EstablecerParametros()
         {
@@ -145,27 +139,6 @@ namespace BTS.SiCEP.Biometria.Huellas
                 Completo = _args[8],
                 Servicename = _args[9]
             };
-        }
-
-        public static string ObtenerConexion(string bd)
-        {
-            #region Conexion
-            string connectionString;
-
-            SqlConnectionStringBuilder sqlBuilder = new SqlConnectionStringBuilder();
-            sqlBuilder.DataSource = bd;
-            sqlBuilder.Password = "BTS";
-
-            if (sqlBuilder.Password.Length > 30)
-                sqlBuilder.Password = sqlBuilder.Password.Substring(0, 30);
-
-            sqlBuilder.UserID = "BTS";
-            sqlBuilder.PersistSecurityInfo = true;
-            sqlBuilder.Pooling = false;
-            connectionString = sqlBuilder.ToString();
-
-            return connectionString;
-            #endregion
         }
         #endregion
 
@@ -692,6 +665,8 @@ namespace BTS.SiCEP.Biometria.Huellas
             if (status != NBiometricStatus.Ok && status != NBiometricStatus.SourceError && status != NBiometricStatus.TooFewSamples)
             {
                 // Since capture failed start capturing again
+                _biometricClient.ForceStart();
+
                 _voice.SoundBuffer = null;
                 var performedTask = await _biometricClient.PerformTaskAsync(task);
                 await OnCapturingVoiceCompletedAsync(performedTask);
@@ -721,6 +696,8 @@ namespace BTS.SiCEP.Biometria.Huellas
                 return;
             }
 
+            _biometricClient.ForceStart();
+
             // Set voice capture from stream
             _voice = new NVoice { CaptureOptions = NBiometricCaptureOptions.Stream };
             if (!chbCaptureAutomatically.Checked) _voice.CaptureOptions |= NBiometricCaptureOptions.Manual;
@@ -728,9 +705,12 @@ namespace BTS.SiCEP.Biometria.Huellas
             _subject.Voices.Add(_voice);
             voiceView.Voice = _voice;
 
-            NBiometricTask task = _biometricClient.CreateTask(NBiometricOperations.Capture | NBiometricOperations.Segment, _subject);
             EnableVoiceControls(true);
+
+            NBiometricTask task = _biometricClient.CreateTask(NBiometricOperations.Capture | NBiometricOperations.Segment, _subject);
+
             var performedTask = await _biometricClient.PerformTaskAsync(task);
+
             await OnCapturingVoiceCompletedAsync(performedTask);
         }
 
@@ -742,7 +722,8 @@ namespace BTS.SiCEP.Biometria.Huellas
 
         private void btnVozForsar_Click(object sender, EventArgs e)
         {
-            UpdateVoiceDeviceList();
+            _biometricClient.ForceStart();
+            btnForce.Enabled = false;
         }
 
         private async void btnVozVerificar_Click(object sender, EventArgs e)
@@ -762,7 +743,7 @@ namespace BTS.SiCEP.Biometria.Huellas
                     MessageBox.Show("No se encontro coincidencias con la voz, intente de nuevo");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 Neurotec.Samples.Utils.ShowException(new Exception("Ocurrio un error al intentar utilizar el servicio web de biometria, favor de consultar el visor de eventos del servidor web"));
             }
@@ -800,7 +781,7 @@ namespace BTS.SiCEP.Biometria.Huellas
         private async Task<BiometriaBusquedaServicio.PersonaInfo> BuscarVozServicioWCF()
         {
             #region Buscar voz en servicio WCF
-            var vozBase64 = Convert.ToBase64String(_subject.Voices[0].SampleBuffer.Save().ToArray());
+            var vozBase64 = Convert.ToBase64String(_subject.Voices.FirstOrDefault(x=>x.SoundBuffer != null).SoundBuffer.Save().ToArray());
 
             var result = await servicioBusqueda.BuscarVozAsync(vozBase64, _verificarHuellaInfo.PersonaIdentificar.id);
 
@@ -808,5 +789,30 @@ namespace BTS.SiCEP.Biometria.Huellas
             #endregion
         }
         #endregion
+
+        private void tabPage2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabBio_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabBio.SelectedIndex == 0)
+            {
+                UpdateScannerList();
+            }
+            else if (tabBio.SelectedIndex == 1)
+            {
+                UpdateCameraList();
+            }
+            else if (tabBio.SelectedIndex == 2)
+            {
+                UpdateIrisScannerList(); 
+            }
+            else if (tabBio.SelectedIndex == 3)
+            {
+                UpdateVoiceDeviceList();
+            }
+        }
     }
 }

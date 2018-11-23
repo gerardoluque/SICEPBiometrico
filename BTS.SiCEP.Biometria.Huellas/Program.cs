@@ -29,7 +29,6 @@ namespace BTS.SiCEP.Biometria.Huellas
                 }
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                //Application.Run(new BuscarHuella(args));
                 Application.Run(new MainForm(args));
             }
             catch (Exception ex)
