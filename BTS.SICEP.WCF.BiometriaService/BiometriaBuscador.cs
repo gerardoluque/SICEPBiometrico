@@ -179,7 +179,7 @@ namespace BTS.SICEP.WCF.BiometriaService
                         template = (byte[])dr[6];
 
                         voice = new NVoice();
-                        voice.SampleBuffer = new Neurotec.IO.NBuffer(template);
+                        voice.SoundBuffer = Neurotec.Sound.NSoundBuffer.FromMemory(template);
 
                         subject = new NSubject();
                         subject.Voices.Add(voice);

@@ -351,7 +351,7 @@
             this.cbCameras.FormattingEnabled = true;
             this.cbCameras.Location = new System.Drawing.Point(8, 20);
             this.cbCameras.Name = "cbCameras";
-            this.cbCameras.Size = new System.Drawing.Size(377, 21);
+            this.cbCameras.Size = new System.Drawing.Size(410, 21);
             this.cbCameras.TabIndex = 15;
             this.cbCameras.SelectedIndexChanged += new System.EventHandler(this.cbCameras_SelectedIndexChanged);
             // 
@@ -454,7 +454,7 @@
             this.scannersGroupBox.Controls.Add(this.lbScanners);
             this.scannersGroupBox.Location = new System.Drawing.Point(7, 13);
             this.scannersGroupBox.Name = "scannersGroupBox";
-            this.scannersGroupBox.Size = new System.Drawing.Size(580, 134);
+            this.scannersGroupBox.Size = new System.Drawing.Size(590, 134);
             this.scannersGroupBox.TabIndex = 13;
             this.scannersGroupBox.TabStop = false;
             this.scannersGroupBox.Text = "Escaners";
@@ -487,7 +487,7 @@
             // 
             this.rbRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.rbRight.AutoSize = true;
-            this.rbRight.Location = new System.Drawing.Point(489, 53);
+            this.rbRight.Location = new System.Drawing.Point(499, 53);
             this.rbRight.Name = "rbRight";
             this.rbRight.Size = new System.Drawing.Size(82, 17);
             this.rbRight.TabIndex = 13;
@@ -500,7 +500,7 @@
             this.rbLeft.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.rbLeft.AutoSize = true;
             this.rbLeft.Checked = true;
-            this.rbLeft.Location = new System.Drawing.Point(488, 29);
+            this.rbLeft.Location = new System.Drawing.Point(498, 29);
             this.rbLeft.Name = "rbLeft";
             this.rbLeft.Size = new System.Drawing.Size(84, 17);
             this.rbLeft.TabIndex = 12;
@@ -546,7 +546,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbScanners.Location = new System.Drawing.Point(6, 19);
             this.lbScanners.Name = "lbScanners";
-            this.lbScanners.Size = new System.Drawing.Size(391, 56);
+            this.lbScanners.Size = new System.Drawing.Size(420, 56);
             this.lbScanners.TabIndex = 6;
             // 
             // groupBox1
@@ -642,7 +642,7 @@
             this.gbOptions.Controls.Add(this.chkBoxVozCapturarAut);
             this.gbOptions.Controls.Add(this.label2);
             this.gbOptions.Controls.Add(this.nudPhraseId);
-            this.gbOptions.Location = new System.Drawing.Point(391, 40);
+            this.gbOptions.Location = new System.Drawing.Point(381, 40);
             this.gbOptions.Name = "gbOptions";
             this.gbOptions.Size = new System.Drawing.Size(205, 110);
             this.gbOptions.TabIndex = 33;
@@ -699,7 +699,7 @@
             this.voiceView.BackColor = System.Drawing.Color.Transparent;
             this.voiceView.Location = new System.Drawing.Point(23, 163);
             this.voiceView.Name = "voiceView";
-            this.voiceView.Size = new System.Drawing.Size(573, 54);
+            this.voiceView.Size = new System.Drawing.Size(563, 54);
             this.voiceView.TabIndex = 35;
             this.voiceView.Text = "voiceView";
             this.voiceView.Voice = null;
@@ -715,7 +715,7 @@
             this.gbMicrophones.Controls.Add(this.lbMicrophones);
             this.gbMicrophones.Location = new System.Drawing.Point(3, 40);
             this.gbMicrophones.Name = "gbMicrophones";
-            this.gbMicrophones.Size = new System.Drawing.Size(382, 110);
+            this.gbMicrophones.Size = new System.Drawing.Size(372, 110);
             this.gbMicrophones.TabIndex = 32;
             this.gbMicrophones.TabStop = false;
             this.gbMicrophones.Text = "Microphones list";
@@ -767,7 +767,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbMicrophones.Location = new System.Drawing.Point(10, 19);
             this.lbMicrophones.Name = "lbMicrophones";
-            this.lbMicrophones.Size = new System.Drawing.Size(366, 56);
+            this.lbMicrophones.Size = new System.Drawing.Size(356, 56);
             this.lbMicrophones.TabIndex = 6;
             this.lbMicrophones.SelectedIndexChanged += new System.EventHandler(this.lbMicrophones_SelectedIndexChanged);
             // 

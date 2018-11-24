@@ -46,6 +46,8 @@ namespace BTS.SiCEP.Biometria.Huellas
             _biometricClient.InitializeAsync();
 
             ((CheckBox)nViewZoomSlider2.Controls[0].Controls[0]).Text = "Zoom Ancho";
+            ((CheckBox)nViewZoomSlider1.Controls[0].Controls[0]).Text = "Zoom Ancho";
+            ((CheckBox)nViewZoomSlider3.Controls[0].Controls[0]).Text = "Zoom Ancho";
         }
 
         private void MainForm_Load(object sender, EventArgs e)
