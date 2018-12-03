@@ -649,6 +649,7 @@ namespace BTS.SiCEP.Biometria.Huellas
         {
             var hasTemplate = !capturing && _subject != null && _subject.Status == NBiometricStatus.Ok;
             btnVozVerificar.Enabled = hasTemplate;
+            btnGuardarVoz.Enabled = hasTemplate;
             btnVozIniciar.Enabled = !capturing;
             btnVozDetener.Enabled = capturing;
             btnVozRefrescar.Enabled = !capturing;
@@ -790,6 +791,20 @@ namespace BTS.SiCEP.Biometria.Huellas
             return result;
             #endregion
         }
+
+        private async Task<BiometriaBusquedaServicio.PersonaInfo> BuscarVozServicioWCFTEST(string pathArchivo)
+        {
+            #region Buscar voz en servicio WCF
+            var voice = new NVoice();
+            voice.SoundBuffer = Neurotec.Sound.NSoundBuffer.FromFile(pathArchivo);
+
+            var vozBase64 = Convert.ToBase64String(voice.SoundBuffer.Save().ToArray());
+
+            var result = await servicioBusqueda.BuscarVozAsync(vozBase64, _verificarHuellaInfo.PersonaIdentificar.id);
+
+            return result;
+            #endregion
+        }
         #endregion
 
         private void tabPage2_Click(object sender, EventArgs e)
@@ -814,6 +829,29 @@ namespace BTS.SiCEP.Biometria.Huellas
             else if (tabBio.SelectedIndex == 3)
             {
                 UpdateVoiceDeviceList();
+            }
+        }
+
+        private async void button2_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                await BuscarVozServicioWCFTEST(openFileDialog.FileName);
+            }
+        }
+
+        private void btnGuardarVoz_Click(object sender, EventArgs e)
+        {
+            if (saveVoiceFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    System.IO.File.WriteAllBytes(saveVoiceFileDialog.FileName, _subject.Voices.FirstOrDefault(x => x.SoundBuffer != null).SoundBuffer.Save().ToArray());
+                }
+                catch (Exception ex)
+                {
+                    Neurotec.Samples.Utils.ShowException(ex);
+                }
             }
         }
     }

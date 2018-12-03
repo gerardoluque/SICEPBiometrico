@@ -178,23 +178,23 @@ namespace BTS.SICEP.WCF.BiometriaService
                     {
                         template = (byte[])dr[6];
 
-                        voice = new NVoice();
-                        voice.SoundBuffer = Neurotec.Sound.NSoundBuffer.FromMemory(template);
-
-                        subject = new NSubject();
-                        subject.Voices.Add(voice);
-
                         try
                         {
+                            voice = new NVoice();
+                            voice.SoundBuffer = Neurotec.Sound.NSoundBuffer.FromMemory(template);
+
+                            subject = new NSubject();
+                            subject.Voices.Add(voice);
+
                             status = await _biometricClient.VerifyAsync(subject, subjectBuscar);
                         }
                         catch (Neurotec.NeurotecException exN)
                         {
-                            Utils.LogEvent(exN);
+                            Utils.LogEvent(exN, string.Format("Año:{0}, Folio:{1}", dr.GetInt16(3), dr.GetInt64(4)));
                         }
                         catch (Exception ex)
                         {
-                            Utils.LogEvent(ex);
+                            Utils.LogEvent(ex, string.Format("Año:{0}, Folio:{1}", dr.GetInt16(3), dr.GetInt64(4)));
                         }
 
                         var verificationStatus = string.Format("Verification status: {0}", status);

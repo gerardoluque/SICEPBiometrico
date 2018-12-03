@@ -70,6 +70,7 @@
             this.nViewZoomSlider3 = new Neurotec.Gui.NViewZoomSlider();
             this.btnVerificariris = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button2 = new System.Windows.Forms.Button();
             this.btnVozVerificar = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.gbOptions = new System.Windows.Forms.GroupBox();
@@ -84,6 +85,9 @@
             this.btnVozRefrescar = new System.Windows.Forms.Button();
             this.btnVozIniciar = new System.Windows.Forms.Button();
             this.lbMicrophones = new System.Windows.Forms.ListBox();
+            this.btnGuardarVoz = new System.Windows.Forms.Button();
+            this.saveVoiceFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.tabBio.SuspendLayout();
             this.tabPageHuella.SuspendLayout();
             this.tabRostro.SuspendLayout();
@@ -546,7 +550,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbScanners.Location = new System.Drawing.Point(6, 19);
             this.lbScanners.Name = "lbScanners";
-            this.lbScanners.Size = new System.Drawing.Size(420, 56);
+            this.lbScanners.Size = new System.Drawing.Size(410, 56);
             this.lbScanners.TabIndex = 6;
             // 
             // groupBox1
@@ -601,6 +605,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.btnGuardarVoz);
+            this.tabPage2.Controls.Add(this.button2);
             this.tabPage2.Controls.Add(this.btnVozVerificar);
             this.tabPage2.Controls.Add(this.label5);
             this.tabPage2.Controls.Add(this.gbOptions);
@@ -614,6 +620,16 @@
             this.tabPage2.Text = "Voz";
             this.tabPage2.UseVisualStyleBackColor = true;
             this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(23, 280);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(88, 23);
+            this.button2.TabIndex = 37;
+            this.button2.Text = "Verifica archivo";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // btnVozVerificar
             // 
@@ -642,7 +658,7 @@
             this.gbOptions.Controls.Add(this.chkBoxVozCapturarAut);
             this.gbOptions.Controls.Add(this.label2);
             this.gbOptions.Controls.Add(this.nudPhraseId);
-            this.gbOptions.Location = new System.Drawing.Point(381, 40);
+            this.gbOptions.Location = new System.Drawing.Point(391, 40);
             this.gbOptions.Name = "gbOptions";
             this.gbOptions.Size = new System.Drawing.Size(205, 110);
             this.gbOptions.TabIndex = 33;
@@ -699,7 +715,7 @@
             this.voiceView.BackColor = System.Drawing.Color.Transparent;
             this.voiceView.Location = new System.Drawing.Point(23, 163);
             this.voiceView.Name = "voiceView";
-            this.voiceView.Size = new System.Drawing.Size(563, 54);
+            this.voiceView.Size = new System.Drawing.Size(573, 54);
             this.voiceView.TabIndex = 35;
             this.voiceView.Text = "voiceView";
             this.voiceView.Voice = null;
@@ -715,7 +731,7 @@
             this.gbMicrophones.Controls.Add(this.lbMicrophones);
             this.gbMicrophones.Location = new System.Drawing.Point(3, 40);
             this.gbMicrophones.Name = "gbMicrophones";
-            this.gbMicrophones.Size = new System.Drawing.Size(372, 110);
+            this.gbMicrophones.Size = new System.Drawing.Size(382, 110);
             this.gbMicrophones.TabIndex = 32;
             this.gbMicrophones.TabStop = false;
             this.gbMicrophones.Text = "Microphones list";
@@ -767,9 +783,24 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbMicrophones.Location = new System.Drawing.Point(10, 19);
             this.lbMicrophones.Name = "lbMicrophones";
-            this.lbMicrophones.Size = new System.Drawing.Size(356, 56);
+            this.lbMicrophones.Size = new System.Drawing.Size(366, 56);
             this.lbMicrophones.TabIndex = 6;
             this.lbMicrophones.SelectedIndexChanged += new System.EventHandler(this.lbMicrophones_SelectedIndexChanged);
+            // 
+            // btnGuardarVoz
+            // 
+            this.btnGuardarVoz.Enabled = false;
+            this.btnGuardarVoz.Location = new System.Drawing.Point(117, 242);
+            this.btnGuardarVoz.Name = "btnGuardarVoz";
+            this.btnGuardarVoz.Size = new System.Drawing.Size(113, 22);
+            this.btnGuardarVoz.TabIndex = 38;
+            this.btnGuardarVoz.Text = "Guardar archivo";
+            this.btnGuardarVoz.UseVisualStyleBackColor = true;
+            this.btnGuardarVoz.Click += new System.EventHandler(this.btnGuardarVoz_Click);
+            // 
+            // saveVoiceFileDialog
+            // 
+            this.saveVoiceFileDialog.Filter = "Wave audio files (*.wav;*.wave)|*.wav;*.wave";
             // 
             // MainForm
             // 
@@ -863,5 +894,9 @@
         private System.Windows.Forms.Button btnVozRefrescar;
         private System.Windows.Forms.Button btnVozIniciar;
         private System.Windows.Forms.ListBox lbMicrophones;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnGuardarVoz;
+        private System.Windows.Forms.SaveFileDialog saveVoiceFileDialog;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
     }
 }

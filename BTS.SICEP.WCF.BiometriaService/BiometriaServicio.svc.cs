@@ -105,7 +105,10 @@ namespace BTS.SICEP.WCF.BiometriaService
             try
             {
                 var template = Convert.FromBase64String(vozBase64);
-                voice.SampleBuffer = new Neurotec.IO.NBuffer(template);
+
+                //voice.SampleBuffer = new Neurotec.IO.NBuffer(template);
+                voice.SoundBuffer = Neurotec.Sound.NSoundBuffer.FromMemory(template);
+
                 subject.Voices.Add(voice);
 
                 var result = await buscador.BuscarVozEnTemplates(subject, idBusqueda);
@@ -124,7 +127,7 @@ namespace BTS.SICEP.WCF.BiometriaService
         {
             const int Port = 5000;
             const string Address = "/local";
-            const string Components = "Biometrics.FingerExtraction,Biometrics.FingerMatching,Biometrics.FaceExtraction,Biometrics.FaceMatching,Biometrics.IrisExtraction,Biometrics.IrisMatching,Biometrics.VoiceMatching,Biometrics.VoiceExtraction";
+            const string Components = "Biometrics.FingerExtraction,Biometrics.FingerMatching,Biometrics.FaceExtraction,Biometrics.FaceMatching,Biometrics.IrisExtraction,Biometrics.IrisMatching,Media,Biometrics.VoiceMatching,Biometrics.VoiceExtraction";
 
             try
             {

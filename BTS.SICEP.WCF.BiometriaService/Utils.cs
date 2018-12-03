@@ -19,11 +19,12 @@ namespace BTS.SICEP.WCF.BiometriaService
 
         public static void LogEvent(Exception exToLog)
         {
-            using (EventLog eventLog = new EventLog("Application"))
-            {
-                eventLog.Source = "Application";
-                eventLog.WriteEntry(exToLog.ToString(), EventLogEntryType.Error);
-            }
+            LogEvent(exToLog.ToString());
+        }
+
+        public static void LogEvent(Exception exToLog, string extraInfo)
+        {
+            LogEvent(string.Format("{0}, EXTRA: {1}", exToLog.ToString(), extraInfo));
         }
     }
 }
