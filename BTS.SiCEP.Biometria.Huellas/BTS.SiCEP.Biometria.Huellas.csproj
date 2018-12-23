@@ -53,6 +53,12 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AForge.Video">
+      <HintPath>..\Librerias Externas\AForge.Video.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video.DirectShow">
+      <HintPath>..\Librerias Externas\AForge.Video.DirectShow.dll</HintPath>
+    </Reference>
     <Reference Include="Neurotec, Version=10.0.0.0, Culture=neutral, PublicKeyToken=ea4ecf06177ea613, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Program Files (x86)\Neurotechnology\Neurotec Biometric 10.0 SDK\Bin\dotNET\Neurotec.dll</HintPath>

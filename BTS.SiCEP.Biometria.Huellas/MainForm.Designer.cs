@@ -70,6 +70,7 @@
             this.nViewZoomSlider3 = new Neurotec.Gui.NViewZoomSlider();
             this.btnVerificariris = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btnGuardarVoz = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.btnVozVerificar = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
@@ -85,7 +86,17 @@
             this.btnVozRefrescar = new System.Windows.Forms.Button();
             this.btnVozIniciar = new System.Windows.Forms.Button();
             this.lbMicrophones = new System.Windows.Forms.ListBox();
-            this.btnGuardarVoz = new System.Windows.Forms.Button();
+            this.tbpRostroWebCam = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.EspacioCamara = new System.Windows.Forms.PictureBox();
+            this.btnIniciar = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cbxDispositivos = new System.Windows.Forms.ComboBox();
+            this.btnAceptar = new System.Windows.Forms.Button();
+            this.btnProp = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.foto = new System.Windows.Forms.PictureBox();
+            this.btnCaptura = new System.Windows.Forms.Button();
             this.saveVoiceFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.tabBio.SuspendLayout();
@@ -100,6 +111,11 @@
             this.gbOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudPhraseId)).BeginInit();
             this.gbMicrophones.SuspendLayout();
+            this.tbpRostroWebCam.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.EspacioCamara)).BeginInit();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.foto)).BeginInit();
             this.SuspendLayout();
             // 
             // tabBio
@@ -108,11 +124,12 @@
             this.tabBio.Controls.Add(this.tabRostro);
             this.tabBio.Controls.Add(this.tabPage1);
             this.tabBio.Controls.Add(this.tabPage2);
-            this.tabBio.Location = new System.Drawing.Point(9, 11);
-            this.tabBio.Margin = new System.Windows.Forms.Padding(2);
+            this.tabBio.Controls.Add(this.tbpRostroWebCam);
+            this.tabBio.Location = new System.Drawing.Point(12, 14);
+            this.tabBio.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabBio.Name = "tabBio";
             this.tabBio.SelectedIndex = 0;
-            this.tabBio.Size = new System.Drawing.Size(610, 458);
+            this.tabBio.Size = new System.Drawing.Size(813, 564);
             this.tabBio.TabIndex = 0;
             this.tabBio.SelectedIndexChanged += new System.EventHandler(this.tabBio_SelectedIndexChanged);
             // 
@@ -129,11 +146,11 @@
             this.tabPageHuella.Controls.Add(this.fingerView);
             this.tabPageHuella.Controls.Add(this.nViewZoomSlider1);
             this.tabPageHuella.Controls.Add(this.chbShowBinarizedImage);
-            this.tabPageHuella.Location = new System.Drawing.Point(4, 22);
-            this.tabPageHuella.Margin = new System.Windows.Forms.Padding(2);
+            this.tabPageHuella.Location = new System.Drawing.Point(4, 25);
+            this.tabPageHuella.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPageHuella.Name = "tabPageHuella";
-            this.tabPageHuella.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPageHuella.Size = new System.Drawing.Size(602, 432);
+            this.tabPageHuella.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabPageHuella.Size = new System.Drawing.Size(805, 535);
             this.tabPageHuella.TabIndex = 0;
             this.tabPageHuella.Text = "Huella";
             this.tabPageHuella.UseVisualStyleBackColor = true;
@@ -141,19 +158,19 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(127, 28);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(169, 34);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(90, 13);
+            this.label1.Size = new System.Drawing.Size(120, 17);
             this.label1.TabIndex = 39;
             this.label1.Text = "Lista de scanners";
             // 
             // button1
             // 
             this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(156, 354);
+            this.button1.Location = new System.Drawing.Point(208, 436);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(90, 22);
+            this.button1.Size = new System.Drawing.Size(120, 27);
             this.button1.TabIndex = 38;
             this.button1.Text = "Verificar";
             this.button1.UseVisualStyleBackColor = true;
@@ -162,9 +179,10 @@
             // lblQuality
             // 
             this.lblQuality.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblQuality.Location = new System.Drawing.Point(251, 353);
+            this.lblQuality.Location = new System.Drawing.Point(335, 434);
+            this.lblQuality.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblQuality.Name = "lblQuality";
-            this.lblQuality.Size = new System.Drawing.Size(190, 20);
+            this.lblQuality.Size = new System.Drawing.Size(253, 25);
             this.lblQuality.TabIndex = 37;
             // 
             // chbScanAutomatically
@@ -172,9 +190,10 @@
             this.chbScanAutomatically.AutoSize = true;
             this.chbScanAutomatically.Checked = true;
             this.chbScanAutomatically.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chbScanAutomatically.Location = new System.Drawing.Point(293, 28);
+            this.chbScanAutomatically.Location = new System.Drawing.Point(391, 34);
+            this.chbScanAutomatically.Margin = new System.Windows.Forms.Padding(4);
             this.chbScanAutomatically.Name = "chbScanAutomatically";
-            this.chbScanAutomatically.Size = new System.Drawing.Size(150, 17);
+            this.chbScanAutomatically.Size = new System.Drawing.Size(197, 21);
             this.chbScanAutomatically.TabIndex = 36;
             this.chbScanAutomatically.Text = "Capturar automaticamente";
             this.chbScanAutomatically.UseVisualStyleBackColor = true;
@@ -183,9 +202,10 @@
             // cancelScanningButton
             // 
             this.cancelScanningButton.Enabled = false;
-            this.cancelScanningButton.Location = new System.Drawing.Point(331, 109);
+            this.cancelScanningButton.Location = new System.Drawing.Point(441, 134);
+            this.cancelScanningButton.Margin = new System.Windows.Forms.Padding(4);
             this.cancelScanningButton.Name = "cancelScanningButton";
-            this.cancelScanningButton.Size = new System.Drawing.Size(90, 22);
+            this.cancelScanningButton.Size = new System.Drawing.Size(120, 27);
             this.cancelScanningButton.TabIndex = 35;
             this.cancelScanningButton.Text = "Cancelar";
             this.cancelScanningButton.UseVisualStyleBackColor = true;
@@ -194,9 +214,10 @@
             // scanButton
             // 
             this.scanButton.Enabled = false;
-            this.scanButton.Location = new System.Drawing.Point(238, 109);
+            this.scanButton.Location = new System.Drawing.Point(317, 134);
+            this.scanButton.Margin = new System.Windows.Forms.Padding(4);
             this.scanButton.Name = "scanButton";
-            this.scanButton.Size = new System.Drawing.Size(90, 22);
+            this.scanButton.Size = new System.Drawing.Size(120, 27);
             this.scanButton.TabIndex = 34;
             this.scanButton.Text = "Capturar";
             this.scanButton.UseVisualStyleBackColor = true;
@@ -204,9 +225,10 @@
             // 
             // refreshListButton
             // 
-            this.refreshListButton.Location = new System.Drawing.Point(130, 109);
+            this.refreshListButton.Location = new System.Drawing.Point(173, 134);
+            this.refreshListButton.Margin = new System.Windows.Forms.Padding(4);
             this.refreshListButton.Name = "refreshListButton";
-            this.refreshListButton.Size = new System.Drawing.Size(90, 22);
+            this.refreshListButton.Size = new System.Drawing.Size(120, 27);
             this.refreshListButton.TabIndex = 31;
             this.refreshListButton.Text = "Refrescar";
             this.refreshListButton.UseVisualStyleBackColor = true;
@@ -214,17 +236,21 @@
             // 
             // scannersListBox
             // 
-            this.scannersListBox.Location = new System.Drawing.Point(129, 47);
+            this.scannersListBox.ItemHeight = 16;
+            this.scannersListBox.Location = new System.Drawing.Point(172, 58);
+            this.scannersListBox.Margin = new System.Windows.Forms.Padding(4);
             this.scannersListBox.Name = "scannersListBox";
-            this.scannersListBox.Size = new System.Drawing.Size(347, 56);
+            this.scannersListBox.Size = new System.Drawing.Size(461, 68);
             this.scannersListBox.TabIndex = 30;
+            this.scannersListBox.SelectedIndexChanged += new System.EventHandler(this.scannersListBox_SelectedIndexChanged);
             // 
             // fingerView
             // 
             this.fingerView.BackColor = System.Drawing.Color.White;
             this.fingerView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.fingerView.BoundingRectColor = System.Drawing.Color.Red;
-            this.fingerView.Location = new System.Drawing.Point(155, 162);
+            this.fingerView.Location = new System.Drawing.Point(207, 199);
+            this.fingerView.Margin = new System.Windows.Forms.Padding(4);
             this.fingerView.MinutiaColor = System.Drawing.Color.Red;
             this.fingerView.Name = "fingerView";
             this.fingerView.NeighborMinutiaColor = System.Drawing.Color.Orange;
@@ -233,7 +259,7 @@
             this.fingerView.SelectedSingularPointColor = System.Drawing.Color.Magenta;
             this.fingerView.ShownImage = Neurotec.Biometrics.Gui.ShownImage.Result;
             this.fingerView.SingularPointColor = System.Drawing.Color.Red;
-            this.fingerView.Size = new System.Drawing.Size(286, 186);
+            this.fingerView.Size = new System.Drawing.Size(380, 228);
             this.fingerView.TabIndex = 29;
             this.fingerView.TreeColor = System.Drawing.Color.Crimson;
             this.fingerView.TreeMinutiaNumberDiplayFormat = Neurotec.Biometrics.Gui.MinutiaNumberDiplayFormat.DontDisplay;
@@ -243,9 +269,10 @@
             // nViewZoomSlider1
             // 
             this.nViewZoomSlider1.BackColor = System.Drawing.SystemColors.Window;
-            this.nViewZoomSlider1.Location = new System.Drawing.Point(158, 381);
+            this.nViewZoomSlider1.Location = new System.Drawing.Point(211, 469);
+            this.nViewZoomSlider1.Margin = new System.Windows.Forms.Padding(4);
             this.nViewZoomSlider1.Name = "nViewZoomSlider1";
-            this.nViewZoomSlider1.Size = new System.Drawing.Size(283, 23);
+            this.nViewZoomSlider1.Size = new System.Drawing.Size(377, 28);
             this.nViewZoomSlider1.TabIndex = 33;
             this.nViewZoomSlider1.Text = "nViewHuellaZoomSlider";
             this.nViewZoomSlider1.View = this.fingerView;
@@ -254,9 +281,10 @@
             // 
             this.chbShowBinarizedImage.AutoSize = true;
             this.chbShowBinarizedImage.Enabled = false;
-            this.chbShowBinarizedImage.Location = new System.Drawing.Point(337, 145);
+            this.chbShowBinarizedImage.Location = new System.Drawing.Point(449, 178);
+            this.chbShowBinarizedImage.Margin = new System.Windows.Forms.Padding(4);
             this.chbShowBinarizedImage.Name = "chbShowBinarizedImage";
-            this.chbShowBinarizedImage.Size = new System.Drawing.Size(110, 17);
+            this.chbShowBinarizedImage.Size = new System.Drawing.Size(143, 21);
             this.chbShowBinarizedImage.TabIndex = 32;
             this.chbShowBinarizedImage.Text = "Imagen en binario\r\n";
             this.chbShowBinarizedImage.UseVisualStyleBackColor = true;
@@ -266,11 +294,11 @@
             // 
             this.tabRostro.Controls.Add(this.groupBox);
             this.tabRostro.Controls.Add(this.gpbFacial);
-            this.tabRostro.Location = new System.Drawing.Point(4, 22);
-            this.tabRostro.Margin = new System.Windows.Forms.Padding(2);
+            this.tabRostro.Location = new System.Drawing.Point(4, 25);
+            this.tabRostro.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabRostro.Name = "tabRostro";
-            this.tabRostro.Padding = new System.Windows.Forms.Padding(2);
-            this.tabRostro.Size = new System.Drawing.Size(602, 432);
+            this.tabRostro.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabRostro.Size = new System.Drawing.Size(805, 535);
             this.tabRostro.TabIndex = 1;
             this.tabRostro.Text = "Rostro";
             this.tabRostro.UseVisualStyleBackColor = true;
@@ -286,9 +314,11 @@
             this.groupBox.Controls.Add(this.btnStart);
             this.groupBox.Controls.Add(this.cbCameras);
             this.groupBox.Controls.Add(this.btnRefreshList);
-            this.groupBox.Location = new System.Drawing.Point(15, 15);
+            this.groupBox.Location = new System.Drawing.Point(20, 18);
+            this.groupBox.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox.Name = "groupBox";
-            this.groupBox.Size = new System.Drawing.Size(569, 86);
+            this.groupBox.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox.Size = new System.Drawing.Size(759, 106);
             this.groupBox.TabIndex = 26;
             this.groupBox.TabStop = false;
             this.groupBox.Text = "Camaras";
@@ -296,9 +326,10 @@
             // btnStartExtraction
             // 
             this.btnStartExtraction.Enabled = false;
-            this.btnStartExtraction.Location = new System.Drawing.Point(202, 49);
+            this.btnStartExtraction.Location = new System.Drawing.Point(269, 60);
+            this.btnStartExtraction.Margin = new System.Windows.Forms.Padding(4);
             this.btnStartExtraction.Name = "btnStartExtraction";
-            this.btnStartExtraction.Size = new System.Drawing.Size(90, 22);
+            this.btnStartExtraction.Size = new System.Drawing.Size(120, 27);
             this.btnStartExtraction.TabIndex = 27;
             this.btnStartExtraction.Text = "Capturar rostro";
             this.btnStartExtraction.UseVisualStyleBackColor = true;
@@ -307,9 +338,10 @@
             // btnStop
             // 
             this.btnStop.Enabled = false;
-            this.btnStop.Location = new System.Drawing.Point(295, 49);
+            this.btnStop.Location = new System.Drawing.Point(393, 60);
+            this.btnStop.Margin = new System.Windows.Forms.Padding(4);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(90, 22);
+            this.btnStop.Size = new System.Drawing.Size(120, 27);
             this.btnStop.TabIndex = 19;
             this.btnStop.Text = "Detener";
             this.btnStop.UseVisualStyleBackColor = true;
@@ -318,9 +350,10 @@
             // chbCheckLiveness
             // 
             this.chbCheckLiveness.AutoSize = true;
-            this.chbCheckLiveness.Location = new System.Drawing.Point(448, 47);
+            this.chbCheckLiveness.Location = new System.Drawing.Point(597, 58);
+            this.chbCheckLiveness.Margin = new System.Windows.Forms.Padding(4);
             this.chbCheckLiveness.Name = "chbCheckLiveness";
-            this.chbCheckLiveness.Size = new System.Drawing.Size(98, 17);
+            this.chbCheckLiveness.Size = new System.Drawing.Size(124, 21);
             this.chbCheckLiveness.TabIndex = 21;
             this.chbCheckLiveness.Text = "Check liveness";
             this.chbCheckLiveness.UseVisualStyleBackColor = true;
@@ -329,9 +362,10 @@
             // chbCaptureAutomatically
             // 
             this.chbCaptureAutomatically.AutoSize = true;
-            this.chbCaptureAutomatically.Location = new System.Drawing.Point(318, 47);
+            this.chbCaptureAutomatically.Location = new System.Drawing.Point(424, 58);
+            this.chbCaptureAutomatically.Margin = new System.Windows.Forms.Padding(4);
             this.chbCaptureAutomatically.Name = "chbCaptureAutomatically";
-            this.chbCaptureAutomatically.Size = new System.Drawing.Size(127, 17);
+            this.chbCaptureAutomatically.Size = new System.Drawing.Size(166, 21);
             this.chbCaptureAutomatically.TabIndex = 20;
             this.chbCaptureAutomatically.Text = "Capture automatically";
             this.chbCaptureAutomatically.UseVisualStyleBackColor = true;
@@ -339,9 +373,10 @@
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(109, 49);
+            this.btnStart.Location = new System.Drawing.Point(145, 60);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(4);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(90, 22);
+            this.btnStart.Size = new System.Drawing.Size(120, 27);
             this.btnStart.TabIndex = 18;
             this.btnStart.Text = "Iniciar captura";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -353,17 +388,19 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbCameras.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbCameras.FormattingEnabled = true;
-            this.cbCameras.Location = new System.Drawing.Point(8, 20);
+            this.cbCameras.Location = new System.Drawing.Point(11, 25);
+            this.cbCameras.Margin = new System.Windows.Forms.Padding(4);
             this.cbCameras.Name = "cbCameras";
-            this.cbCameras.Size = new System.Drawing.Size(410, 21);
+            this.cbCameras.Size = new System.Drawing.Size(591, 24);
             this.cbCameras.TabIndex = 15;
             this.cbCameras.SelectedIndexChanged += new System.EventHandler(this.cbCameras_SelectedIndexChanged);
             // 
             // btnRefreshList
             // 
-            this.btnRefreshList.Location = new System.Drawing.Point(8, 49);
+            this.btnRefreshList.Location = new System.Drawing.Point(11, 60);
+            this.btnRefreshList.Margin = new System.Windows.Forms.Padding(4);
             this.btnRefreshList.Name = "btnRefreshList";
-            this.btnRefreshList.Size = new System.Drawing.Size(90, 22);
+            this.btnRefreshList.Size = new System.Drawing.Size(120, 27);
             this.btnRefreshList.TabIndex = 17;
             this.btnRefreshList.Text = "Refrescar";
             this.btnRefreshList.UseVisualStyleBackColor = true;
@@ -375,9 +412,11 @@
             this.gpbFacial.Controls.Add(this.btnVerificar);
             this.gpbFacial.Controls.Add(this.facesView);
             this.gpbFacial.Controls.Add(this.nViewZoomSlider2);
-            this.gpbFacial.Location = new System.Drawing.Point(15, 113);
+            this.gpbFacial.Location = new System.Drawing.Point(20, 139);
+            this.gpbFacial.Margin = new System.Windows.Forms.Padding(4);
             this.gpbFacial.Name = "gpbFacial";
-            this.gpbFacial.Size = new System.Drawing.Size(569, 309);
+            this.gpbFacial.Padding = new System.Windows.Forms.Padding(4);
+            this.gpbFacial.Size = new System.Drawing.Size(759, 380);
             this.gpbFacial.TabIndex = 34;
             this.gpbFacial.TabStop = false;
             this.gpbFacial.Text = " Facial ";
@@ -385,9 +424,10 @@
             // lblStatus
             // 
             this.lblStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblStatus.Location = new System.Drawing.Point(49, 275);
+            this.lblStatus.Location = new System.Drawing.Point(65, 338);
+            this.lblStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(403, 20);
+            this.lblStatus.Size = new System.Drawing.Size(537, 25);
             this.lblStatus.TabIndex = 28;
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -397,9 +437,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnVerificar.Enabled = false;
-            this.btnVerificar.Location = new System.Drawing.Point(52, 245);
+            this.btnVerificar.Location = new System.Drawing.Point(69, 302);
+            this.btnVerificar.Margin = new System.Windows.Forms.Padding(4);
             this.btnVerificar.Name = "btnVerificar";
-            this.btnVerificar.Size = new System.Drawing.Size(90, 22);
+            this.btnVerificar.Size = new System.Drawing.Size(120, 27);
             this.btnVerificar.TabIndex = 31;
             this.btnVerificar.Text = "Verificar";
             this.btnVerificar.UseVisualStyleBackColor = true;
@@ -413,20 +454,22 @@
             this.facesView.Face = null;
             this.facesView.FaceIds = null;
             this.facesView.IcaoArrowsColor = System.Drawing.Color.Red;
-            this.facesView.Location = new System.Drawing.Point(52, 19);
+            this.facesView.Location = new System.Drawing.Point(69, 23);
+            this.facesView.Margin = new System.Windows.Forms.Padding(4);
             this.facesView.Name = "facesView";
             this.facesView.ShowIcaoArrows = true;
             this.facesView.ShowTokenImageRectangle = true;
-            this.facesView.Size = new System.Drawing.Size(393, 222);
+            this.facesView.Size = new System.Drawing.Size(524, 273);
             this.facesView.TabIndex = 33;
             this.facesView.TokenImageRectangleColor = System.Drawing.Color.White;
             // 
             // nViewZoomSlider2
             // 
             this.nViewZoomSlider2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.nViewZoomSlider2.Location = new System.Drawing.Point(148, 247);
+            this.nViewZoomSlider2.Location = new System.Drawing.Point(197, 304);
+            this.nViewZoomSlider2.Margin = new System.Windows.Forms.Padding(4);
             this.nViewZoomSlider2.Name = "nViewZoomSlider2";
-            this.nViewZoomSlider2.Size = new System.Drawing.Size(282, 23);
+            this.nViewZoomSlider2.Size = new System.Drawing.Size(376, 28);
             this.nViewZoomSlider2.TabIndex = 32;
             this.nViewZoomSlider2.Text = "nViewZoomSlider2";
             this.nViewZoomSlider2.View = this.facesView;
@@ -435,11 +478,11 @@
             // 
             this.tabPage1.Controls.Add(this.scannersGroupBox);
             this.tabPage1.Controls.Add(this.groupBox1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage1.Size = new System.Drawing.Size(602, 432);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabPage1.Size = new System.Drawing.Size(805, 535);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Iris";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -456,9 +499,11 @@
             this.scannersGroupBox.Controls.Add(this.btnRefresh);
             this.scannersGroupBox.Controls.Add(this.btnScan);
             this.scannersGroupBox.Controls.Add(this.lbScanners);
-            this.scannersGroupBox.Location = new System.Drawing.Point(7, 13);
+            this.scannersGroupBox.Location = new System.Drawing.Point(24, 16);
+            this.scannersGroupBox.Margin = new System.Windows.Forms.Padding(4);
             this.scannersGroupBox.Name = "scannersGroupBox";
-            this.scannersGroupBox.Size = new System.Drawing.Size(590, 134);
+            this.scannersGroupBox.Padding = new System.Windows.Forms.Padding(4);
+            this.scannersGroupBox.Size = new System.Drawing.Size(757, 165);
             this.scannersGroupBox.TabIndex = 13;
             this.scannersGroupBox.TabStop = false;
             this.scannersGroupBox.Text = "Escaners";
@@ -468,9 +513,10 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(458, 87);
+            this.checkBox1.Location = new System.Drawing.Point(611, 107);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(115, 17);
+            this.checkBox1.Size = new System.Drawing.Size(148, 21);
             this.checkBox1.TabIndex = 15;
             this.checkBox1.Text = "Scan automatically";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -479,11 +525,12 @@
             // btnForce
             // 
             this.btnForce.Enabled = false;
-            this.btnForce.Location = new System.Drawing.Point(307, 81);
+            this.btnForce.Location = new System.Drawing.Point(409, 100);
+            this.btnForce.Margin = new System.Windows.Forms.Padding(4);
             this.btnForce.Name = "btnForce";
-            this.btnForce.Size = new System.Drawing.Size(90, 22);
+            this.btnForce.Size = new System.Drawing.Size(120, 27);
             this.btnForce.TabIndex = 14;
-            this.btnForce.Text = "Force";
+            this.btnForce.Text = "Forzar";
             this.btnForce.UseVisualStyleBackColor = true;
             this.btnForce.Visible = false;
             // 
@@ -491,9 +538,10 @@
             // 
             this.rbRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.rbRight.AutoSize = true;
-            this.rbRight.Location = new System.Drawing.Point(499, 53);
+            this.rbRight.Location = new System.Drawing.Point(586, 60);
+            this.rbRight.Margin = new System.Windows.Forms.Padding(4);
             this.rbRight.Name = "rbRight";
-            this.rbRight.Size = new System.Drawing.Size(82, 17);
+            this.rbRight.Size = new System.Drawing.Size(105, 21);
             this.rbRight.TabIndex = 13;
             this.rbRight.Text = "Iris Derecho";
             this.rbRight.UseVisualStyleBackColor = true;
@@ -504,9 +552,10 @@
             this.rbLeft.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.rbLeft.AutoSize = true;
             this.rbLeft.Checked = true;
-            this.rbLeft.Location = new System.Drawing.Point(498, 29);
+            this.rbLeft.Location = new System.Drawing.Point(583, 31);
+            this.rbLeft.Margin = new System.Windows.Forms.Padding(4);
             this.rbLeft.Name = "rbLeft";
-            this.rbLeft.Size = new System.Drawing.Size(84, 17);
+            this.rbLeft.Size = new System.Drawing.Size(109, 21);
             this.rbLeft.TabIndex = 12;
             this.rbLeft.TabStop = true;
             this.rbLeft.Text = "Iris Izquierdo";
@@ -516,9 +565,10 @@
             // btnCancel
             // 
             this.btnCancel.Enabled = false;
-            this.btnCancel.Location = new System.Drawing.Point(196, 81);
+            this.btnCancel.Location = new System.Drawing.Point(261, 100);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(90, 22);
+            this.btnCancel.Size = new System.Drawing.Size(120, 27);
             this.btnCancel.TabIndex = 11;
             this.btnCancel.Text = "Cancelar";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -526,9 +576,10 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(6, 81);
+            this.btnRefresh.Location = new System.Drawing.Point(8, 100);
+            this.btnRefresh.Margin = new System.Windows.Forms.Padding(4);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(90, 22);
+            this.btnRefresh.Size = new System.Drawing.Size(120, 27);
             this.btnRefresh.TabIndex = 10;
             this.btnRefresh.Text = "Refrescar";
             this.btnRefresh.UseVisualStyleBackColor = true;
@@ -536,9 +587,10 @@
             // 
             // btnScan
             // 
-            this.btnScan.Location = new System.Drawing.Point(105, 81);
+            this.btnScan.Location = new System.Drawing.Point(140, 100);
+            this.btnScan.Margin = new System.Windows.Forms.Padding(4);
             this.btnScan.Name = "btnScan";
-            this.btnScan.Size = new System.Drawing.Size(90, 22);
+            this.btnScan.Size = new System.Drawing.Size(120, 27);
             this.btnScan.TabIndex = 9;
             this.btnScan.Text = "Capturar";
             this.btnScan.UseVisualStyleBackColor = true;
@@ -548,9 +600,11 @@
             // 
             this.lbScanners.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbScanners.Location = new System.Drawing.Point(6, 19);
+            this.lbScanners.ItemHeight = 16;
+            this.lbScanners.Location = new System.Drawing.Point(8, 23);
+            this.lbScanners.Margin = new System.Windows.Forms.Padding(4);
             this.lbScanners.Name = "lbScanners";
-            this.lbScanners.Size = new System.Drawing.Size(410, 56);
+            this.lbScanners.Size = new System.Drawing.Size(521, 68);
             this.lbScanners.TabIndex = 6;
             // 
             // groupBox1
@@ -558,9 +612,11 @@
             this.groupBox1.Controls.Add(this.irisView);
             this.groupBox1.Controls.Add(this.nViewZoomSlider3);
             this.groupBox1.Controls.Add(this.btnVerificariris);
-            this.groupBox1.Location = new System.Drawing.Point(10, 153);
+            this.groupBox1.Location = new System.Drawing.Point(13, 188);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(587, 211);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Size = new System.Drawing.Size(783, 260);
             this.groupBox1.TabIndex = 19;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " Iris ";
@@ -574,20 +630,22 @@
             this.irisView.InnerBoundaryColor = System.Drawing.Color.Red;
             this.irisView.InnerBoundaryWidth = 2;
             this.irisView.Iris = null;
-            this.irisView.Location = new System.Drawing.Point(10, 19);
+            this.irisView.Location = new System.Drawing.Point(13, 23);
+            this.irisView.Margin = new System.Windows.Forms.Padding(4);
             this.irisView.Name = "irisView";
             this.irisView.OuterBoundaryColor = System.Drawing.Color.GreenYellow;
             this.irisView.OuterBoundaryWidth = 2;
-            this.irisView.Size = new System.Drawing.Size(567, 143);
+            this.irisView.Size = new System.Drawing.Size(755, 175);
             this.irisView.TabIndex = 14;
             // 
             // nViewZoomSlider3
             // 
             this.nViewZoomSlider3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.nViewZoomSlider3.BackColor = System.Drawing.SystemColors.Window;
-            this.nViewZoomSlider3.Location = new System.Drawing.Point(229, 169);
+            this.nViewZoomSlider3.Location = new System.Drawing.Point(305, 208);
+            this.nViewZoomSlider3.Margin = new System.Windows.Forms.Padding(4);
             this.nViewZoomSlider3.Name = "nViewZoomSlider3";
-            this.nViewZoomSlider3.Size = new System.Drawing.Size(341, 23);
+            this.nViewZoomSlider3.Size = new System.Drawing.Size(455, 28);
             this.nViewZoomSlider3.TabIndex = 18;
             this.nViewZoomSlider3.Text = "nIrisViewZoomSlider";
             this.nViewZoomSlider3.View = this.irisView;
@@ -595,9 +653,10 @@
             // btnVerificariris
             // 
             this.btnVerificariris.Enabled = false;
-            this.btnVerificariris.Location = new System.Drawing.Point(8, 169);
+            this.btnVerificariris.Location = new System.Drawing.Point(11, 208);
+            this.btnVerificariris.Margin = new System.Windows.Forms.Padding(4);
             this.btnVerificariris.Name = "btnVerificariris";
-            this.btnVerificariris.Size = new System.Drawing.Size(90, 22);
+            this.btnVerificariris.Size = new System.Drawing.Size(120, 27);
             this.btnVerificariris.TabIndex = 16;
             this.btnVerificariris.Text = "Verificar";
             this.btnVerificariris.UseVisualStyleBackColor = true;
@@ -612,31 +671,47 @@
             this.tabPage2.Controls.Add(this.gbOptions);
             this.tabPage2.Controls.Add(this.voiceView);
             this.tabPage2.Controls.Add(this.gbMicrophones);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(602, 432);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPage2.Size = new System.Drawing.Size(805, 535);
             this.tabPage2.TabIndex = 3;
             this.tabPage2.Text = "Voz";
             this.tabPage2.UseVisualStyleBackColor = true;
-            this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
+            // 
+            // btnGuardarVoz
+            // 
+            this.btnGuardarVoz.Enabled = false;
+            this.btnGuardarVoz.Location = new System.Drawing.Point(156, 298);
+            this.btnGuardarVoz.Margin = new System.Windows.Forms.Padding(4);
+            this.btnGuardarVoz.Name = "btnGuardarVoz";
+            this.btnGuardarVoz.Size = new System.Drawing.Size(151, 27);
+            this.btnGuardarVoz.TabIndex = 38;
+            this.btnGuardarVoz.Text = "Guardar archivo";
+            this.btnGuardarVoz.UseVisualStyleBackColor = true;
+            this.btnGuardarVoz.Visible = false;
+            this.btnGuardarVoz.Click += new System.EventHandler(this.btnGuardarVoz_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(23, 280);
+            this.button2.Location = new System.Drawing.Point(31, 345);
+            this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(88, 23);
+            this.button2.Size = new System.Drawing.Size(117, 28);
             this.button2.TabIndex = 37;
             this.button2.Text = "Verifica archivo";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // btnVozVerificar
             // 
             this.btnVozVerificar.Enabled = false;
-            this.btnVozVerificar.Location = new System.Drawing.Point(21, 242);
+            this.btnVozVerificar.Location = new System.Drawing.Point(28, 298);
+            this.btnVozVerificar.Margin = new System.Windows.Forms.Padding(4);
             this.btnVozVerificar.Name = "btnVozVerificar";
-            this.btnVozVerificar.Size = new System.Drawing.Size(90, 22);
+            this.btnVozVerificar.Size = new System.Drawing.Size(120, 27);
             this.btnVozVerificar.TabIndex = 36;
             this.btnVozVerificar.Text = "Verificar";
             this.btnVozVerificar.UseVisualStyleBackColor = true;
@@ -645,9 +720,10 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(18, 21);
+            this.label5.Location = new System.Drawing.Point(24, 26);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(279, 13);
+            this.label5.Size = new System.Drawing.Size(373, 17);
             this.label5.TabIndex = 34;
             this.label5.Text = "Seleccione un microfono, presione Iniciar y diga una frase";
             // 
@@ -658,9 +734,11 @@
             this.gbOptions.Controls.Add(this.chkBoxVozCapturarAut);
             this.gbOptions.Controls.Add(this.label2);
             this.gbOptions.Controls.Add(this.nudPhraseId);
-            this.gbOptions.Location = new System.Drawing.Point(391, 40);
+            this.gbOptions.Location = new System.Drawing.Point(559, 49);
+            this.gbOptions.Margin = new System.Windows.Forms.Padding(4);
             this.gbOptions.Name = "gbOptions";
-            this.gbOptions.Size = new System.Drawing.Size(205, 110);
+            this.gbOptions.Padding = new System.Windows.Forms.Padding(4);
+            this.gbOptions.Size = new System.Drawing.Size(238, 135);
             this.gbOptions.TabIndex = 33;
             this.gbOptions.TabStop = false;
             this.gbOptions.Text = "Opciones";
@@ -669,9 +747,10 @@
             // 
             this.extractFeatures.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.extractFeatures.FormattingEnabled = true;
-            this.extractFeatures.Location = new System.Drawing.Point(6, 43);
+            this.extractFeatures.Location = new System.Drawing.Point(8, 53);
+            this.extractFeatures.Margin = new System.Windows.Forms.Padding(4);
             this.extractFeatures.Name = "extractFeatures";
-            this.extractFeatures.Size = new System.Drawing.Size(193, 21);
+            this.extractFeatures.Size = new System.Drawing.Size(201, 24);
             this.extractFeatures.TabIndex = 23;
             this.extractFeatures.SelectedIndexChanged += new System.EventHandler(this.extractFeatures_SelectedIndexChanged);
             // 
@@ -680,9 +759,10 @@
             this.chkBoxVozCapturarAut.AutoSize = true;
             this.chkBoxVozCapturarAut.Checked = true;
             this.chkBoxVozCapturarAut.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkBoxVozCapturarAut.Location = new System.Drawing.Point(6, 86);
+            this.chkBoxVozCapturarAut.Location = new System.Drawing.Point(8, 106);
+            this.chkBoxVozCapturarAut.Margin = new System.Windows.Forms.Padding(4);
             this.chkBoxVozCapturarAut.Name = "chkBoxVozCapturarAut";
-            this.chkBoxVozCapturarAut.Size = new System.Drawing.Size(150, 17);
+            this.chkBoxVozCapturarAut.Size = new System.Drawing.Size(197, 21);
             this.chkBoxVozCapturarAut.TabIndex = 22;
             this.chkBoxVozCapturarAut.Text = "Capturar automaticamente";
             this.chkBoxVozCapturarAut.UseVisualStyleBackColor = true;
@@ -690,22 +770,24 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 19);
+            this.label2.Location = new System.Drawing.Point(4, 23);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(36, 13);
+            this.label2.Size = new System.Drawing.Size(48, 17);
             this.label2.TabIndex = 19;
             this.label2.Text = "Frase:";
             // 
             // nudPhraseId
             // 
-            this.nudPhraseId.Location = new System.Drawing.Point(64, 17);
+            this.nudPhraseId.Location = new System.Drawing.Point(85, 21);
+            this.nudPhraseId.Margin = new System.Windows.Forms.Padding(4);
             this.nudPhraseId.Maximum = new decimal(new int[] {
             2147483647,
             0,
             0,
             0});
             this.nudPhraseId.Name = "nudPhraseId";
-            this.nudPhraseId.Size = new System.Drawing.Size(93, 20);
+            this.nudPhraseId.Size = new System.Drawing.Size(124, 22);
             this.nudPhraseId.TabIndex = 18;
             // 
             // voiceView
@@ -713,9 +795,10 @@
             this.voiceView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.voiceView.BackColor = System.Drawing.Color.Transparent;
-            this.voiceView.Location = new System.Drawing.Point(23, 163);
+            this.voiceView.Location = new System.Drawing.Point(31, 201);
+            this.voiceView.Margin = new System.Windows.Forms.Padding(4);
             this.voiceView.Name = "voiceView";
-            this.voiceView.Size = new System.Drawing.Size(573, 54);
+            this.voiceView.Size = new System.Drawing.Size(737, 66);
             this.voiceView.TabIndex = 35;
             this.voiceView.Text = "voiceView";
             this.voiceView.Voice = null;
@@ -729,29 +812,33 @@
             this.gbMicrophones.Controls.Add(this.btnVozRefrescar);
             this.gbMicrophones.Controls.Add(this.btnVozIniciar);
             this.gbMicrophones.Controls.Add(this.lbMicrophones);
-            this.gbMicrophones.Location = new System.Drawing.Point(3, 40);
+            this.gbMicrophones.Location = new System.Drawing.Point(10, 49);
+            this.gbMicrophones.Margin = new System.Windows.Forms.Padding(4);
             this.gbMicrophones.Name = "gbMicrophones";
-            this.gbMicrophones.Size = new System.Drawing.Size(382, 110);
+            this.gbMicrophones.Padding = new System.Windows.Forms.Padding(4);
+            this.gbMicrophones.Size = new System.Drawing.Size(520, 135);
             this.gbMicrophones.TabIndex = 32;
             this.gbMicrophones.TabStop = false;
             this.gbMicrophones.Text = "Microphones list";
             // 
             // btnVozForsar
             // 
-            this.btnVozForsar.Location = new System.Drawing.Point(249, 80);
+            this.btnVozForsar.Location = new System.Drawing.Point(332, 98);
+            this.btnVozForsar.Margin = new System.Windows.Forms.Padding(4);
             this.btnVozForsar.Name = "btnVozForsar";
-            this.btnVozForsar.Size = new System.Drawing.Size(75, 23);
+            this.btnVozForsar.Size = new System.Drawing.Size(100, 28);
             this.btnVozForsar.TabIndex = 12;
-            this.btnVozForsar.Text = "Forsar";
+            this.btnVozForsar.Text = "Forzar";
             this.btnVozForsar.UseVisualStyleBackColor = true;
             this.btnVozForsar.Click += new System.EventHandler(this.btnVozForsar_Click);
             // 
             // btnVozDetener
             // 
             this.btnVozDetener.Enabled = false;
-            this.btnVozDetener.Location = new System.Drawing.Point(168, 80);
+            this.btnVozDetener.Location = new System.Drawing.Point(224, 98);
+            this.btnVozDetener.Margin = new System.Windows.Forms.Padding(4);
             this.btnVozDetener.Name = "btnVozDetener";
-            this.btnVozDetener.Size = new System.Drawing.Size(75, 23);
+            this.btnVozDetener.Size = new System.Drawing.Size(100, 28);
             this.btnVozDetener.TabIndex = 11;
             this.btnVozDetener.Text = "Detener";
             this.btnVozDetener.UseVisualStyleBackColor = true;
@@ -759,9 +846,10 @@
             // 
             // btnVozRefrescar
             // 
-            this.btnVozRefrescar.Location = new System.Drawing.Point(6, 80);
+            this.btnVozRefrescar.Location = new System.Drawing.Point(8, 98);
+            this.btnVozRefrescar.Margin = new System.Windows.Forms.Padding(4);
             this.btnVozRefrescar.Name = "btnVozRefrescar";
-            this.btnVozRefrescar.Size = new System.Drawing.Size(75, 23);
+            this.btnVozRefrescar.Size = new System.Drawing.Size(100, 28);
             this.btnVozRefrescar.TabIndex = 10;
             this.btnVozRefrescar.Text = "Refrescar";
             this.btnVozRefrescar.UseVisualStyleBackColor = true;
@@ -769,9 +857,10 @@
             // 
             // btnVozIniciar
             // 
-            this.btnVozIniciar.Location = new System.Drawing.Point(87, 80);
+            this.btnVozIniciar.Location = new System.Drawing.Point(116, 98);
+            this.btnVozIniciar.Margin = new System.Windows.Forms.Padding(4);
             this.btnVozIniciar.Name = "btnVozIniciar";
-            this.btnVozIniciar.Size = new System.Drawing.Size(75, 23);
+            this.btnVozIniciar.Size = new System.Drawing.Size(100, 28);
             this.btnVozIniciar.TabIndex = 9;
             this.btnVozIniciar.Text = "Iniciar";
             this.btnVozIniciar.UseVisualStyleBackColor = true;
@@ -781,22 +870,140 @@
             // 
             this.lbMicrophones.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbMicrophones.Location = new System.Drawing.Point(10, 19);
+            this.lbMicrophones.ItemHeight = 16;
+            this.lbMicrophones.Location = new System.Drawing.Point(13, 23);
+            this.lbMicrophones.Margin = new System.Windows.Forms.Padding(4);
             this.lbMicrophones.Name = "lbMicrophones";
-            this.lbMicrophones.Size = new System.Drawing.Size(366, 56);
+            this.lbMicrophones.Size = new System.Drawing.Size(499, 68);
             this.lbMicrophones.TabIndex = 6;
             this.lbMicrophones.SelectedIndexChanged += new System.EventHandler(this.lbMicrophones_SelectedIndexChanged);
             // 
-            // btnGuardarVoz
+            // tbpRostroWebCam
             // 
-            this.btnGuardarVoz.Enabled = false;
-            this.btnGuardarVoz.Location = new System.Drawing.Point(117, 242);
-            this.btnGuardarVoz.Name = "btnGuardarVoz";
-            this.btnGuardarVoz.Size = new System.Drawing.Size(113, 22);
-            this.btnGuardarVoz.TabIndex = 38;
-            this.btnGuardarVoz.Text = "Guardar archivo";
-            this.btnGuardarVoz.UseVisualStyleBackColor = true;
-            this.btnGuardarVoz.Click += new System.EventHandler(this.btnGuardarVoz_Click);
+            this.tbpRostroWebCam.Controls.Add(this.groupBox2);
+            this.tbpRostroWebCam.Controls.Add(this.btnIniciar);
+            this.tbpRostroWebCam.Controls.Add(this.label3);
+            this.tbpRostroWebCam.Controls.Add(this.cbxDispositivos);
+            this.tbpRostroWebCam.Controls.Add(this.btnAceptar);
+            this.tbpRostroWebCam.Controls.Add(this.btnProp);
+            this.tbpRostroWebCam.Controls.Add(this.groupBox3);
+            this.tbpRostroWebCam.Controls.Add(this.btnCaptura);
+            this.tbpRostroWebCam.Location = new System.Drawing.Point(4, 25);
+            this.tbpRostroWebCam.Name = "tbpRostroWebCam";
+            this.tbpRostroWebCam.Padding = new System.Windows.Forms.Padding(3);
+            this.tbpRostroWebCam.Size = new System.Drawing.Size(805, 535);
+            this.tbpRostroWebCam.TabIndex = 4;
+            this.tbpRostroWebCam.Text = "Rostro";
+            this.tbpRostroWebCam.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.EspacioCamara);
+            this.groupBox2.Location = new System.Drawing.Point(31, 97);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox2.Size = new System.Drawing.Size(348, 314);
+            this.groupBox2.TabIndex = 10;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Camara";
+            // 
+            // EspacioCamara
+            // 
+            this.EspacioCamara.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.EspacioCamara.Location = new System.Drawing.Point(4, 19);
+            this.EspacioCamara.Margin = new System.Windows.Forms.Padding(4);
+            this.EspacioCamara.Name = "EspacioCamara";
+            this.EspacioCamara.Size = new System.Drawing.Size(340, 291);
+            this.EspacioCamara.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.EspacioCamara.TabIndex = 0;
+            this.EspacioCamara.TabStop = false;
+            // 
+            // btnIniciar
+            // 
+            this.btnIniciar.Location = new System.Drawing.Point(500, 56);
+            this.btnIniciar.Margin = new System.Windows.Forms.Padding(4);
+            this.btnIniciar.Name = "btnIniciar";
+            this.btnIniciar.Size = new System.Drawing.Size(100, 28);
+            this.btnIniciar.TabIndex = 13;
+            this.btnIniciar.Text = "Activar";
+            this.btnIniciar.UseVisualStyleBackColor = true;
+            this.btnIniciar.Click += new System.EventHandler(this.btnIniciar_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(40, 33);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(64, 17);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Camaras";
+            // 
+            // cbxDispositivos
+            // 
+            this.cbxDispositivos.FormattingEnabled = true;
+            this.cbxDispositivos.Location = new System.Drawing.Point(35, 56);
+            this.cbxDispositivos.Margin = new System.Windows.Forms.Padding(4);
+            this.cbxDispositivos.Name = "cbxDispositivos";
+            this.cbxDispositivos.Size = new System.Drawing.Size(456, 24);
+            this.cbxDispositivos.TabIndex = 11;
+            // 
+            // btnAceptar
+            // 
+            this.btnAceptar.Location = new System.Drawing.Point(391, 415);
+            this.btnAceptar.Margin = new System.Windows.Forms.Padding(4);
+            this.btnAceptar.Name = "btnAceptar";
+            this.btnAceptar.Size = new System.Drawing.Size(100, 28);
+            this.btnAceptar.TabIndex = 17;
+            this.btnAceptar.Text = "Verificar";
+            this.btnAceptar.UseVisualStyleBackColor = true;
+            this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
+            // 
+            // btnProp
+            // 
+            this.btnProp.Location = new System.Drawing.Point(608, 56);
+            this.btnProp.Margin = new System.Windows.Forms.Padding(4);
+            this.btnProp.Name = "btnProp";
+            this.btnProp.Size = new System.Drawing.Size(100, 28);
+            this.btnProp.TabIndex = 16;
+            this.btnProp.Text = "Propiedades";
+            this.btnProp.UseVisualStyleBackColor = true;
+            this.btnProp.Click += new System.EventHandler(this.btnProp_Click);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.foto);
+            this.groupBox3.Location = new System.Drawing.Point(387, 97);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox3.Size = new System.Drawing.Size(348, 314);
+            this.groupBox3.TabIndex = 15;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Foto";
+            // 
+            // foto
+            // 
+            this.foto.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.foto.Location = new System.Drawing.Point(4, 19);
+            this.foto.Margin = new System.Windows.Forms.Padding(4);
+            this.foto.Name = "foto";
+            this.foto.Size = new System.Drawing.Size(340, 291);
+            this.foto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.foto.TabIndex = 5;
+            this.foto.TabStop = false;
+            // 
+            // btnCaptura
+            // 
+            this.btnCaptura.Location = new System.Drawing.Point(31, 415);
+            this.btnCaptura.Margin = new System.Windows.Forms.Padding(4);
+            this.btnCaptura.Name = "btnCaptura";
+            this.btnCaptura.Size = new System.Drawing.Size(100, 28);
+            this.btnCaptura.TabIndex = 14;
+            this.btnCaptura.Text = "Captura";
+            this.btnCaptura.UseVisualStyleBackColor = true;
+            this.btnCaptura.Click += new System.EventHandler(this.btnCaptura_Click);
             // 
             // saveVoiceFileDialog
             // 
@@ -804,16 +1011,16 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(629, 493);
+            this.ClientSize = new System.Drawing.Size(839, 607);
             this.Controls.Add(this.tabBio);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Busqueda biometrica";
+            this.Text = "Busqueda biometrica 1.6";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabBio.ResumeLayout(false);
             this.tabPageHuella.ResumeLayout(false);
@@ -832,6 +1039,12 @@
             this.gbOptions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudPhraseId)).EndInit();
             this.gbMicrophones.ResumeLayout(false);
+            this.tbpRostroWebCam.ResumeLayout(false);
+            this.tbpRostroWebCam.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.EspacioCamara)).EndInit();
+            this.groupBox3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.foto)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -898,5 +1111,16 @@
         private System.Windows.Forms.Button btnGuardarVoz;
         private System.Windows.Forms.SaveFileDialog saveVoiceFileDialog;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.TabPage tbpRostroWebCam;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.PictureBox EspacioCamara;
+        private System.Windows.Forms.Button btnIniciar;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox cbxDispositivos;
+        private System.Windows.Forms.Button btnAceptar;
+        private System.Windows.Forms.Button btnProp;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.PictureBox foto;
+        private System.Windows.Forms.Button btnCaptura;
     }
 }

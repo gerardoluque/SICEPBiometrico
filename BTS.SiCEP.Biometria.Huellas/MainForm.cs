@@ -9,6 +9,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AForge.Video;
+using AForge.Video.DirectShow;
+using System.Drawing;
 
 namespace BTS.SiCEP.Biometria.Huellas
 {
@@ -33,6 +36,15 @@ namespace BTS.SiCEP.Biometria.Huellas
         private VerificarHuellaInfo _verificarHuellaInfo = null;
         private List<BusquedaResultadoInfo> _busquedaResultados = new List<BusquedaResultadoInfo>() { };
         private BiometriaBusquedaServicio.BiometriaServicioClient servicioBusqueda = new BiometriaBusquedaServicio.BiometriaServicioClient();
+
+        #region Variables WebCam
+        private bool existeDispositivo = false;
+        private FilterInfoCollection dispositivoDeVideo;
+        private VideoCaptureDevice fuenteDeVideo = null;
+        private Bitmap Imagen;
+        private bool capFoto;
+        #endregion
+
         #endregion
 
         public MainForm(string[] args)
@@ -48,6 +60,27 @@ namespace BTS.SiCEP.Biometria.Huellas
             ((CheckBox)nViewZoomSlider2.Controls[0].Controls[0]).Text = "Zoom Ancho";
             ((CheckBox)nViewZoomSlider1.Controls[0].Controls[0]).Text = "Zoom Ancho";
             ((CheckBox)nViewZoomSlider3.Controls[0].Controls[0]).Text = "Zoom Ancho";
+
+            #region WebCam
+            appParam = "c:\\temp\\temp.jpg";
+            capFoto = false;
+
+            BuscarDispositivosDeVideo();
+            if (btnIniciar.Text == "Activar")
+            {
+                if (existeDispositivo)
+                {
+
+                    fuenteDeVideo = new VideoCaptureDevice(dispositivoDeVideo[cbxDispositivos.SelectedIndex].MonikerString);
+                    fuenteDeVideo.NewFrame += new NewFrameEventHandler(Video_NuevoFrame);
+                    fuenteDeVideo.Start();
+
+                    btnIniciar.Text = "Detener";
+                    cbxDispositivos.Enabled = false;
+                    groupBox1.Text = dispositivoDeVideo[cbxDispositivos.SelectedIndex].Name.ToString();
+                }
+            }
+            #endregion
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -145,6 +178,11 @@ namespace BTS.SiCEP.Biometria.Huellas
         #endregion
 
         #region Huella
+        private void scannersListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _biometricClient.FingerScanner = scannersListBox.SelectedItem as NFScanner;
+        }
+
         private void OnEnrollCompleted(NBiometricTask task)
         {
             EnableHuellaControls(false);
@@ -240,8 +278,16 @@ namespace BTS.SiCEP.Biometria.Huellas
                 // Begin capturing
                 _biometricClient.FingersReturnBinarizedImage = true;
                 NBiometricTask task = _biometricClient.CreateTask(NBiometricOperations.Capture | NBiometricOperations.CreateTemplate, _subject);
-                var performedTask = await _biometricClient.PerformTaskAsync(task);
-                OnEnrollCompleted(performedTask);
+
+                try
+                {
+                    var performedTask = await _biometricClient.PerformTaskAsync(task);
+                    OnEnrollCompleted(performedTask);
+                }
+                catch (Exception ex)
+                {
+                    Neurotec.Samples.Utils.ShowException(ex);
+                }
             }
             #endregion
         }
@@ -437,7 +483,7 @@ namespace BTS.SiCEP.Biometria.Huellas
             EnableFaceControls(true);
             btnVerificar.Enabled = false;
 
-            var personaResult = await BuscarFacialServicioWCF();
+            var personaResult = await BuscarFacialServicioWCF(_subjectFace.Faces[0].GetImage(false).ToBitmap());
 
             if (personaResult.Identificado)
             {
@@ -452,9 +498,9 @@ namespace BTS.SiCEP.Biometria.Huellas
             EnableFaceControls(false);
         }
 
-        private async Task<BiometriaBusquedaServicio.PersonaInfo> BuscarFacialServicioWCF()
+        private async Task<BiometriaBusquedaServicio.PersonaInfo> BuscarFacialServicioWCF(Image foto)
         {
-            var template = Neurotec.Samples.Utils.ImageToByte(_subjectFace.Faces[0].GetImage(false).ToBitmap());
+            var template = Neurotec.Samples.Utils.ImageToByte(foto);
             var templateBase64 = Convert.ToBase64String(template);
 
             var result = await servicioBusqueda.BuscarFacialAsync(templateBase64, _verificarHuellaInfo.PersonaIdentificar.id);
@@ -805,32 +851,6 @@ namespace BTS.SiCEP.Biometria.Huellas
             return result;
             #endregion
         }
-        #endregion
-
-        private void tabPage2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabBio_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (tabBio.SelectedIndex == 0)
-            {
-                UpdateScannerList();
-            }
-            else if (tabBio.SelectedIndex == 1)
-            {
-                UpdateCameraList();
-            }
-            else if (tabBio.SelectedIndex == 2)
-            {
-                UpdateIrisScannerList(); 
-            }
-            else if (tabBio.SelectedIndex == 3)
-            {
-                UpdateVoiceDeviceList();
-            }
-        }
 
         private async void button2_Click(object sender, EventArgs e)
         {
@@ -852,6 +872,138 @@ namespace BTS.SiCEP.Biometria.Huellas
                 {
                     Neurotec.Samples.Utils.ShowException(ex);
                 }
+            }
+        }
+        #endregion
+
+        #region Rostro WebCam
+        public void CargarDispositivos(FilterInfoCollection Dispositivos)
+        {
+            int i;
+            for (i = 0; i < Dispositivos.Count; i++)
+            {
+                cbxDispositivos.Items.Add(Dispositivos[i].Name.ToString());
+            }
+            cbxDispositivos.Text = cbxDispositivos.Items[0].ToString();
+
+        }
+
+        public bool BuscarDispositivosDeVideo()
+        {
+            dispositivoDeVideo = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+            if (dispositivoDeVideo.Count == 0)
+            {
+                existeDispositivo = false;
+            }
+
+            else
+            {
+                existeDispositivo = true;
+                CargarDispositivos(dispositivoDeVideo);
+
+            }
+
+            return existeDispositivo;
+        }
+
+        public void TerminarFuenteDeVideo()
+        {
+            if (!(fuenteDeVideo == null))
+                if (fuenteDeVideo.IsRunning)
+                {
+                    fuenteDeVideo.SignalToStop();
+                    fuenteDeVideo = null;
+                }
+
+        }
+
+        public void Video_NuevoFrame(object sender, NewFrameEventArgs eventArgs)
+        {
+            Imagen = (Bitmap)eventArgs.Frame.Clone();
+            EspacioCamara.Image = Imagen;
+            if (capFoto)
+                foto.Image = Imagen;
+
+            capFoto = false;
+        }
+
+        private void btnIniciar_Click(object sender, EventArgs e)
+        {
+            if (btnIniciar.Text == "Activar")
+
+            {
+                if (existeDispositivo)
+                {
+
+                    fuenteDeVideo = new VideoCaptureDevice(dispositivoDeVideo[cbxDispositivos.SelectedIndex].MonikerString);
+                    fuenteDeVideo.NewFrame += new NewFrameEventHandler(Video_NuevoFrame);
+                    fuenteDeVideo.Start();
+
+                    btnIniciar.Text = "Detener";
+                    cbxDispositivos.Enabled = false;
+                    groupBox1.Text = dispositivoDeVideo[cbxDispositivos.SelectedIndex].Name.ToString();
+                }
+            }
+            else
+            {
+                if (fuenteDeVideo.IsRunning)
+                {
+                    TerminarFuenteDeVideo();
+                    btnIniciar.Text = "Activar";
+                    cbxDispositivos.Enabled = true;
+
+                }
+            }
+        }
+
+        private void btnCaptura_Click(object sender, EventArgs e)
+        {
+            if (fuenteDeVideo.IsRunning)
+            {
+                //foto.Image = Imagen;
+                capFoto = true;
+                capturo = true;
+            }
+        }
+
+        private void btnProp_Click(object sender, EventArgs e)
+        {
+            if (!(fuenteDeVideo == null))
+                fuenteDeVideo.DisplayPropertyPage(IntPtr.Zero);
+        }
+
+        private async void btnAceptar_Click(object sender, EventArgs e)
+        {
+            var personaResult = await BuscarFacialServicioWCF(foto.Image);
+
+            if (personaResult.Identificado)
+            {
+                Application.Exit();
+            }
+            else
+            {
+                MessageBox.Show("No se encontro coincidencias con la imagen, intente de nuevo");
+            }
+        }
+        #endregion
+
+        private void tabBio_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabBio.SelectedIndex == 0)
+            {
+                UpdateScannerList();
+            }
+            else if (tabBio.SelectedIndex == 1)
+            {
+                UpdateCameraList();
+            }
+            else if (tabBio.SelectedIndex == 2)
+            {
+                UpdateIrisScannerList(); 
+            }
+            else if (tabBio.SelectedIndex == 3)
+            {
+                UpdateVoiceDeviceList();
             }
         }
     }
