@@ -125,21 +125,28 @@ namespace BTS.SICEP.WCF.BiometriaService
 
         private void ActivarLicenciaNT()
         {
+            var licenciasNoActivadas = string.Empty;
             const int Port = 5000;
             const string Address = "/local";
             const string Components = "Biometrics.FingerExtraction,Biometrics.FingerMatching,Biometrics.FaceExtraction,Biometrics.FaceMatching,Biometrics.IrisExtraction,Biometrics.IrisMatching,Media,Biometrics.VoiceMatching,Biometrics.VoiceExtraction";
 
-            try
+            foreach (string component in Components.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {
-                foreach (string component in Components.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                try
                 {
                     NLicense.ObtainComponents(Address, Port, component);
                 }
+                catch (Exception ex)
+                {
+                    licenciasNoActivadas += component + ", ";
+                }
             }
-            catch (Exception ex)
+
+            if (licenciasNoActivadas.Length > 0)
             {
-                throw;
+                Utils.LogEvent(string.Format("Los siguientes componentes, no se logro activar licencia {0}", licenciasNoActivadas));
             }
+
         }
     }
 }

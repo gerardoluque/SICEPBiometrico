@@ -62,7 +62,6 @@ namespace BTS.SiCEP.Biometria.Huellas
             ((CheckBox)nViewZoomSlider3.Controls[0].Controls[0]).Text = "Zoom Ancho";
 
             #region WebCam
-            appParam = "c:\\temp\\temp.jpg";
             capFoto = false;
 
             BuscarDispositivosDeVideo();
@@ -962,7 +961,6 @@ namespace BTS.SiCEP.Biometria.Huellas
             {
                 //foto.Image = Imagen;
                 capFoto = true;
-                capturo = true;
             }
         }
 
@@ -974,15 +972,22 @@ namespace BTS.SiCEP.Biometria.Huellas
 
         private async void btnAceptar_Click(object sender, EventArgs e)
         {
-            var personaResult = await BuscarFacialServicioWCF(foto.Image);
+            try
+            {
+                var personaResult = await BuscarFacialServicioWCF(foto.Image);
 
-            if (personaResult.Identificado)
-            {
-                Application.Exit();
+                if (personaResult.Identificado)
+                {
+                    Application.Exit();
+                }
+                else
+                {
+                    MessageBox.Show("No se encontro coincidencias con la imagen, intente de nuevo");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("No se encontro coincidencias con la imagen, intente de nuevo");
+                Neurotec.Samples.Utils.ShowException(new Exception("Ocurrio un error al intentar usar el servicio web, favor de verificar visor de eventos del Servidor Biometrico"));
             }
         }
         #endregion
