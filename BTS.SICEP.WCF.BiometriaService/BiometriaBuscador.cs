@@ -23,7 +23,7 @@ namespace BTS.SICEP.WCF.BiometriaService
             _biometricClient = new NBiometricClient { UseDeviceManager = true, BiometricTypes = NBiometricType.Finger | NBiometricType.Face | NBiometricType.Iris | NBiometricType.Voice };
         }
 
-        public async Task<VerificarHuellaInfo> BuscarHuellaEnTemplates(NSubject subjectBuscar, int idBusqueda)
+        public async Task<VerificarInfo> BuscarHuellaEnTemplates(NSubject subjectBuscar, int idBusqueda)
         {
             #region BuscarHuellaEnTemplates
             var select = "SELECT ESTADO,MUNICIPIO,CERESO,ANO,FOLIO,DEDO,HUELLAIMAGEN,TEMPLATE FROM BTS.HUELLA ";
@@ -31,7 +31,7 @@ namespace BTS.SICEP.WCF.BiometriaService
             var template = new byte[] { };
             var subject = new NSubject();
             var finger = new NFinger();
-            var _verificarHuellaInfo = new VerificarHuellaInfo();
+            var _verificarInfo = new VerificarInfo();
 
 
             try
@@ -59,22 +59,22 @@ namespace BTS.SICEP.WCF.BiometriaService
 
                         if (status == NBiometricStatus.Ok)
                         {
-                            _verificarHuellaInfo.Identificado = true;
-                            _verificarHuellaInfo.PersonaIdentificar.id = idBusqueda;
-                            _verificarHuellaInfo.PersonaIdentificar.Identificado = true;
-                            _verificarHuellaInfo.PersonaIdentificar.estado = dr.GetInt16(0);
-                            _verificarHuellaInfo.PersonaIdentificar.municipio = dr.GetInt16(1);
-                            _verificarHuellaInfo.PersonaIdentificar.cereso = dr.GetString(2);
-                            _verificarHuellaInfo.PersonaIdentificar.ano = dr.GetInt16(3);
-                            _verificarHuellaInfo.PersonaIdentificar.folio = dr.GetInt64(4);
+                            _verificarInfo.Identificado = true;
+                            _verificarInfo.PersonaIdentificar.id = idBusqueda;
+                            _verificarInfo.PersonaIdentificar.Identificado = true;
+                            _verificarInfo.PersonaIdentificar.estado = dr.GetInt16(0);
+                            _verificarInfo.PersonaIdentificar.municipio = dr.GetInt16(1);
+                            _verificarInfo.PersonaIdentificar.cereso = dr.GetString(2);
+                            _verificarInfo.PersonaIdentificar.ano = dr.GetInt16(3);
+                            _verificarInfo.PersonaIdentificar.folio = dr.GetInt64(4);
 
-                            await RegistrarMatch(_verificarHuellaInfo.PersonaIdentificar, 1, conn);
+                            await RegistrarMatch(_verificarInfo.PersonaIdentificar, 1, conn);
 
                             break;
                         }
                     }
                 }
-                return _verificarHuellaInfo;
+                return _verificarInfo;
             }
             catch (Exception ex)
             {
@@ -89,7 +89,7 @@ namespace BTS.SICEP.WCF.BiometriaService
             #endregion
         }
 
-        public async Task<VerificarHuellaInfo> BuscarFacialEnTemplates(NSubject subjectBuscar, int idBusqueda)
+        public async Task<VerificarInfo> BuscarFacialEnTemplates(NSubject subjectBuscar, int idBusqueda)
         {
             #region BuscarHuellaEnTemplates
             var select = "SELECT ESTADO,MUNICIPIO,CERESO,ANO,FOLIO,FOTO_CENTRO FROM BTS.FICHA ";
@@ -97,7 +97,7 @@ namespace BTS.SICEP.WCF.BiometriaService
             var template = new byte[] { };
             var subject = new NSubject();
             var facial = new NFace();
-            var _verificarHuellaInfo = new VerificarHuellaInfo();
+            var _verificarInfo = new VerificarInfo();
 
             try
             {
@@ -124,22 +124,22 @@ namespace BTS.SICEP.WCF.BiometriaService
 
                         if (status == NBiometricStatus.Ok)
                         {
-                            _verificarHuellaInfo.Identificado = true;
-                            _verificarHuellaInfo.PersonaIdentificar.id = idBusqueda;
-                            _verificarHuellaInfo.PersonaIdentificar.Identificado = true;
-                            _verificarHuellaInfo.PersonaIdentificar.estado = dr.GetInt16(0);
-                            _verificarHuellaInfo.PersonaIdentificar.municipio = dr.GetInt16(1);
-                            _verificarHuellaInfo.PersonaIdentificar.cereso = dr.GetString(2);
-                            _verificarHuellaInfo.PersonaIdentificar.ano = dr.GetInt16(3);
-                            _verificarHuellaInfo.PersonaIdentificar.folio = dr.GetInt64(4);
+                            _verificarInfo.Identificado = true;
+                            _verificarInfo.PersonaIdentificar.id = idBusqueda;
+                            _verificarInfo.PersonaIdentificar.Identificado = true;
+                            _verificarInfo.PersonaIdentificar.estado = dr.GetInt16(0);
+                            _verificarInfo.PersonaIdentificar.municipio = dr.GetInt16(1);
+                            _verificarInfo.PersonaIdentificar.cereso = dr.GetString(2);
+                            _verificarInfo.PersonaIdentificar.ano = dr.GetInt16(3);
+                            _verificarInfo.PersonaIdentificar.folio = dr.GetInt64(4);
 
-                            await RegistrarMatch(_verificarHuellaInfo.PersonaIdentificar, 1, conn);
+                            await RegistrarMatch(_verificarInfo.PersonaIdentificar, 1, conn);
 
                             break;
                         }
                     }
                 }
-                return _verificarHuellaInfo;
+                return _verificarInfo;
             }
             catch (Exception ex)
             {
@@ -154,7 +154,7 @@ namespace BTS.SICEP.WCF.BiometriaService
             #endregion
         }
 
-        public async Task<VerificarHuellaInfo> BuscarVozEnTemplates(NSubject subjectBuscar, int idBusqueda)
+        public async Task<VerificarInfo> BuscarVozEnTemplates(NSubject subjectBuscar, int idBusqueda)
         {
             #region BuscarHuellaEnTemplates
             var select = "SELECT ESTADO,MUNICIPIO,CERESO,ANO,FOLIO,NUM_INGRESO,ARCHIVO FROM BTS.FICHA_VOZ ";
@@ -162,7 +162,7 @@ namespace BTS.SICEP.WCF.BiometriaService
             var template = new byte[] { };
             var subject = new NSubject();
             var voice = new NVoice();
-            var _verificarHuellaInfo = new VerificarHuellaInfo();
+            var _verificarInfo = new VerificarInfo();
             var status = new NBiometricStatus();
 
             try
@@ -201,23 +201,23 @@ namespace BTS.SICEP.WCF.BiometriaService
 
                         if (status == NBiometricStatus.Ok)
                         {
-                            _verificarHuellaInfo.Identificado = true;
-                            _verificarHuellaInfo.PersonaIdentificar.id = idBusqueda;
-                            _verificarHuellaInfo.PersonaIdentificar.Identificado = true;
-                            _verificarHuellaInfo.PersonaIdentificar.estado = dr.GetInt16(0);
-                            _verificarHuellaInfo.PersonaIdentificar.municipio = dr.GetInt16(1);
-                            _verificarHuellaInfo.PersonaIdentificar.cereso = dr.GetString(2);
-                            _verificarHuellaInfo.PersonaIdentificar.ano = dr.GetInt16(3);
-                            _verificarHuellaInfo.PersonaIdentificar.folio = dr.GetInt64(4);
-                            _verificarHuellaInfo.PersonaIdentificar.num_ingreso = dr.GetInt16(5);
+                            _verificarInfo.Identificado = true;
+                            _verificarInfo.PersonaIdentificar.id = idBusqueda;
+                            _verificarInfo.PersonaIdentificar.Identificado = true;
+                            _verificarInfo.PersonaIdentificar.estado = dr.GetInt16(0);
+                            _verificarInfo.PersonaIdentificar.municipio = dr.GetInt16(1);
+                            _verificarInfo.PersonaIdentificar.cereso = dr.GetString(2);
+                            _verificarInfo.PersonaIdentificar.ano = dr.GetInt16(3);
+                            _verificarInfo.PersonaIdentificar.folio = dr.GetInt64(4);
+                            _verificarInfo.PersonaIdentificar.num_ingreso = dr.GetInt16(5);
 
-                            await RegistrarMatch(_verificarHuellaInfo.PersonaIdentificar, 1, conn);
+                            await RegistrarMatch(_verificarInfo.PersonaIdentificar, 1, conn);
 
                             break;
                         }
                     }
                 }
-                return _verificarHuellaInfo;
+                return _verificarInfo;
             }
             catch (Exception ex)
             {
@@ -232,7 +232,7 @@ namespace BTS.SICEP.WCF.BiometriaService
             #endregion
         }
 
-        public async Task<VerificarHuellaInfo> BuscarIrisEnTemplates(NSubject subjectBuscar, int idBusqueda, short ojo)
+        public async Task<VerificarInfo> BuscarIrisEnTemplates(NSubject subjectBuscar, int idBusqueda, short ojo)
         {
             #region BuscarHuellaEnTemplates
             var select = "SELECT ESTADO,MUNICIPIO,CERESO,ANO,FOLIO,IRIS_IZQ FROM BTS.EXP_IRIS ";
@@ -240,7 +240,7 @@ namespace BTS.SICEP.WCF.BiometriaService
             var template = new byte[] { };
             var subject = new NSubject();
             var iris = new NIris();
-            var _verificarHuellaInfo = new VerificarHuellaInfo();
+            var _verificarInfo = new VerificarInfo();
 
             try
             {
@@ -275,16 +275,16 @@ namespace BTS.SICEP.WCF.BiometriaService
 
                             if (status == NBiometricStatus.Ok)
                             {
-                                _verificarHuellaInfo.Identificado = true;
-                                _verificarHuellaInfo.PersonaIdentificar.id = idBusqueda;
-                                _verificarHuellaInfo.PersonaIdentificar.Identificado = true;
-                                _verificarHuellaInfo.PersonaIdentificar.estado = dr.GetInt16(0);
-                                _verificarHuellaInfo.PersonaIdentificar.municipio = dr.GetInt16(1);
-                                _verificarHuellaInfo.PersonaIdentificar.cereso = dr.GetString(2);
-                                _verificarHuellaInfo.PersonaIdentificar.ano = dr.GetInt16(3);
-                                _verificarHuellaInfo.PersonaIdentificar.folio = dr.GetInt64(4);
+                                _verificarInfo.Identificado = true;
+                                _verificarInfo.PersonaIdentificar.id = idBusqueda;
+                                _verificarInfo.PersonaIdentificar.Identificado = true;
+                                _verificarInfo.PersonaIdentificar.estado = dr.GetInt16(0);
+                                _verificarInfo.PersonaIdentificar.municipio = dr.GetInt16(1);
+                                _verificarInfo.PersonaIdentificar.cereso = dr.GetString(2);
+                                _verificarInfo.PersonaIdentificar.ano = dr.GetInt16(3);
+                                _verificarInfo.PersonaIdentificar.folio = dr.GetInt64(4);
 
-                                await RegistrarMatch(_verificarHuellaInfo.PersonaIdentificar, 1, conn);
+                                await RegistrarMatch(_verificarInfo.PersonaIdentificar, 1, conn);
 
                                 break;
                             }
@@ -299,7 +299,7 @@ namespace BTS.SICEP.WCF.BiometriaService
                         }
                     }
                 }
-                return _verificarHuellaInfo;
+                return _verificarInfo;
             }
             catch (Exception ex)
             {

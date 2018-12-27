@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BTS.SICEP.Biometria.Entidades
 {
-    public class VerificarHuellaInfo
+    public class VerificarInfo
     {
-        public VerificarHuellaInfo()
+        public VerificarInfo()
         {
             PersonaIdentificar = new PersonaInfo { };
         }

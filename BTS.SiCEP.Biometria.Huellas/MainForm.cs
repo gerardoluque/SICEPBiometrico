@@ -24,7 +24,6 @@ namespace BTS.SiCEP.Biometria.Huellas
         private NDeviceManager _deviceManager;
         private NBiometricClient _biometricClient;
         private NSubject _subject;
-        private NSubject _subjectFace;
         private NFinger _subjectFinger;
         private NIris _iris;
         private NVoice _voice;
@@ -57,7 +56,6 @@ namespace BTS.SiCEP.Biometria.Huellas
             _biometricClient = new NBiometricClient { UseDeviceManager = true, BiometricTypes = NBiometricType.Face | NBiometricType.Finger | NBiometricType.Iris | NBiometricType.Voice, FacesCheckIcaoCompliance = false };
             _biometricClient.InitializeAsync();
 
-            ((CheckBox)nViewZoomSlider2.Controls[0].Controls[0]).Text = "Zoom Ancho";
             ((CheckBox)nViewZoomSlider1.Controls[0].Controls[0]).Text = "Zoom Ancho";
             ((CheckBox)nViewZoomSlider3.Controls[0].Controls[0]).Text = "Zoom Ancho";
 
@@ -113,7 +111,7 @@ namespace BTS.SiCEP.Biometria.Huellas
         private void Inicializar()
         {
             #region Rostro
-            UpdateCameraList();
+            BuscarDispositivosDeVideo();
             #endregion
 
             #region Huella
@@ -352,168 +350,6 @@ namespace BTS.SiCEP.Biometria.Huellas
         }
         #endregion
 
-        #region Rostro
-        private void UpdateCameraList()
-        {
-            cbCameras.BeginUpdate();
-            try
-            {
-                cbCameras.Items.Clear();
-                foreach (NDevice device in _deviceManager.Devices)
-                {
-                    cbCameras.Items.Add(device);
-                }
-
-                if (_biometricClient.FaceCaptureDevice == null && cbCameras.Items.Count > 0)
-                {
-                    cbCameras.SelectedIndex = 0;
-                    return;
-                }
-
-                if (_biometricClient.FaceCaptureDevice != null)
-                {
-                    cbCameras.SelectedIndex = cbCameras.Items.IndexOf(_biometricClient.FaceCaptureDevice);
-                }
-            }
-            finally
-            {
-                cbCameras.EndUpdate();
-            }
-        }
-
-        private void EnableFaceControls(bool capturing)
-        {
-            var hasTemplate = !capturing && _subjectFace != null && _subjectFace.Status == NBiometricStatus.Ok;
-            //btnSaveImage.Enabled = hasTemplate;
-            //btnSaveTemplate.Enabled = hasTemplate;
-            btnVerificar.Enabled = !capturing;
-            btnStart.Enabled = !capturing;
-            btnRefreshList.Enabled = !capturing;
-            btnStop.Enabled = capturing;
-            cbCameras.Enabled = !capturing;
-            btnStartExtraction.Enabled = capturing && !chbCaptureAutomatically.Checked;
-            chbCaptureAutomatically.Enabled = !capturing;
-            chbCheckLiveness.Enabled = !capturing;
-        }
-
-        private async System.Threading.Tasks.Task OnCapturingFaceCompletedAsync(NBiometricStatus status)
-        {
-            try
-            {
-                // If Stop button was pushed
-                if (status == NBiometricStatus.Canceled) return;
-
-                lblStatus.Text = status.ToString();
-                if (status != NBiometricStatus.Ok)
-                {
-                    // Since capture failed start capturing again
-                    _subjectFace.Faces[0].Image = null;
-                    status = await _biometricClient.CaptureAsync(_subjectFace);
-                    await OnCapturingFaceCompletedAsync(status);
-                }
-                else
-                {
-                    EnableFaceControls(false);
-                }
-            }
-            catch (Exception ex)
-            {
-                //Utils.ShowException(ex);
-                lblStatus.Text = string.Empty;
-                //lblQuality.Text = string.Empty;
-                EnableFaceControls(false);
-            }
-        }
-
-        private void btnRefreshList_Click(object sender, EventArgs e)
-        {
-            UpdateCameraList();
-        }
-
-        private async void btnStart_Click(object sender, EventArgs e)
-        {
-            #region Iniciar captura de facial
-            if (_biometricClient.FaceCaptureDevice == null)
-            {
-                MessageBox.Show(@"Seleccione una camara de la lista");
-                return;
-            }
-            // Set face capture from stream
-            var face = new NFace { CaptureOptions = NBiometricCaptureOptions.Stream };
-            if (!chbCaptureAutomatically.Checked) face.CaptureOptions |= NBiometricCaptureOptions.Manual;
-            _subjectFace = new NSubject();
-            _subjectFace.Faces.Add(face);
-            facesView.Face = face;
-
-            // Begin capturing faces
-            EnableFaceControls(true);
-            lblStatus.Text = string.Empty;
-            //lblQuality.Text = string.Empty;
-
-            try
-            {
-                var status = await _biometricClient.CaptureAsync(_subjectFace);
-                await OnCapturingFaceCompletedAsync(status);
-            }
-            catch (Exception ex)
-            {
-                Neurotec.Samples.Utils.ShowException(ex);
-                lblStatus.Text = string.Empty;
-                //lblQuality.Text = string.Empty;
-                EnableFaceControls(false);
-            }
-            #endregion
-        }
-
-        private void btnStartExtraction_Click(object sender, EventArgs e)
-        {
-            lblStatus.Text = @"Extrayendo ...";
-            // Begin extraction
-            _biometricClient.ForceStart();
-        }
-
-        private void cbCameras_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            _biometricClient.FaceCaptureDevice = cbCameras.SelectedItem as NCamera;
-        }
-
-        private async void button1_Click(object sender, EventArgs e)
-        {
-            EnableFaceControls(true);
-            btnVerificar.Enabled = false;
-
-            var personaResult = await BuscarFacialServicioWCF(_subjectFace.Faces[0].GetImage(false).ToBitmap());
-
-            if (personaResult.Identificado)
-            {
-                Application.Exit();
-            }
-            else
-            {
-                MessageBox.Show("No se encontro coincidencias con la imagen, intente de nuevo");
-            }
-
-            btnVerificar.Enabled = true;
-            EnableFaceControls(false);
-        }
-
-        private async Task<BiometriaBusquedaServicio.PersonaInfo> BuscarFacialServicioWCF(Image foto)
-        {
-            var template = Neurotec.Samples.Utils.ImageToByte(foto);
-            var templateBase64 = Convert.ToBase64String(template);
-
-            var result = await servicioBusqueda.BuscarFacialAsync(templateBase64, _verificarHuellaInfo.PersonaIdentificar.id);
-
-            return result;
-        }
-
-        private void btnStop_Click(object sender, EventArgs e)
-        {
-            _biometricClient.Cancel();
-            EnableFaceControls(false);
-        }
-        #endregion
-
         #region Iris
         private void UpdateIrisScannerList()
         {
@@ -553,7 +389,6 @@ namespace BTS.SiCEP.Biometria.Huellas
         {
             EnableIrisControls(false);
             NBiometricStatus status = task.Status;
-            lblStatus.Text = status.ToString();
 
             // Check if extraction was canceled
             if (status == NBiometricStatus.Canceled) return;
@@ -585,7 +420,6 @@ namespace BTS.SiCEP.Biometria.Huellas
             else
             {
                 EnableIrisControls(true);
-                lblStatus.Text = String.Empty;
 
                 // Create iris
                 _iris = new NIris { Position = rbRight.Checked ? NEPosition.Right : NEPosition.Left };
@@ -701,7 +535,7 @@ namespace BTS.SiCEP.Biometria.Huellas
             gbOptions.Enabled = !capturing;
             lbMicrophones.Enabled = !capturing;
             chkBoxVozCapturarAut.Enabled = !capturing;
-            btnVozForsar.Enabled = !chbCaptureAutomatically.Checked && capturing;
+            btnVozForsar.Enabled = !chkBoxVozCapturarAut.Checked && capturing;
         }
 
         private async System.Threading.Tasks.Task OnCapturingVoiceCompletedAsync(NBiometricTask task)
@@ -748,7 +582,7 @@ namespace BTS.SiCEP.Biometria.Huellas
 
             // Set voice capture from stream
             _voice = new NVoice { CaptureOptions = NBiometricCaptureOptions.Stream };
-            if (!chbCaptureAutomatically.Checked) _voice.CaptureOptions |= NBiometricCaptureOptions.Manual;
+            if (!chkBoxVozCapturarAut.Checked) _voice.CaptureOptions |= NBiometricCaptureOptions.Manual;
             _subject = new NSubject();
             _subject.Voices.Add(_voice);
             voiceView.Voice = _voice;
@@ -876,9 +710,22 @@ namespace BTS.SiCEP.Biometria.Huellas
         #endregion
 
         #region Rostro WebCam
+        private async Task<BiometriaBusquedaServicio.PersonaInfo> BuscarFacialServicioWCF(Image foto)
+        {
+            var template = Neurotec.Samples.Utils.ImageToByte(foto);
+            var templateBase64 = Convert.ToBase64String(template);
+
+            var result = await servicioBusqueda.BuscarFacialAsync(templateBase64, _verificarHuellaInfo.PersonaIdentificar.id);
+
+            return result;
+        }
+
         public void CargarDispositivos(FilterInfoCollection Dispositivos)
         {
             int i;
+
+            cbxDispositivos.Items.Clear();
+
             for (i = 0; i < Dispositivos.Count; i++)
             {
                 cbxDispositivos.Items.Add(Dispositivos[i].Name.ToString());
@@ -929,7 +776,6 @@ namespace BTS.SiCEP.Biometria.Huellas
         private void btnIniciar_Click(object sender, EventArgs e)
         {
             if (btnIniciar.Text == "Activar")
-
             {
                 if (existeDispositivo)
                 {
@@ -940,6 +786,7 @@ namespace BTS.SiCEP.Biometria.Huellas
 
                     btnIniciar.Text = "Detener";
                     cbxDispositivos.Enabled = false;
+                    btnAceptar.Enabled = false;
                     groupBox1.Text = dispositivoDeVideo[cbxDispositivos.SelectedIndex].Name.ToString();
                 }
             }
@@ -961,6 +808,7 @@ namespace BTS.SiCEP.Biometria.Huellas
             {
                 //foto.Image = Imagen;
                 capFoto = true;
+                btnAceptar.Enabled = true;
             }
         }
 
@@ -1000,7 +848,7 @@ namespace BTS.SiCEP.Biometria.Huellas
             }
             else if (tabBio.SelectedIndex == 1)
             {
-                UpdateCameraList();
+                BuscarDispositivosDeVideo();
             }
             else if (tabBio.SelectedIndex == 2)
             {
