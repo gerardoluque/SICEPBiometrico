@@ -53,24 +53,32 @@ namespace BTS.SICEP.WCF.BiometriaService
                         subject = new NSubject();
                         subject.Fingers.Add(finger);
 
-                        var status = await _biometricClient.VerifyAsync(subject, subjectBuscar);
-
-                        var verificationStatus = string.Format("Verification status: {0}", status);
-
-                        if (status == NBiometricStatus.Ok)
+                        try
                         {
-                            _verificarInfo.Identificado = true;
-                            _verificarInfo.PersonaIdentificar.id = idBusqueda;
-                            _verificarInfo.PersonaIdentificar.Identificado = true;
-                            _verificarInfo.PersonaIdentificar.estado = dr.GetInt16(0);
-                            _verificarInfo.PersonaIdentificar.municipio = dr.GetInt16(1);
-                            _verificarInfo.PersonaIdentificar.cereso = dr.GetString(2);
-                            _verificarInfo.PersonaIdentificar.ano = dr.GetInt16(3);
-                            _verificarInfo.PersonaIdentificar.folio = dr.GetInt64(4);
+                            var status = await _biometricClient.VerifyAsync(subject, subjectBuscar);
 
-                            await RegistrarMatch(_verificarInfo.PersonaIdentificar, 1, conn);
+                            var verificationStatus = string.Format("Verification status: {0}", status);
 
-                            break;
+                            if (status == NBiometricStatus.Ok)
+                            {
+                                _verificarInfo.Identificado = true;
+                                _verificarInfo.PersonaIdentificar.id = idBusqueda;
+                                _verificarInfo.PersonaIdentificar.Identificado = true;
+                                _verificarInfo.PersonaIdentificar.estado = dr.GetInt16(0);
+                                _verificarInfo.PersonaIdentificar.municipio = dr.GetInt16(1);
+                                _verificarInfo.PersonaIdentificar.cereso = dr.GetString(2);
+                                _verificarInfo.PersonaIdentificar.ano = dr.GetInt16(3);
+                                _verificarInfo.PersonaIdentificar.folio = dr.GetInt64(4);
+
+                                await RegistrarMatch(_verificarInfo.PersonaIdentificar, 1, conn);
+
+                                break;
+                            }
+
+                        }
+                        catch (Exception exBio)
+                        {
+                            Utils.LogEvent(exBio.Message);
                         }
                     }
                 }

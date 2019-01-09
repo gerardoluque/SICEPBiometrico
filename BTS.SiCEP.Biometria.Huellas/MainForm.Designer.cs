@@ -498,7 +498,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbScanners.Location = new System.Drawing.Point(6, 19);
             this.lbScanners.Name = "lbScanners";
-            this.lbScanners.Size = new System.Drawing.Size(391, 56);
+            this.lbScanners.Size = new System.Drawing.Size(410, 56);
             this.lbScanners.TabIndex = 6;
             // 
             // groupBox1
@@ -673,9 +673,9 @@
             this.voiceView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.voiceView.BackColor = System.Drawing.Color.Transparent;
-            this.voiceView.Location = new System.Drawing.Point(23, 163);
+            this.voiceView.Location = new System.Drawing.Point(14, 163);
             this.voiceView.Name = "voiceView";
-            this.voiceView.Size = new System.Drawing.Size(573, 54);
+            this.voiceView.Size = new System.Drawing.Size(582, 54);
             this.voiceView.TabIndex = 35;
             this.voiceView.Text = "voiceView";
             this.voiceView.Voice = null;
@@ -691,7 +691,7 @@
             this.gbMicrophones.Controls.Add(this.lbMicrophones);
             this.gbMicrophones.Location = new System.Drawing.Point(8, 40);
             this.gbMicrophones.Name = "gbMicrophones";
-            this.gbMicrophones.Size = new System.Drawing.Size(404, 110);
+            this.gbMicrophones.Size = new System.Drawing.Size(407, 110);
             this.gbMicrophones.TabIndex = 32;
             this.gbMicrophones.TabStop = false;
             this.gbMicrophones.Text = "Microphones list";
@@ -743,7 +743,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbMicrophones.Location = new System.Drawing.Point(10, 19);
             this.lbMicrophones.Name = "lbMicrophones";
-            this.lbMicrophones.Size = new System.Drawing.Size(388, 56);
+            this.lbMicrophones.Size = new System.Drawing.Size(391, 56);
             this.lbMicrophones.TabIndex = 6;
             this.lbMicrophones.SelectedIndexChanged += new System.EventHandler(this.lbMicrophones_SelectedIndexChanged);
             // 
@@ -762,7 +762,7 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Busqueda biometrica 1.7";
+            this.Text = "Busqueda biometrica 1.9";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabBio.ResumeLayout(false);
             this.tabPageHuella.ResumeLayout(false);
