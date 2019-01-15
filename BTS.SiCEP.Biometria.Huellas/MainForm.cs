@@ -12,6 +12,9 @@ using System.Windows.Forms;
 using AForge.Video;
 using AForge.Video.DirectShow;
 using System.Drawing;
+using WIA;
+using ScannerDemo;
+using System.IO;
 
 namespace BTS.SiCEP.Biometria.Huellas
 {
@@ -722,15 +725,26 @@ namespace BTS.SiCEP.Biometria.Huellas
 
         public void CargarDispositivos(FilterInfoCollection Dispositivos)
         {
-            int i;
-
             cbxDispositivos.Items.Clear();
 
-            for (i = 0; i < Dispositivos.Count; i++)
+            for (int i = 0; i < Dispositivos.Count; i++)
             {
                 cbxDispositivos.Items.Add(Dispositivos[i].Name.ToString());
             }
-            cbxDispositivos.Text = cbxDispositivos.Items[0].ToString();
+
+            if (cbxDispositivos.Items.Count > 0)
+                cbxDispositivos.Text = cbxDispositivos.Items[0].ToString();
+
+            //Cargar WIAS
+            cmbWiaDevices.Items.Clear();
+
+            var deviceManager = new DeviceManager();
+
+            // Loop through the list of devices and add the name to the listbox
+            for (int i = 1; i <= deviceManager.DeviceInfos.Count; i++)
+            {
+                cmbWiaDevices.Items.Add(new Scanner(deviceManager.DeviceInfos[i]));
+            }
 
         }
 
@@ -858,6 +872,78 @@ namespace BTS.SiCEP.Biometria.Huellas
             {
                 UpdateVoiceDeviceList();
             }
+        }
+
+        private void rbtnWias_CheckedChanged(object sender, EventArgs e)
+        {
+            pnlArgForce.Visible = false;
+            pnlWia.Visible = true;
+        }
+
+        private void rbtnWebCams_CheckedChanged(object sender, EventArgs e)
+        {
+            pnlArgForce.Visible = true;
+            pnlWia.Visible = false;
+        }
+
+        public void StartScanning()
+        {
+            Scanner device = null;
+
+            this.Invoke(new MethodInvoker(delegate ()
+            {
+                device = cmbWiaDevices.SelectedItem as Scanner;
+            }));
+
+            if (device == null)
+            {
+                MessageBox.Show("Favor de seleccionar una camara de la lista",
+                                "Aviso",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            
+
+            ImageFile image = new ImageFile();
+            string imageExtension = "";
+
+            this.Invoke(new MethodInvoker(delegate ()
+            {
+                switch (cmbWiaDevices.SelectedIndex)
+                {
+                    case 0:
+                        //image = device.ScanPNG();
+                        image = device.ScanJPEG();
+                        imageExtension = ".png";
+                        break;
+                    case 1:
+                        image = device.ScanJPEG();
+                        imageExtension = ".jpeg";
+                        break;
+                    case 2:
+                        image = device.ScanTIFF();
+                        imageExtension = ".tiff";
+                        break;
+                }
+            }));
+
+
+            // Save the image
+            string tempFile = System.IO.Path.GetTempFileName();
+
+            if (File.Exists(tempFile))
+            {
+                File.Delete(tempFile);
+            }
+
+            image.SaveFile(tempFile);
+
+            pbWiaFoto.Image = new Bitmap(tempFile);
+        }
+
+        private void btnWiaCapture_Click(object sender, EventArgs e)
+        {
+            Task.Factory.StartNew(StartScanning); //.ContinueWith(result => TriggerScan());
         }
     }
 }
