@@ -70,6 +70,7 @@ namespace ScannerDemo
                     MessageBox.Show("A non catched error occurred, check the console","Error",MessageBoxButtons.OK);
                 }
             }
+            
 
             return new ImageFile();
         }
@@ -80,9 +81,9 @@ namespace ScannerDemo
         /// <returns></returns>
         public ImageFile ScanJPEG()
         {
-            // Connect to the device and instruct it to scan
             // Connect to the device
             var device = this._deviceInfo.Connect();
+
             var itemsCount = 0;
 
             itemsCount = device.Items.Count;
@@ -92,9 +93,11 @@ namespace ScannerDemo
             {
                 WIA.Item item = device.ExecuteCommand(WIA.CommandID.wiaCommandTakePicture);
 
-                System.Threading.Thread.Sleep(3000);
+                System.Threading.Thread.Sleep(2000);
 
                 WIA.ImageFile imageFileNew = device.Items[itemsCount + 1].Transfer() as WIA.ImageFile;
+
+                device.Items.Remove(itemsCount + 1);
 
                 return imageFileNew;
             }
@@ -108,19 +111,23 @@ namespace ScannerDemo
                 // Catch 2 of the most common exceptions
                 if (errorCode == 0x80210006)
                 {
-                    MessageBox.Show("La camara esta ocupada o no esta lista");
+                    MessageBox.Show("La camara esta ocupada o no esta lista, intente de nuevo");
                 }
                 else if (errorCode == 0x80210064)
                 {
-                    MessageBox.Show("Proceso de toma de foto cancelada");
+                    MessageBox.Show("Proceso de toma de foto cancelada, intente de nuevo");
                 }
                 else
                 {
-                    MessageBox.Show("Ocurrio un error no controlado", "Error", MessageBoxButtons.OK);
+                    MessageBox.Show("Ocurrio un error no controlado, intente de nuevo", "Error", MessageBoxButtons.OK);
                 }
             }
+            finally
+            {
+                
+            }
 
-            return new ImageFile();
+            return null;
         }
 
         /// <summary>
@@ -231,6 +238,26 @@ namespace ScannerDemo
         {
             return (string) this._deviceInfo.Properties["Name"].get_Value();
         }
-         
+
+        //TODO: possibly reverse iteration to improve performance
+        private bool DeleteItem(WIA.Items items, string itemId)
+        {
+            for (int x = 1; x <= items.Count; x++)
+            {
+                if (items[x].ItemID == itemId)
+                {
+                    items.Remove(x);
+                    return true;
+                }
+                else if (items[x].Items.Count > 0)
+                {
+                    if (DeleteItem(items[x].Items, itemId))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }

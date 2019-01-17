@@ -45,6 +45,8 @@ namespace BTS.SiCEP.Biometria.Huellas
         private VideoCaptureDevice fuenteDeVideo = null;
         private Bitmap Imagen;
         private bool capFoto;
+
+        private DeviceManager wiaDeviceManager = null;
         #endregion
 
         #endregion
@@ -63,6 +65,8 @@ namespace BTS.SiCEP.Biometria.Huellas
             ((CheckBox)nViewZoomSlider3.Controls[0].Controls[0]).Text = "Zoom Ancho";
 
             #region WebCam
+            wiaDeviceManager = new DeviceManager();
+
             capFoto = false;
 
             BuscarDispositivosDeVideo();
@@ -80,6 +84,7 @@ namespace BTS.SiCEP.Biometria.Huellas
                     groupBox1.Text = dispositivoDeVideo[cbxDispositivos.SelectedIndex].Name.ToString();
                 }
             }
+
             #endregion
         }
 
@@ -313,7 +318,7 @@ namespace BTS.SiCEP.Biometria.Huellas
 
                 if (personaResult.Identificado)
                 {
-                    Application.Exit();
+                    Application.Exit();                    
                 }
                 else
                 {
@@ -738,12 +743,10 @@ namespace BTS.SiCEP.Biometria.Huellas
             //Cargar WIAS
             cmbWiaDevices.Items.Clear();
 
-            var deviceManager = new DeviceManager();
-
             // Loop through the list of devices and add the name to the listbox
-            for (int i = 1; i <= deviceManager.DeviceInfos.Count; i++)
+            for (int i = 1; i <= wiaDeviceManager.DeviceInfos.Count; i++)
             {
-                cmbWiaDevices.Items.Add(new Scanner(deviceManager.DeviceInfos[i]));
+                cmbWiaDevices.Items.Add(new Scanner(wiaDeviceManager.DeviceInfos[i]));
             }
 
         }
@@ -818,11 +821,18 @@ namespace BTS.SiCEP.Biometria.Huellas
 
         private void btnCaptura_Click(object sender, EventArgs e)
         {
-            if (fuenteDeVideo.IsRunning)
+            if (fuenteDeVideo != null)
             {
-                //foto.Image = Imagen;
-                capFoto = true;
-                btnAceptar.Enabled = true;
+                if (fuenteDeVideo.IsRunning)
+                {
+                    //foto.Image = Imagen;
+                    capFoto = true;
+                    btnAceptar.Enabled = true;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Favor de activar la camara");
             }
         }
 
@@ -902,48 +912,104 @@ namespace BTS.SiCEP.Biometria.Huellas
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            
+
 
             ImageFile image = new ImageFile();
             string imageExtension = "";
 
-            this.Invoke(new MethodInvoker(delegate ()
+            try
             {
-                switch (cmbWiaDevices.SelectedIndex)
+                this.Invoke(new MethodInvoker(delegate ()
+                 {
+                     image = device.ScanJPEG();
+                     imageExtension = ".jpeg";
+
+                     //switch (cmbWiaDevices.SelectedIndex)
+                     //{
+                     //    case 0:
+                     //        image = device.ScanPNG();
+                     //        imageExtension = ".png";
+                     //        break;
+                     //    case 1:
+                     //        image = device.ScanJPEG();
+                     //        imageExtension = ".jpeg";
+                     //        break;
+                     //    case 2:
+                     //        image = device.ScanTIFF();
+                     //        imageExtension = ".tiff";
+                     //        break;
+                     //}
+                 }));
+
+
+                if (image != null)
                 {
-                    case 0:
-                        //image = device.ScanPNG();
-                        image = device.ScanJPEG();
-                        imageExtension = ".png";
-                        break;
-                    case 1:
-                        image = device.ScanJPEG();
-                        imageExtension = ".jpeg";
-                        break;
-                    case 2:
-                        image = device.ScanTIFF();
-                        imageExtension = ".tiff";
-                        break;
+                    string tempFile = System.IO.Path.GetTempFileName();
+
+                    if (File.Exists(tempFile))
+                    {
+                        File.Delete(tempFile);
+                    }
+
+                    image.SaveFile(tempFile);
+
+                    var imgByte = File.ReadAllBytes(tempFile);
+                    
+                    using (MemoryStream stream = new MemoryStream(imgByte))
+                    {
+                        pbWiaFoto.Image = new Bitmap(stream);
+                    }
+
+                    if (File.Exists(tempFile))
+                    {
+                        File.Delete(tempFile);
+                    }
                 }
-            }));
-
-
-            // Save the image
-            string tempFile = System.IO.Path.GetTempFileName();
-
-            if (File.Exists(tempFile))
-            {
-                File.Delete(tempFile);
             }
-
-            image.SaveFile(tempFile);
-
-            pbWiaFoto.Image = new Bitmap(tempFile);
+            catch (Exception ex)
+            {
+                Neurotec.Samples.Utils.ShowException(new Exception("Ocurrio un error al intentar leer la imagen de la camara, intente de nuevo", ex));
+            }
         }
 
         private void btnWiaCapture_Click(object sender, EventArgs e)
         {
             Task.Factory.StartNew(StartScanning); //.ContinueWith(result => TriggerScan());
+        }
+
+        private void btnWiaVerificar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (pbWiaFoto.Image != null)
+                {
+                    var personaResult = BuscarFacialServicioWCF(pbWiaFoto.Image).Result;
+
+                    if (personaResult.Identificado)
+                    {
+                        Application.Exit();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se encontro coincidencias con la imagen, intente de nuevo");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No se encontro imagen, favor de tomar la foto");
+                }
+            }
+            catch (Exception ex)
+            {
+                Neurotec.Samples.Utils.ShowException(new Exception("Ocurrio un error al intentar usar el servicio web, favor de verificar visor de eventos del Servidor Biometrico"));
+            }
+
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.ExitThread();
+            Environment.Exit(-1);
         }
     }
 }
