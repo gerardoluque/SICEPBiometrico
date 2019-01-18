@@ -45,6 +45,7 @@ namespace BTS.SiCEP.Biometria.Huellas
         private VideoCaptureDevice fuenteDeVideo = null;
         private Bitmap Imagen;
         private bool capFoto;
+        private byte[] wiaImgByte = null;
 
         private DeviceManager wiaDeviceManager = null;
         #endregion
@@ -718,14 +719,25 @@ namespace BTS.SiCEP.Biometria.Huellas
         #endregion
 
         #region Rostro WebCam
-        private async Task<BiometriaBusquedaServicio.PersonaInfo> BuscarFacialServicioWCF(Image foto)
+        private async Task<BiometriaBusquedaServicio.PersonaInfo> BuscarFacialServicioWCF(byte[] foto)
         {
-            var template = Neurotec.Samples.Utils.ImageToByte(foto);
-            var templateBase64 = Convert.ToBase64String(template);
+            try
+            {
+                //var template = Neurotec.Samples.Utils.ImageToByte(foto, format);
+                //var templateBase64 = Convert.ToBase64String(template);
+                var templateBase64 = Convert.ToBase64String(foto); 
 
-            var result = await servicioBusqueda.BuscarFacialAsync(templateBase64, _verificarHuellaInfo.PersonaIdentificar.id);
+                var result = await servicioBusqueda.BuscarFacialAsync(templateBase64, _verificarHuellaInfo.PersonaIdentificar.id);
 
-            return result;
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                Neurotec.Samples.Utils.LogEvent(ex);
+
+                throw;
+            }
         }
 
         public void CargarDispositivos(FilterInfoCollection Dispositivos)
@@ -846,7 +858,11 @@ namespace BTS.SiCEP.Biometria.Huellas
         {
             try
             {
-                var personaResult = await BuscarFacialServicioWCF(foto.Image);
+                //foto.Image.Save(@"c:\temp\fotoWebCam.jpg");
+
+                var template = Neurotec.Samples.Utils.ImageToByte(foto.Image);
+
+                var personaResult = await BuscarFacialServicioWCF(template);
 
                 if (personaResult.Identificado)
                 {
@@ -953,11 +969,14 @@ namespace BTS.SiCEP.Biometria.Huellas
 
                     image.SaveFile(tempFile);
 
-                    var imgByte = File.ReadAllBytes(tempFile);
+                    wiaImgByte = File.ReadAllBytes(tempFile);
                     
-                    using (MemoryStream stream = new MemoryStream(imgByte))
+                    using (MemoryStream stream = new MemoryStream(wiaImgByte))
                     {
-                        pbWiaFoto.Image = new Bitmap(stream);
+                        var tamanoImagen = new Size(640, 360);
+                        var imagenOriginal = new Bitmap(stream);
+                        var imagen = new Bitmap(imagenOriginal, tamanoImagen);
+                        pbWiaFoto.Image = imagen;
                     }
 
                     if (File.Exists(tempFile))
@@ -977,13 +996,17 @@ namespace BTS.SiCEP.Biometria.Huellas
             Task.Factory.StartNew(StartScanning); //.ContinueWith(result => TriggerScan());
         }
 
-        private void btnWiaVerificar_Click(object sender, EventArgs e)
+        private async void btnWiaVerificar_Click(object sender, EventArgs e)
         {
             try
             {
                 if (pbWiaFoto.Image != null)
                 {
-                    var personaResult = BuscarFacialServicioWCF(pbWiaFoto.Image).Result;
+                    //pbWiaFoto.Image.Save(@"c:\temp\fotoWia.jpg");
+                    var template = Neurotec.Samples.Utils.ImageToByte(pbWiaFoto.Image);
+
+                    //var personaResult = BuscarFacialServicioWCF(wiaImgByte).Result;
+                    var personaResult = await BuscarFacialServicioWCF(template);
 
                     if (personaResult.Identificado)
                     {
@@ -1001,7 +1024,7 @@ namespace BTS.SiCEP.Biometria.Huellas
             }
             catch (Exception ex)
             {
-                Neurotec.Samples.Utils.ShowException(new Exception("Ocurrio un error al intentar usar el servicio web, favor de verificar visor de eventos del Servidor Biometrico"));
+                Neurotec.Samples.Utils.ShowException(new Exception("Ocurrio un error al intentar usar el servicio web, favor de verificar visor de eventos del Servidor Biometrico", ex));
             }
 
         }

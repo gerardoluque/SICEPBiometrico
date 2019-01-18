@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -13,6 +14,15 @@ namespace Neurotec.Samples
             using (var stream = new MemoryStream())
             {
                 img.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
+                return stream.ToArray();
+            }
+        }
+
+        public static byte[] ImageToByte(Image img, System.Drawing.Imaging.ImageFormat format)
+        {
+            using (var stream = new MemoryStream())
+            {
+                img.Save(stream, format);
                 return stream.ToArray();
             }
         }
@@ -74,5 +84,25 @@ namespace Neurotec.Samples
 
 			MessageBox.Show(ex.ToString(), null, MessageBoxButtons.OK, MessageBoxIcon.Error);
 		}
-	}
+
+        public static void LogEvent(string texto)
+        {
+            using (EventLog eventLog = new EventLog("Application"))
+            {
+                eventLog.Source = "Application";
+                eventLog.WriteEntry(texto, EventLogEntryType.Error);
+            }
+        }
+
+        public static void LogEvent(Exception exToLog)
+        {
+            LogEvent(exToLog.ToString());
+        }
+
+        public static void LogEvent(Exception exToLog, string extraInfo)
+        {
+            LogEvent(string.Format("{0}, EXTRA: {1}", exToLog.ToString(), extraInfo));
+        }
+
+    }
 }

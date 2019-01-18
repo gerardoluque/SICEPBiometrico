@@ -95,7 +95,11 @@ namespace ScannerDemo
 
                 System.Threading.Thread.Sleep(2000);
 
-                WIA.ImageFile imageFileNew = device.Items[itemsCount + 1].Transfer() as WIA.ImageFile;
+                WIA.Item itemWia = device.Items[itemsCount + 1];
+
+                //AdjustScannerSettings(itemWia, resolution, 0, 0, width_pixel, height_pixel, 0, 0, color_mode);
+
+                WIA.ImageFile imageFileNew = itemWia.Transfer() as WIA.ImageFile;
 
                 device.Items.Remove(itemsCount + 1);
 

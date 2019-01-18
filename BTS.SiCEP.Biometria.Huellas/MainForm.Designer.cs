@@ -538,7 +538,7 @@
             this.scannersGroupBox.Controls.Add(this.lbScanners);
             this.scannersGroupBox.Location = new System.Drawing.Point(10, 23);
             this.scannersGroupBox.Name = "scannersGroupBox";
-            this.scannersGroupBox.Size = new System.Drawing.Size(177, 134);
+            this.scannersGroupBox.Size = new System.Drawing.Size(589, 134);
             this.scannersGroupBox.TabIndex = 13;
             this.scannersGroupBox.TabStop = false;
             this.scannersGroupBox.Text = "Escaners";
@@ -571,7 +571,7 @@
             // 
             this.rbRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.rbRight.AutoSize = true;
-            this.rbRight.Location = new System.Drawing.Point(46, 49);
+            this.rbRight.Location = new System.Drawing.Point(458, 49);
             this.rbRight.Name = "rbRight";
             this.rbRight.Size = new System.Drawing.Size(82, 17);
             this.rbRight.TabIndex = 13;
@@ -584,7 +584,7 @@
             this.rbLeft.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.rbLeft.AutoSize = true;
             this.rbLeft.Checked = true;
-            this.rbLeft.Location = new System.Drawing.Point(44, 25);
+            this.rbLeft.Location = new System.Drawing.Point(456, 25);
             this.rbLeft.Name = "rbLeft";
             this.rbLeft.Size = new System.Drawing.Size(84, 17);
             this.rbLeft.TabIndex = 12;
@@ -630,7 +630,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbScanners.Location = new System.Drawing.Point(6, 19);
             this.lbScanners.Name = "lbScanners";
-            this.lbScanners.Size = new System.Drawing.Size(0, 56);
+            this.lbScanners.Size = new System.Drawing.Size(429, 56);
             this.lbScanners.TabIndex = 6;
             // 
             // groupBox1
@@ -750,7 +750,7 @@
             this.gbOptions.Controls.Add(this.chkBoxVozCapturarAut);
             this.gbOptions.Controls.Add(this.label2);
             this.gbOptions.Controls.Add(this.nudPhraseId);
-            this.gbOptions.Location = new System.Drawing.Point(8, 40);
+            this.gbOptions.Location = new System.Drawing.Point(407, 40);
             this.gbOptions.Name = "gbOptions";
             this.gbOptions.Size = new System.Drawing.Size(178, 110);
             this.gbOptions.TabIndex = 33;
@@ -807,7 +807,7 @@
             this.voiceView.BackColor = System.Drawing.Color.Transparent;
             this.voiceView.Location = new System.Drawing.Point(14, 163);
             this.voiceView.Name = "voiceView";
-            this.voiceView.Size = new System.Drawing.Size(172, 54);
+            this.voiceView.Size = new System.Drawing.Size(0, 54);
             this.voiceView.TabIndex = 35;
             this.voiceView.Text = "voiceView";
             this.voiceView.Voice = null;
@@ -823,7 +823,7 @@
             this.gbMicrophones.Controls.Add(this.lbMicrophones);
             this.gbMicrophones.Location = new System.Drawing.Point(10, 40);
             this.gbMicrophones.Name = "gbMicrophones";
-            this.gbMicrophones.Size = new System.Drawing.Size(0, 110);
+            this.gbMicrophones.Size = new System.Drawing.Size(391, 110);
             this.gbMicrophones.TabIndex = 32;
             this.gbMicrophones.TabStop = false;
             this.gbMicrophones.Text = "Microphones list";
@@ -875,7 +875,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbMicrophones.Location = new System.Drawing.Point(6, 19);
             this.lbMicrophones.Name = "lbMicrophones";
-            this.lbMicrophones.Size = new System.Drawing.Size(0, 56);
+            this.lbMicrophones.Size = new System.Drawing.Size(379, 56);
             this.lbMicrophones.TabIndex = 6;
             this.lbMicrophones.SelectedIndexChanged += new System.EventHandler(this.lbMicrophones_SelectedIndexChanged);
             // 
@@ -894,7 +894,7 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Busqueda biometrica 1.11";
+            this.Text = "Busqueda biometrica 1.12";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabBio.ResumeLayout(false);
