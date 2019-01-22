@@ -12,36 +12,41 @@ using System.Diagnostics;
 using WIA;
 using ScannerDemo;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace WebCams
 {
     public partial class Captura : Form
     {
-        private bool ExisteDispositivo = false;
+        private bool existenDispositivosWebCams = false;
+        private bool existenDispositivosWIA = false;
         private FilterInfoCollection DispositivoDeVideo;
         private VideoCaptureDevice FuenteDeVideo = null;
-        private string appParam;
+        private string rutaArchivoFoto;
         private bool capturo = false;
         private Bitmap Imagen;
         private bool capFoto;
 
-        private byte[] wiaImgByte = null;
         private DeviceManager wiaDeviceManager = null;
 
         public Captura(string[] args)
         {
-            appParam = "c:\\temp\\temp.jpg";
+            rutaArchivoFoto = "c:\\temp\\temp.jpg";
             capFoto = false;
-            InitializeComponent();
-            if (args.Count() > 0) 
-                appParam = args.First();
 
-            BuscarDispositivos();
+            InitializeComponent();
+
+            wiaDeviceManager = new DeviceManager();
+
+            if (args.Count() > 0) 
+                rutaArchivoFoto = args.First();
+
+            existenDispositivosWebCams = BuscarDispositivos();
+
             if (btnIniciar.Text == "Activar")
             {
-                if (ExisteDispositivo)
+                if (existenDispositivosWebCams)
                 {
-
                     FuenteDeVideo = new VideoCaptureDevice(DispositivoDeVideo[cbxDispositivos.SelectedIndex].MonikerString);
                     FuenteDeVideo.NewFrame += new NewFrameEventHandler(Video_NuevoFrame);
                     FuenteDeVideo.Start();
@@ -54,39 +59,36 @@ namespace WebCams
         }
 
         public void CargarDispositivos(FilterInfoCollection Dispositivos)
-        {            
+        {
             for (int i = 0; i < Dispositivos.Count; i++)
             {
                 cbxDispositivos.Items.Add(Dispositivos[i].Name.ToString());
             }
-                cbxDispositivos.Text = cbxDispositivos.Items[0].ToString();
 
-            //Cargar WIAS
-            cmbWiaDevices.Items.Clear();
-
-            // Loop through the list of devices and add the name to the listbox
-            for (int i = 1; i <= wiaDeviceManager.DeviceInfos.Count; i++)
-            {
-                cmbWiaDevices.Items.Add(new Scanner(wiaDeviceManager.DeviceInfos[i]));
-            }
+            cbxDispositivos.Text = cbxDispositivos.Items[0].ToString();
         }
 
         public bool BuscarDispositivos()
         {
+            //Cargar WIAS
+            cmbWiaDevices.Items.Clear();
+
+            for (int i = 1; i <= wiaDeviceManager.DeviceInfos.Count; i++)
+            {
+                cmbWiaDevices.Items.Add(new Scanner(wiaDeviceManager.DeviceInfos[i]));
+            }
+
+            //Cargar webcams
             DispositivoDeVideo = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-            if (DispositivoDeVideo.Count == 0)
+            if (DispositivoDeVideo.Count > 0)
             {
-                ExisteDispositivo = false;
-            }
-
-            else
-            {
-                ExisteDispositivo = true;
                 CargarDispositivos(DispositivoDeVideo);
-
             }
 
-            return ExisteDispositivo;
+            existenDispositivosWebCams = DispositivoDeVideo.Count > 0;
+            existenDispositivosWIA = cmbWiaDevices.Items.Count > 0; ;
+
+            return existenDispositivosWebCams;
         }
 
         public void TerminarFuenteDeVideo()
@@ -97,7 +99,6 @@ namespace WebCams
             FuenteDeVideo.SignalToStop();
             FuenteDeVideo= null;
             }
-
         }
 
        public  void Video_NuevoFrame( object sender, NewFrameEventArgs eventArgs)
@@ -117,7 +118,7 @@ namespace WebCams
             if (btnIniciar.Text == "Activar")
                 
             {
-                if (ExisteDispositivo)
+                if (existenDispositivosWebCams)
                 {
                     
                     FuenteDeVideo = new VideoCaptureDevice(DispositivoDeVideo[cbxDispositivos.SelectedIndex].MonikerString);
@@ -152,11 +153,18 @@ namespace WebCams
 
         private void tomafoto_Click(object sender, EventArgs e)
         {
-            if (FuenteDeVideo.IsRunning)
+            if (FuenteDeVideo != null)
             {
-                //foto.Image = Imagen;
-                capFoto = true;
-                capturo = true;
+                if (FuenteDeVideo.IsRunning)
+                {
+                    //foto.Image = Imagen;
+                    capFoto = true;
+                    capturo = true;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Favor de activar la camara");
             }
         }
 
@@ -169,12 +177,12 @@ namespace WebCams
         private void btnAceptar_Click(object sender, EventArgs e)
         {
             if (capturo)
-                foto.Image.Save(appParam, System.Drawing.Imaging.ImageFormat.Jpeg);
+                foto.Image.Save(rutaArchivoFoto, System.Drawing.Imaging.ImageFormat.Jpeg);
             else
             {
                 try
                 {
-                    System.IO.File.Delete(appParam);
+                    System.IO.File.Delete(rutaArchivoFoto);
                 }
                 catch (System.IO.IOException ex)
                 {
@@ -188,8 +196,9 @@ namespace WebCams
 
         private void Captura_Load(object sender, EventArgs e)
         {
-            if (ExisteDispositivo == false)
+            if (existenDispositivosWebCams == false && existenDispositivosWIA == false)
             {
+                MessageBox.Show("No se encontraron dispositivos de video disponible");
                 Close();
             }
         }
@@ -217,44 +226,23 @@ namespace WebCams
 
             if (device == null)
             {
-                MessageBox.Show("Favor de seleccionar una camara de la lista",
-                                "Aviso",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Favor de seleccionar una camara de la lista", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
 
             ImageFile image = new ImageFile();
-            string imageExtension = "";
 
             try
             {
                 this.Invoke(new MethodInvoker(delegate ()
                 {
                     image = device.ScanJPEG();
-                    imageExtension = ".jpeg";
-
-                    //switch (cmbWiaDevices.SelectedIndex)
-                    //{
-                    //    case 0:
-                    //        image = device.ScanPNG();
-                    //        imageExtension = ".png";
-                    //        break;
-                    //    case 1:
-                    //        image = device.ScanJPEG();
-                    //        imageExtension = ".jpeg";
-                    //        break;
-                    //    case 2:
-                    //        image = device.ScanTIFF();
-                    //        imageExtension = ".tiff";
-                    //        break;
-                    //}
                 }));
-
 
                 if (image != null)
                 {
-                    string tempFile = System.IO.Path.GetTempFileName();
+                    var tempFile = System.IO.Path.GetTempFileName();
 
                     if (File.Exists(tempFile))
                     {
@@ -263,7 +251,7 @@ namespace WebCams
 
                     image.SaveFile(tempFile);
 
-                    wiaImgByte = File.ReadAllBytes(tempFile);
+                    var wiaImgByte = File.ReadAllBytes(tempFile);
 
                     using (MemoryStream stream = new MemoryStream(wiaImgByte))
                     {
@@ -272,7 +260,7 @@ namespace WebCams
                         var imagen = new Bitmap(imagenOriginal, tamanoImagen);
                         pbWiaFoto.Image = imagen;
                     }
-
+                    
                     if (File.Exists(tempFile))
                     {
                         File.Delete(tempFile);
@@ -281,13 +269,27 @@ namespace WebCams
             }
             catch (Exception ex)
             {
-                Neurotec.Samples.Utils.ShowException(new Exception("Ocurrio un error al intentar leer la imagen de la camara, intente de nuevo", ex));
+                MessageBox.Show("Ocurrio un error al intentar leer la imagen de la camara, intente de nuevo");
             }
         }
 
         private void btnWiaCapture_Click(object sender, EventArgs e)
         {
+            Task.Factory.StartNew(StartScanning);
+        }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (pbWiaFoto.Image != null)
+            {
+                pbWiaFoto.Image.Save(rutaArchivoFoto, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("No se encontro imagen, favor de tomar la foto");
+            }
         }
     } 
 }

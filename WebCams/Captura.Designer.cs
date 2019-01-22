@@ -44,7 +44,7 @@
             this.rbtnWebCams = new System.Windows.Forms.RadioButton();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.pnlWia = new System.Windows.Forms.Panel();
-            this.btnWiaVerificar = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnWiaCapture = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.pbWiaFoto = new System.Windows.Forms.PictureBox();
@@ -168,9 +168,9 @@
             this.pnlArgForce.Controls.Add(this.groupBox2);
             this.pnlArgForce.Controls.Add(this.btnIniciar);
             this.pnlArgForce.Controls.Add(this.btnCaptura);
-            this.pnlArgForce.Location = new System.Drawing.Point(1, 438);
+            this.pnlArgForce.Location = new System.Drawing.Point(6, 62);
             this.pnlArgForce.Name = "pnlArgForce";
-            this.pnlArgForce.Size = new System.Drawing.Size(568, 362);
+            this.pnlArgForce.Size = new System.Drawing.Size(558, 362);
             this.pnlArgForce.TabIndex = 10;
             // 
             // rbtnWias
@@ -211,7 +211,7 @@
             // 
             // pnlWia
             // 
-            this.pnlWia.Controls.Add(this.btnWiaVerificar);
+            this.pnlWia.Controls.Add(this.button1);
             this.pnlWia.Controls.Add(this.btnWiaCapture);
             this.pnlWia.Controls.Add(this.groupBox4);
             this.pnlWia.Controls.Add(this.cmbWiaDevices);
@@ -222,14 +222,15 @@
             this.pnlWia.TabIndex = 21;
             this.pnlWia.Visible = false;
             // 
-            // btnWiaVerificar
+            // button1
             // 
-            this.btnWiaVerificar.Location = new System.Drawing.Point(101, 303);
-            this.btnWiaVerificar.Name = "btnWiaVerificar";
-            this.btnWiaVerificar.Size = new System.Drawing.Size(75, 23);
-            this.btnWiaVerificar.TabIndex = 16;
-            this.btnWiaVerificar.Text = "Verificar";
-            this.btnWiaVerificar.UseVisualStyleBackColor = true;
+            this.button1.Location = new System.Drawing.Point(216, 303);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 16;
+            this.button1.Text = "Aceptar";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnWiaCapture
             // 
@@ -282,10 +283,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(566, 801);
+            this.ClientSize = new System.Drawing.Size(566, 434);
+            this.Controls.Add(this.pnlArgForce);
             this.Controls.Add(this.pnlWia);
             this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.pnlArgForce);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -327,12 +328,12 @@
         private System.Windows.Forms.RadioButton rbtnWebCams;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Panel pnlWia;
-        private System.Windows.Forms.Button btnWiaVerificar;
         private System.Windows.Forms.Button btnWiaCapture;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.PictureBox pbWiaFoto;
         private System.Windows.Forms.ComboBox cmbWiaDevices;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button button1;
     }
 }
 

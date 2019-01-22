@@ -42,6 +42,15 @@
             this.nViewZoomSlider1 = new Neurotec.Gui.NViewZoomSlider();
             this.chbShowBinarizedImage = new System.Windows.Forms.CheckBox();
             this.tbpRostroWebCam = new System.Windows.Forms.TabPage();
+            this.pnlArgForce = new System.Windows.Forms.Panel();
+            this.btnProp = new System.Windows.Forms.Button();
+            this.btnCaptura = new System.Windows.Forms.Button();
+            this.cbxDispositivos = new System.Windows.Forms.ComboBox();
+            this.btnAceptar = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.btnIniciar = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.EspacioCamara = new System.Windows.Forms.PictureBox();
             this.pnlWia = new System.Windows.Forms.Panel();
             this.btnWiaVerificar = new System.Windows.Forms.Button();
             this.btnWiaCapture = new System.Windows.Forms.Button();
@@ -52,17 +61,6 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.rbtnWias = new System.Windows.Forms.RadioButton();
             this.rbtnWebCams = new System.Windows.Forms.RadioButton();
-            this.pnlArgForce = new System.Windows.Forms.Panel();
-            this.btnProp = new System.Windows.Forms.Button();
-            this.btnCaptura = new System.Windows.Forms.Button();
-            this.cbxDispositivos = new System.Windows.Forms.ComboBox();
-            this.btnAceptar = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.btnIniciar = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.foto = new System.Windows.Forms.PictureBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.EspacioCamara = new System.Windows.Forms.PictureBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.scannersGroupBox = new System.Windows.Forms.GroupBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -99,15 +97,13 @@
             this.tabBio.SuspendLayout();
             this.tabPageHuella.SuspendLayout();
             this.tbpRostroWebCam.SuspendLayout();
+            this.pnlArgForce.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.EspacioCamara)).BeginInit();
             this.pnlWia.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbWiaFoto)).BeginInit();
             this.groupBox5.SuspendLayout();
-            this.pnlArgForce.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.foto)).BeginInit();
-            this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.EspacioCamara)).BeginInit();
             this.tabPage1.SuspendLayout();
             this.scannersGroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -124,7 +120,7 @@
             this.tabBio.Controls.Add(this.tabPage1);
             this.tabBio.Controls.Add(this.tabPage2);
             this.tabBio.Location = new System.Drawing.Point(9, 11);
-            this.tabBio.Margin = new System.Windows.Forms.Padding(2);
+            this.tabBio.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabBio.Name = "tabBio";
             this.tabBio.SelectedIndex = 0;
             this.tabBio.Size = new System.Drawing.Size(610, 458);
@@ -145,9 +141,9 @@
             this.tabPageHuella.Controls.Add(this.nViewZoomSlider1);
             this.tabPageHuella.Controls.Add(this.chbShowBinarizedImage);
             this.tabPageHuella.Location = new System.Drawing.Point(4, 22);
-            this.tabPageHuella.Margin = new System.Windows.Forms.Padding(2);
+            this.tabPageHuella.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabPageHuella.Name = "tabPageHuella";
-            this.tabPageHuella.Padding = new System.Windows.Forms.Padding(2);
+            this.tabPageHuella.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabPageHuella.Size = new System.Drawing.Size(602, 432);
             this.tabPageHuella.TabIndex = 0;
             this.tabPageHuella.Text = "Huella";
@@ -280,17 +276,109 @@
             // 
             // tbpRostroWebCam
             // 
+            this.tbpRostroWebCam.Controls.Add(this.pnlArgForce);
             this.tbpRostroWebCam.Controls.Add(this.pnlWia);
             this.tbpRostroWebCam.Controls.Add(this.groupBox5);
-            this.tbpRostroWebCam.Controls.Add(this.pnlArgForce);
             this.tbpRostroWebCam.Location = new System.Drawing.Point(4, 22);
-            this.tbpRostroWebCam.Margin = new System.Windows.Forms.Padding(2);
+            this.tbpRostroWebCam.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbpRostroWebCam.Name = "tbpRostroWebCam";
-            this.tbpRostroWebCam.Padding = new System.Windows.Forms.Padding(2);
+            this.tbpRostroWebCam.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbpRostroWebCam.Size = new System.Drawing.Size(602, 432);
             this.tbpRostroWebCam.TabIndex = 4;
             this.tbpRostroWebCam.Text = "Rostro";
             this.tbpRostroWebCam.UseVisualStyleBackColor = true;
+            // 
+            // pnlArgForce
+            // 
+            this.pnlArgForce.Controls.Add(this.btnProp);
+            this.pnlArgForce.Controls.Add(this.btnCaptura);
+            this.pnlArgForce.Controls.Add(this.cbxDispositivos);
+            this.pnlArgForce.Controls.Add(this.btnAceptar);
+            this.pnlArgForce.Controls.Add(this.label3);
+            this.pnlArgForce.Controls.Add(this.btnIniciar);
+            this.pnlArgForce.Controls.Add(this.groupBox2);
+            this.pnlArgForce.Location = new System.Drawing.Point(16, 69);
+            this.pnlArgForce.Name = "pnlArgForce";
+            this.pnlArgForce.Size = new System.Drawing.Size(553, 333);
+            this.pnlArgForce.TabIndex = 18;
+            // 
+            // btnProp
+            // 
+            this.btnProp.Location = new System.Drawing.Point(456, 33);
+            this.btnProp.Name = "btnProp";
+            this.btnProp.Size = new System.Drawing.Size(75, 23);
+            this.btnProp.TabIndex = 16;
+            this.btnProp.Text = "Propiedades";
+            this.btnProp.UseVisualStyleBackColor = true;
+            this.btnProp.Click += new System.EventHandler(this.btnProp_Click);
+            // 
+            // btnCaptura
+            // 
+            this.btnCaptura.Location = new System.Drawing.Point(26, 299);
+            this.btnCaptura.Name = "btnCaptura";
+            this.btnCaptura.Size = new System.Drawing.Size(75, 23);
+            this.btnCaptura.TabIndex = 14;
+            this.btnCaptura.Text = "Captura";
+            this.btnCaptura.UseVisualStyleBackColor = true;
+            this.btnCaptura.Click += new System.EventHandler(this.btnCaptura_Click);
+            // 
+            // cbxDispositivos
+            // 
+            this.cbxDispositivos.FormattingEnabled = true;
+            this.cbxDispositivos.Location = new System.Drawing.Point(26, 33);
+            this.cbxDispositivos.Name = "cbxDispositivos";
+            this.cbxDispositivos.Size = new System.Drawing.Size(343, 21);
+            this.cbxDispositivos.TabIndex = 11;
+            // 
+            // btnAceptar
+            // 
+            this.btnAceptar.Enabled = false;
+            this.btnAceptar.Location = new System.Drawing.Point(180, 302);
+            this.btnAceptar.Name = "btnAceptar";
+            this.btnAceptar.Size = new System.Drawing.Size(75, 23);
+            this.btnAceptar.TabIndex = 17;
+            this.btnAceptar.Text = "Verificar";
+            this.btnAceptar.UseVisualStyleBackColor = true;
+            this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(30, 16);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(48, 13);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Camaras";
+            // 
+            // btnIniciar
+            // 
+            this.btnIniciar.Location = new System.Drawing.Point(375, 33);
+            this.btnIniciar.Name = "btnIniciar";
+            this.btnIniciar.Size = new System.Drawing.Size(75, 23);
+            this.btnIniciar.TabIndex = 13;
+            this.btnIniciar.Text = "Activar";
+            this.btnIniciar.UseVisualStyleBackColor = true;
+            this.btnIniciar.Click += new System.EventHandler(this.btnIniciar_Click);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.EspacioCamara);
+            this.groupBox2.Location = new System.Drawing.Point(23, 66);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(235, 230);
+            this.groupBox2.TabIndex = 10;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Camara";
+            // 
+            // EspacioCamara
+            // 
+            this.EspacioCamara.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.EspacioCamara.Location = new System.Drawing.Point(3, 16);
+            this.EspacioCamara.Name = "EspacioCamara";
+            this.EspacioCamara.Size = new System.Drawing.Size(229, 211);
+            this.EspacioCamara.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.EspacioCamara.TabIndex = 0;
+            this.EspacioCamara.TabStop = false;
             // 
             // pnlWia
             // 
@@ -398,127 +486,14 @@
             this.rbtnWebCams.UseVisualStyleBackColor = true;
             this.rbtnWebCams.CheckedChanged += new System.EventHandler(this.rbtnWebCams_CheckedChanged);
             // 
-            // pnlArgForce
-            // 
-            this.pnlArgForce.Controls.Add(this.btnProp);
-            this.pnlArgForce.Controls.Add(this.btnCaptura);
-            this.pnlArgForce.Controls.Add(this.cbxDispositivos);
-            this.pnlArgForce.Controls.Add(this.btnAceptar);
-            this.pnlArgForce.Controls.Add(this.label3);
-            this.pnlArgForce.Controls.Add(this.btnIniciar);
-            this.pnlArgForce.Controls.Add(this.groupBox3);
-            this.pnlArgForce.Controls.Add(this.groupBox2);
-            this.pnlArgForce.Location = new System.Drawing.Point(16, 69);
-            this.pnlArgForce.Name = "pnlArgForce";
-            this.pnlArgForce.Size = new System.Drawing.Size(553, 333);
-            this.pnlArgForce.TabIndex = 18;
-            // 
-            // btnProp
-            // 
-            this.btnProp.Location = new System.Drawing.Point(456, 33);
-            this.btnProp.Name = "btnProp";
-            this.btnProp.Size = new System.Drawing.Size(75, 23);
-            this.btnProp.TabIndex = 16;
-            this.btnProp.Text = "Propiedades";
-            this.btnProp.UseVisualStyleBackColor = true;
-            this.btnProp.Click += new System.EventHandler(this.btnProp_Click);
-            // 
-            // btnCaptura
-            // 
-            this.btnCaptura.Location = new System.Drawing.Point(26, 299);
-            this.btnCaptura.Name = "btnCaptura";
-            this.btnCaptura.Size = new System.Drawing.Size(75, 23);
-            this.btnCaptura.TabIndex = 14;
-            this.btnCaptura.Text = "Captura";
-            this.btnCaptura.UseVisualStyleBackColor = true;
-            this.btnCaptura.Click += new System.EventHandler(this.btnCaptura_Click);
-            // 
-            // cbxDispositivos
-            // 
-            this.cbxDispositivos.FormattingEnabled = true;
-            this.cbxDispositivos.Location = new System.Drawing.Point(26, 33);
-            this.cbxDispositivos.Name = "cbxDispositivos";
-            this.cbxDispositivos.Size = new System.Drawing.Size(343, 21);
-            this.cbxDispositivos.TabIndex = 11;
-            // 
-            // btnAceptar
-            // 
-            this.btnAceptar.Enabled = false;
-            this.btnAceptar.Location = new System.Drawing.Point(293, 302);
-            this.btnAceptar.Name = "btnAceptar";
-            this.btnAceptar.Size = new System.Drawing.Size(75, 23);
-            this.btnAceptar.TabIndex = 17;
-            this.btnAceptar.Text = "Verificar";
-            this.btnAceptar.UseVisualStyleBackColor = true;
-            this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(30, 16);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(48, 13);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "Camaras";
-            // 
-            // btnIniciar
-            // 
-            this.btnIniciar.Location = new System.Drawing.Point(375, 33);
-            this.btnIniciar.Name = "btnIniciar";
-            this.btnIniciar.Size = new System.Drawing.Size(75, 23);
-            this.btnIniciar.TabIndex = 13;
-            this.btnIniciar.Text = "Activar";
-            this.btnIniciar.UseVisualStyleBackColor = true;
-            this.btnIniciar.Click += new System.EventHandler(this.btnIniciar_Click);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.foto);
-            this.groupBox3.Location = new System.Drawing.Point(290, 66);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(224, 230);
-            this.groupBox3.TabIndex = 15;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Foto";
-            // 
-            // foto
-            // 
-            this.foto.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.foto.Location = new System.Drawing.Point(3, 16);
-            this.foto.Name = "foto";
-            this.foto.Size = new System.Drawing.Size(218, 211);
-            this.foto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.foto.TabIndex = 5;
-            this.foto.TabStop = false;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.EspacioCamara);
-            this.groupBox2.Location = new System.Drawing.Point(23, 66);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(235, 230);
-            this.groupBox2.TabIndex = 10;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Camara";
-            // 
-            // EspacioCamara
-            // 
-            this.EspacioCamara.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.EspacioCamara.Location = new System.Drawing.Point(3, 16);
-            this.EspacioCamara.Name = "EspacioCamara";
-            this.EspacioCamara.Size = new System.Drawing.Size(229, 211);
-            this.EspacioCamara.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.EspacioCamara.TabIndex = 0;
-            this.EspacioCamara.TabStop = false;
-            // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.scannersGroupBox);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabPage1.Size = new System.Drawing.Size(602, 432);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Iris";
@@ -538,7 +513,7 @@
             this.scannersGroupBox.Controls.Add(this.lbScanners);
             this.scannersGroupBox.Location = new System.Drawing.Point(10, 23);
             this.scannersGroupBox.Name = "scannersGroupBox";
-            this.scannersGroupBox.Size = new System.Drawing.Size(589, 134);
+            this.scannersGroupBox.Size = new System.Drawing.Size(587, 124);
             this.scannersGroupBox.TabIndex = 13;
             this.scannersGroupBox.TabStop = false;
             this.scannersGroupBox.Text = "Escaners";
@@ -571,7 +546,7 @@
             // 
             this.rbRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.rbRight.AutoSize = true;
-            this.rbRight.Location = new System.Drawing.Point(458, 49);
+            this.rbRight.Location = new System.Drawing.Point(415, 54);
             this.rbRight.Name = "rbRight";
             this.rbRight.Size = new System.Drawing.Size(82, 17);
             this.rbRight.TabIndex = 13;
@@ -584,7 +559,7 @@
             this.rbLeft.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.rbLeft.AutoSize = true;
             this.rbLeft.Checked = true;
-            this.rbLeft.Location = new System.Drawing.Point(456, 25);
+            this.rbLeft.Location = new System.Drawing.Point(414, 30);
             this.rbLeft.Name = "rbLeft";
             this.rbLeft.Size = new System.Drawing.Size(84, 17);
             this.rbLeft.TabIndex = 12;
@@ -630,7 +605,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbScanners.Location = new System.Drawing.Point(6, 19);
             this.lbScanners.Name = "lbScanners";
-            this.lbScanners.Size = new System.Drawing.Size(429, 56);
+            this.lbScanners.Size = new System.Drawing.Size(391, 56);
             this.lbScanners.TabIndex = 6;
             // 
             // groupBox1
@@ -694,7 +669,7 @@
             this.tabPage2.Controls.Add(this.gbMicrophones);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
             this.tabPage2.Size = new System.Drawing.Size(602, 432);
             this.tabPage2.TabIndex = 3;
             this.tabPage2.Text = "Voz";
@@ -737,7 +712,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(18, 21);
+            this.label5.Location = new System.Drawing.Point(12, 23);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(279, 13);
             this.label5.TabIndex = 34;
@@ -750,9 +725,9 @@
             this.gbOptions.Controls.Add(this.chkBoxVozCapturarAut);
             this.gbOptions.Controls.Add(this.label2);
             this.gbOptions.Controls.Add(this.nudPhraseId);
-            this.gbOptions.Location = new System.Drawing.Point(407, 40);
+            this.gbOptions.Location = new System.Drawing.Point(425, 49);
             this.gbOptions.Name = "gbOptions";
-            this.gbOptions.Size = new System.Drawing.Size(178, 110);
+            this.gbOptions.Size = new System.Drawing.Size(171, 110);
             this.gbOptions.TabIndex = 33;
             this.gbOptions.TabStop = false;
             this.gbOptions.Text = "Opciones";
@@ -761,7 +736,7 @@
             // 
             this.extractFeatures.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.extractFeatures.FormattingEnabled = true;
-            this.extractFeatures.Location = new System.Drawing.Point(6, 43);
+            this.extractFeatures.Location = new System.Drawing.Point(6, 46);
             this.extractFeatures.Name = "extractFeatures";
             this.extractFeatures.Size = new System.Drawing.Size(152, 21);
             this.extractFeatures.TabIndex = 23;
@@ -772,7 +747,7 @@
             this.chkBoxVozCapturarAut.AutoSize = true;
             this.chkBoxVozCapturarAut.Checked = true;
             this.chkBoxVozCapturarAut.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkBoxVozCapturarAut.Location = new System.Drawing.Point(6, 86);
+            this.chkBoxVozCapturarAut.Location = new System.Drawing.Point(6, 84);
             this.chkBoxVozCapturarAut.Name = "chkBoxVozCapturarAut";
             this.chkBoxVozCapturarAut.Size = new System.Drawing.Size(150, 17);
             this.chkBoxVozCapturarAut.TabIndex = 22;
@@ -782,7 +757,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 19);
+            this.label2.Location = new System.Drawing.Point(22, 15);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(36, 13);
             this.label2.TabIndex = 19;
@@ -821,12 +796,12 @@
             this.gbMicrophones.Controls.Add(this.btnVozRefrescar);
             this.gbMicrophones.Controls.Add(this.btnVozIniciar);
             this.gbMicrophones.Controls.Add(this.lbMicrophones);
-            this.gbMicrophones.Location = new System.Drawing.Point(10, 40);
+            this.gbMicrophones.Location = new System.Drawing.Point(10, 49);
             this.gbMicrophones.Name = "gbMicrophones";
-            this.gbMicrophones.Size = new System.Drawing.Size(391, 110);
+            this.gbMicrophones.Size = new System.Drawing.Size(409, 110);
             this.gbMicrophones.TabIndex = 32;
             this.gbMicrophones.TabStop = false;
-            this.gbMicrophones.Text = "Microphones list";
+            this.gbMicrophones.Text = "Lista de microfonos";
             // 
             // btnVozForsar
             // 
@@ -873,9 +848,9 @@
             // 
             this.lbMicrophones.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbMicrophones.Location = new System.Drawing.Point(6, 19);
+            this.lbMicrophones.Location = new System.Drawing.Point(7, 19);
             this.lbMicrophones.Name = "lbMicrophones";
-            this.lbMicrophones.Size = new System.Drawing.Size(379, 56);
+            this.lbMicrophones.Size = new System.Drawing.Size(397, 56);
             this.lbMicrophones.TabIndex = 6;
             this.lbMicrophones.SelectedIndexChanged += new System.EventHandler(this.lbMicrophones_SelectedIndexChanged);
             // 
@@ -890,29 +865,27 @@
             this.ClientSize = new System.Drawing.Size(629, 493);
             this.Controls.Add(this.tabBio);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Busqueda biometrica 1.12";
+            this.Text = "Busqueda biometrica 1.16";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabBio.ResumeLayout(false);
             this.tabPageHuella.ResumeLayout(false);
             this.tabPageHuella.PerformLayout();
             this.tbpRostroWebCam.ResumeLayout(false);
+            this.pnlArgForce.ResumeLayout(false);
+            this.pnlArgForce.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.EspacioCamara)).EndInit();
             this.pnlWia.ResumeLayout(false);
             this.pnlWia.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbWiaFoto)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
-            this.pnlArgForce.ResumeLayout(false);
-            this.pnlArgForce.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.foto)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.EspacioCamara)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.scannersGroupBox.ResumeLayout(false);
             this.scannersGroupBox.PerformLayout();
@@ -983,8 +956,6 @@
         private System.Windows.Forms.ComboBox cbxDispositivos;
         private System.Windows.Forms.Button btnAceptar;
         private System.Windows.Forms.Button btnProp;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.PictureBox foto;
         private System.Windows.Forms.Button btnCaptura;
         private System.Windows.Forms.Panel pnlArgForce;
         private System.Windows.Forms.Panel pnlWia;

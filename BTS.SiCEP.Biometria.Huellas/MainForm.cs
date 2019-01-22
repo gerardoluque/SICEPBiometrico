@@ -40,12 +40,13 @@ namespace BTS.SiCEP.Biometria.Huellas
         private BiometriaBusquedaServicio.BiometriaServicioClient servicioBusqueda = new BiometriaBusquedaServicio.BiometriaServicioClient();
 
         #region Variables WebCam
-        private bool existeDispositivo = false;
+        private bool existenDispositivosWebCams = false;
+        private bool existenDispositivosWIA = false; 
         private FilterInfoCollection dispositivoDeVideo;
         private VideoCaptureDevice fuenteDeVideo = null;
-        private Bitmap Imagen;
+        private Bitmap imagenWebCam;
+        private Bitmap imagenWIA;
         private bool capFoto;
-        private byte[] wiaImgByte = null;
 
         private DeviceManager wiaDeviceManager = null;
         #endregion
@@ -73,14 +74,13 @@ namespace BTS.SiCEP.Biometria.Huellas
             BuscarDispositivosDeVideo();
             if (btnIniciar.Text == "Activar")
             {
-                if (existeDispositivo)
+                if (existenDispositivosWebCams)
                 {
+                    //fuenteDeVideo = new VideoCaptureDevice(dispositivoDeVideo[cbxDispositivos.SelectedIndex].MonikerString);
+                    //fuenteDeVideo.NewFrame += new NewFrameEventHandler(Video_NuevoFrame);
+                    //fuenteDeVideo.Start();
 
-                    fuenteDeVideo = new VideoCaptureDevice(dispositivoDeVideo[cbxDispositivos.SelectedIndex].MonikerString);
-                    fuenteDeVideo.NewFrame += new NewFrameEventHandler(Video_NuevoFrame);
-                    fuenteDeVideo.Start();
-
-                    btnIniciar.Text = "Detener";
+                    //btnIniciar.Text = "Detener";
                     cbxDispositivos.Enabled = false;
                     groupBox1.Text = dispositivoDeVideo[cbxDispositivos.SelectedIndex].Name.ToString();
                 }
@@ -751,7 +751,10 @@ namespace BTS.SiCEP.Biometria.Huellas
 
             if (cbxDispositivos.Items.Count > 0)
                 cbxDispositivos.Text = cbxDispositivos.Items[0].ToString();
+        }
 
+        public bool BuscarDispositivosDeVideo()
+        {
             //Cargar WIAS
             cmbWiaDevices.Items.Clear();
 
@@ -761,24 +764,17 @@ namespace BTS.SiCEP.Biometria.Huellas
                 cmbWiaDevices.Items.Add(new Scanner(wiaDeviceManager.DeviceInfos[i]));
             }
 
-        }
-
-        public bool BuscarDispositivosDeVideo()
-        {
+            //Cargar webcams
             dispositivoDeVideo = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-            if (dispositivoDeVideo.Count == 0)
+            if (dispositivoDeVideo.Count > 0)
             {
-                existeDispositivo = false;
-            }
-
-            else
-            {
-                existeDispositivo = true;
                 CargarDispositivos(dispositivoDeVideo);
-
             }
 
-            return existeDispositivo;
+            existenDispositivosWebCams = dispositivoDeVideo.Count > 0;
+            existenDispositivosWIA = cmbWiaDevices.Items.Count > 0; ;
+
+            return existenDispositivosWebCams;
         }
 
         public void TerminarFuenteDeVideo()
@@ -794,10 +790,8 @@ namespace BTS.SiCEP.Biometria.Huellas
 
         public void Video_NuevoFrame(object sender, NewFrameEventArgs eventArgs)
         {
-            Imagen = (Bitmap)eventArgs.Frame.Clone();
-            EspacioCamara.Image = Imagen;
-            if (capFoto)
-                foto.Image = Imagen;
+            imagenWebCam = (Bitmap)eventArgs.Frame.Clone();
+            EspacioCamara.Image = imagenWebCam;
 
             capFoto = false;
         }
@@ -806,7 +800,7 @@ namespace BTS.SiCEP.Biometria.Huellas
         {
             if (btnIniciar.Text == "Activar")
             {
-                if (existeDispositivo)
+                if (existenDispositivosWebCams)
                 {
 
                     fuenteDeVideo = new VideoCaptureDevice(dispositivoDeVideo[cbxDispositivos.SelectedIndex].MonikerString);
@@ -837,7 +831,10 @@ namespace BTS.SiCEP.Biometria.Huellas
             {
                 if (fuenteDeVideo.IsRunning)
                 {
-                    //foto.Image = Imagen;
+                    TerminarFuenteDeVideo();
+                    btnIniciar.Text = "Activar";
+
+                    cbxDispositivos.Enabled = true;
                     capFoto = true;
                     btnAceptar.Enabled = true;
                 }
@@ -860,7 +857,7 @@ namespace BTS.SiCEP.Biometria.Huellas
             {
                 //foto.Image.Save(@"c:\temp\fotoWebCam.jpg");
 
-                var template = Neurotec.Samples.Utils.ImageToByte(foto.Image);
+                var template = Neurotec.Samples.Utils.ImageToByte(EspacioCamara.Image);
 
                 var personaResult = await BuscarFacialServicioWCF(template);
 
@@ -931,30 +928,12 @@ namespace BTS.SiCEP.Biometria.Huellas
 
 
             ImageFile image = new ImageFile();
-            string imageExtension = "";
 
             try
             {
                 this.Invoke(new MethodInvoker(delegate ()
                  {
                      image = device.ScanJPEG();
-                     imageExtension = ".jpeg";
-
-                     //switch (cmbWiaDevices.SelectedIndex)
-                     //{
-                     //    case 0:
-                     //        image = device.ScanPNG();
-                     //        imageExtension = ".png";
-                     //        break;
-                     //    case 1:
-                     //        image = device.ScanJPEG();
-                     //        imageExtension = ".jpeg";
-                     //        break;
-                     //    case 2:
-                     //        image = device.ScanTIFF();
-                     //        imageExtension = ".tiff";
-                     //        break;
-                     //}
                  }));
 
 
@@ -969,20 +948,28 @@ namespace BTS.SiCEP.Biometria.Huellas
 
                     image.SaveFile(tempFile);
 
-                    wiaImgByte = File.ReadAllBytes(tempFile);
-                    
-                    using (MemoryStream stream = new MemoryStream(wiaImgByte))
+                    using (var imagenOriginal = new Bitmap(tempFile))
                     {
                         var tamanoImagen = new Size(640, 360);
-                        var imagenOriginal = new Bitmap(stream);
-                        var imagen = new Bitmap(imagenOriginal, tamanoImagen);
-                        pbWiaFoto.Image = imagen;
+                        imagenWIA = new Bitmap(imagenOriginal, tamanoImagen);                       
                     }
 
-                    if (File.Exists(tempFile))
-                    {
-                        File.Delete(tempFile);
-                    }
+                    pbWiaFoto.Image = imagenWIA;
+
+                    //var wiaImgByte = File.ReadAllBytes(tempFile);
+
+                    //using (MemoryStream stream = new MemoryStream(wiaImgByte))
+                    //{
+                    //    var tamanoImagen = new Size(640, 360);
+                    //    var imagenOriginal = new Bitmap(stream);
+                    //    var imagen = new Bitmap(imagenOriginal, tamanoImagen);
+                    //    pbWiaFoto.Image = imagen;
+                    //}
+
+                    //if (File.Exists(tempFile))
+                    //{
+                    //    File.Delete(tempFile);
+                    //}
                 }
             }
             catch (Exception ex)
@@ -993,7 +980,8 @@ namespace BTS.SiCEP.Biometria.Huellas
 
         private void btnWiaCapture_Click(object sender, EventArgs e)
         {
-            Task.Factory.StartNew(StartScanning); //.ContinueWith(result => TriggerScan());
+            //Task.Factory.StartNew(StartScanning); //.ContinueWith(result => TriggerScan());
+            StartScanning();
         }
 
         private async void btnWiaVerificar_Click(object sender, EventArgs e)
@@ -1002,10 +990,9 @@ namespace BTS.SiCEP.Biometria.Huellas
             {
                 if (pbWiaFoto.Image != null)
                 {
-                    //pbWiaFoto.Image.Save(@"c:\temp\fotoWia.jpg");
-                    var template = Neurotec.Samples.Utils.ImageToByte(pbWiaFoto.Image);
+                    var template = Neurotec.Samples.Utils.ImageToByte(pbWiaFoto.Image, 
+                        System.Drawing.Imaging.ImageFormat.Jpeg);
 
-                    //var personaResult = BuscarFacialServicioWCF(wiaImgByte).Result;
                     var personaResult = await BuscarFacialServicioWCF(template);
 
                     if (personaResult.Identificado)
@@ -1032,7 +1019,6 @@ namespace BTS.SiCEP.Biometria.Huellas
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Application.ExitThread();
-            Environment.Exit(-1);
         }
     }
 }
