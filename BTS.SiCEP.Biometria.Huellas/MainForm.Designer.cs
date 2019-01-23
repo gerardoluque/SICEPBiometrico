@@ -120,7 +120,7 @@
             this.tabBio.Controls.Add(this.tabPage1);
             this.tabBio.Controls.Add(this.tabPage2);
             this.tabBio.Location = new System.Drawing.Point(9, 11);
-            this.tabBio.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabBio.Margin = new System.Windows.Forms.Padding(2);
             this.tabBio.Name = "tabBio";
             this.tabBio.SelectedIndex = 0;
             this.tabBio.Size = new System.Drawing.Size(610, 458);
@@ -141,9 +141,9 @@
             this.tabPageHuella.Controls.Add(this.nViewZoomSlider1);
             this.tabPageHuella.Controls.Add(this.chbShowBinarizedImage);
             this.tabPageHuella.Location = new System.Drawing.Point(4, 22);
-            this.tabPageHuella.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPageHuella.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageHuella.Name = "tabPageHuella";
-            this.tabPageHuella.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPageHuella.Padding = new System.Windows.Forms.Padding(2);
             this.tabPageHuella.Size = new System.Drawing.Size(602, 432);
             this.tabPageHuella.TabIndex = 0;
             this.tabPageHuella.Text = "Huella";
@@ -280,9 +280,9 @@
             this.tbpRostroWebCam.Controls.Add(this.pnlWia);
             this.tbpRostroWebCam.Controls.Add(this.groupBox5);
             this.tbpRostroWebCam.Location = new System.Drawing.Point(4, 22);
-            this.tbpRostroWebCam.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbpRostroWebCam.Margin = new System.Windows.Forms.Padding(2);
             this.tbpRostroWebCam.Name = "tbpRostroWebCam";
-            this.tbpRostroWebCam.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbpRostroWebCam.Padding = new System.Windows.Forms.Padding(2);
             this.tbpRostroWebCam.Size = new System.Drawing.Size(602, 432);
             this.tbpRostroWebCam.TabIndex = 4;
             this.tbpRostroWebCam.Text = "Rostro";
@@ -491,9 +491,9 @@
             this.tabPage1.Controls.Add(this.scannersGroupBox);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage1.Size = new System.Drawing.Size(602, 432);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Iris";
@@ -669,7 +669,7 @@
             this.tabPage2.Controls.Add(this.gbMicrophones);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(602, 432);
             this.tabPage2.TabIndex = 3;
             this.tabPage2.Text = "Voz";
@@ -850,7 +850,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbMicrophones.Location = new System.Drawing.Point(7, 19);
             this.lbMicrophones.Name = "lbMicrophones";
-            this.lbMicrophones.Size = new System.Drawing.Size(397, 56);
+            this.lbMicrophones.Size = new System.Drawing.Size(396, 56);
             this.lbMicrophones.TabIndex = 6;
             this.lbMicrophones.SelectedIndexChanged += new System.EventHandler(this.lbMicrophones_SelectedIndexChanged);
             // 
@@ -865,7 +865,7 @@
             this.ClientSize = new System.Drawing.Size(629, 493);
             this.Controls.Add(this.tabBio);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
